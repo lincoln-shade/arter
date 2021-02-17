@@ -1,3 +1,8 @@
+#===========================================
+# create list of rosmap ids with b-asc data
+#===========================================
+
+
 library(pacman)
 p_load(data.table, magrittr)
 
@@ -13,14 +18,11 @@ fam <- fam[, .(FID, IID)]
 
 rosmap.fam <- merge(rosmap, fam, "IID")
 rosmap.fam <- rosmap.fam[
-  !is.na(arteriol_scler) & age_death >= 80,
+  !is.na(arteriol_scler),
   .(FID, IID, arteriol_scler, msex, age_death)
   ]
 
-#write.table(rosmap.fam[, .(FID, IID)], "01_data/king/KING_IDs.txt", row.names = F, quote = F, col.names = F)
-write.table(rosmap.fam[, .(FID, IID)], "01_data/data/ROSMAP.IDs.txt", row.names = F, quote = F, col.names = F)
-#write.table(rosmap.fam[, -c("arteriol_scler")], "01_data/covar.txt", row.names = F, quote = F)
-#save(rosmap.fam, file = "01_data/rosmap.fam.RData")
+write.table(rosmap.fam[, .(FID, IID)], "data/tmp/rosmap_ids.tmp.txt", row.names = F, quote = F, col.names = F)
 
 rm(list = ls())
 p_unload(all)
