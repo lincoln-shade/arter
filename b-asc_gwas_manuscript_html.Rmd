@@ -1,0 +1,32 @@
+---
+title: "GWAS of Brain Arteriolosclerosis"
+author:
+  - Lincoln M.P. Shade
+  - David W. Fardo
+date: "2/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(digits = 15)
+```
+
+```{r}
+library(pacman)
+p_load(data.table, magrittr, kableExtra)
+```
+
+```{r table-2-nacc-adgc-gwas-results}
+nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic")
+nacc_adgc_top <- fread("output/nacc_adgc/nacc_adgc_unrelated.clumped")
+nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
+setorder(nacc_adgc_top, P)
+nacc_adgc_top %>% kable() %>% kable_styling()
+```
+
+```{r locuszoom1, out.height=550, out.width=600}  
+# example of how to embed pdfs in rmd
+
+# knitr::include_graphics("example.pdf")
+```
