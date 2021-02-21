@@ -46,7 +46,7 @@ adgc.adc <- adgc.adc[-(which(adgc.adc == max(adgc.adc)))] # remove the largest a
 adgc.adc.names <- names(adgc.adc)
 
 for (i in 1:length(adgc.adc.names)) {
-  cohort.num <- paste0("ADGC.", adgc.adc.names[i])
+  cohort.num <- paste0("adgc_", adgc.adc.names[i])
   nacc[, paste(cohort.num) := ifelse(cohort == adgc.adc.names[i], 1, 0)]
   if (adgc.adc[i] != table(nacc[, ..cohort.num])[2]) {print(paste0(
     "error: cohort ", adgc.adc.names[i], ": ", adgc.adc[i], "; ", cohort.num, ": ", table(nacc[, ..cohort.num])[2]

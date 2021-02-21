@@ -9,21 +9,69 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-options(digits = 15)
 ```
 
 ```{r}
+options(digits = 15)
 library(pacman)
-p_load(data.table, magrittr, kableExtra)
+p_load(data.table, magrittr, stringi)
+
+StripAlleles <- function(x) {
+  x <- stri_replace_last_regex(x, ":[ACTG]*:[ACTG]*", "")
+}
 ```
 
-```{r table-2-nacc-adgc-gwas-results}
-nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic")
+```{r nacc-adgc-gwas-results}
+nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic", fill = T)
+nacc_adgc_results[, SNP := StripAlleles(SNP)]
 nacc_adgc_top <- fread("output/nacc_adgc/nacc_adgc_unrelated.clumped")
-nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
+nacc_adgc_top[, SNP := StripAlleles(SNP)]
+# nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
 setorder(nacc_adgc_top, P)
-nacc_adgc_top %>% kable() %>% kable_styling()
+nacc_adgc_top[, .(CHR, BP, SNP, P)] %>% as_huxtable() %>%  huxtable::as_flextable()
 ```
+
+```{r rosmap-gwas-results}
+rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
+setorder(rosmap_results, P)
+rosmap_results[P < 1e-5]
+rosmap_results[SNP %in% nacc_adgc_top$SNP]
+```
+
+```{r}
+nacc_rosmap_mega <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
+setorder(nacc_rosmap_mega, P)
+nacc_rosmap_mega_top <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.clumped")
+nacc_rosmap_mega[SNP %in% nacc_rosmap_mega_top$SNP]
+```
+
+```{r adni-mega}
+adni_mega <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
+adni_mega_top <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.clumped")
+adni_mega[SNP %in% adni_mega_top$SNP]
+```
+
+```{r act-meta}
+act_meta <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
+setorder(act_meta, P)
+act_meta[P < 1e-5]
+```
+
+```{r magma}
+adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
+genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>% 
+  .[, .(V1, V6)] %>% 
+  setnames(c("V1", "V6"), c("GENE", "gene"))
+adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
+setorder(adni_mega_magma, P)
+head(adni_mega_magma, 20)
+
+magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out", 
+                   skip = 4) %>% 
+  setorder(P)
+```
+
+
 
 ```{r locuszoom1, out.height=550, out.width=600}  
 # example of how to embed pdfs in rmd

@@ -1,0 +1,12 @@
+Welcome to MAGMA v1.08bb (linux)
+Using flags:
+	--bfile data/adni_npc/nacc_adgc_rosmap_adni_unrelated
+	--pval output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic ncol=NMISS
+	--gene-annot output/magma/nacc_adgc_rosmap_adni_unrelated.genes.annot  
+
+Start time is 19:34:32, Friday 19 Feb 2021
+
+
+ERROR - parsing arguments: 1 value required for flag --gene-annot (found 2).
+
+Terminating program.

@@ -5,3 +5,14 @@ bash code/single_variant_analysis/clump_top_snps.sh \
   data/nacc_adgc/nacc_adgc_unrelated \
   output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic \
   "output/nacc_adgc/nacc_adgc_unrelated"
+
+bash code/single_variant_analysis/clump_top_snps.sh \
+  data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated \
+  output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic \
+  "output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated"
+
+# adni mega
+bash code/single_variant_analysis/clump_top_snps.sh \
+  data/adni_npc/nacc_adgc_rosmap_adni_unrelated \
+  output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic \
+  "output/adni_npc/nacc_adgc_rosmap_adni_unrelated"
