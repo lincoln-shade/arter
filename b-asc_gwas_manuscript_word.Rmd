@@ -17,11 +17,18 @@ link-citations: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r}
+```{r load-opts-packages-functions}
 source("code/00_load_options_packages_functions.R")
+```
+
+```{r load-individual-level-data}
+load("data/nacc_adgc/nacc_adgc_unrelated.RData")
+load("data/rosmap/rosmap_unrelated.RData")
+load("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.RData")
+load("data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
 ```
 
 # Author Affiliations
@@ -114,6 +121,14 @@ We tested the top two variants from the single-variant meta-analysis for associa
 
 Of the 3318 NACC participants that met inclusion criteria for Sanalysis, 922 (27.8%) had no B-ASC, 1002 (30.2%) had mild B-ASC, 1021 (30.8%) had moderate B-ASC, and 373 (11.2%) had severe B-ASC (see **Table 1**). ROSMAP participants that met inclusion for analysis had comparatively less B-ASC pathology (P-value = 0.002): 411 (34.5%) had no B-ASC, 408 (34.3%) had mild B-ASC, 286 (24.0%) had moderate B-ASC, and 85 (7.1%) had severe B-ASC. NACC participants were also significantly more likely to be male (50.2% vs. 32.5%, P-value \< 0.001) and had younger ages at death on average (mean age of death 81.9 vs. 89.6, P-value \< 0.001) compared to ROSMAP participants. These comparative differences in the cohort demographics largely held in the secondary analysis that included only participants whose ages of death were eighty years or above, with the caveat that the difference in mean age of death was smaller between NACC and ROSMAP (87.7 vs. 90.7, P-value \< 0.001).
 
+```{r}
+# make table_1 object
+source("code/paper_tables_figures/01_make_table_1.R")
+table_1 <- autofit(table_1) %>% 
+  padding(padding = 2, part = "all")
+table_1
+```
+
 ## Single-variant analyses
 
 In the logistic regression analysis, 1394 (42.0%) and 371 (30.1%) of participants of had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the NACC/ADGC analysis, one locus, rs2603462 on chromosome 6q14.1, is genome-wide significantly associated with B-ASC (odds ratio [OR] = 1.47, P-value = 1.4 x 10^-8^). We identified seven other loci that meet our suggestive association threshold of P-value \< 1×10^-5^, described in **Table 2**. No variants achieve genome-wide significance in any of the ROSMAP analyses, though nine loci meet our suggestive threshold in the primary logistic regression analysis. Of the seven NACC/ADGC loci that meet our suggestive threshold that were also tested in the ROSMAP analysis, rs7902929 on chromosome 10q25.1 is validated at P-value \< 0.05 level (NACC/ADGC OR = 1.58, P-value = 9.3 x 10-6; ROSMAP OR = 1.60, P-value = 0.0065). For the other six loci, two ROSMAP ORs are 1.00 and four have effect sizes in the same direction in effect as in NACC/ADGC, though of smaller magnitude. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top eight loci in the NACC primary logistic regression, four also meet our suggestive threshold in the ordinal regression, along with eight other loci. In the primary mega-analysis using logistic regression, ten loci meet the suggestive threshold, with rs7902929 (OR = 1.58, P-value = 2.0 x 10-7) and rs2603462 (OR = 1.35, P-value = 3.0 x 10-7) producing the smallest P-values (see **Table 3**). Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013), no variants were validated at the P-value \< 0.05 significance level in the NACC/ADGC cohort.
@@ -156,69 +171,65 @@ None of the effects of top loci in the NACC/ADGC GWAS were mediated by diabetes 
 
 In closing, we used autopsy-derived endophenotypes linked to genetic data in multiple cohorts to identify genetic loci associated with B-ASC pathology. We found one locus significantly associated with B-ASC that colocalizes with ELOVL4 gene expression in GTEx. This study provides first GWAS of autopsy-verified brain arteriolosclerosis pathology and contributes a growing body of literature that recognizes the importance of using autopsy-based cohorts to augment clinical diagnoses to study the genetics of dementia and cognitive impairment.
 
-# Code
-
-```{r}
-nacc_subjects <- fread("data/nacc_adgc/nacc_adgc_unrelated_pheno.txt")
-```
+# Code Stash
 
 ```{r nacc-adgc-gwas-results}
-nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic", fill = T)
-nacc_adgc_results[, SNP := StripAlleles(SNP)]
-nacc_adgc_top <- fread("output/nacc_adgc/nacc_adgc_unrelated.clumped")
-nacc_adgc_top[, SNP := StripAlleles(SNP)]
-nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
-setorder(nacc_adgc_top, P)
-nacc_adgc_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
+# nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic", fill = T)
+# nacc_adgc_results[, SNP := StripAlleles(SNP)]
+# nacc_adgc_top <- fread("output/nacc_adgc/nacc_adgc_unrelated.clumped")
+# nacc_adgc_top[, SNP := StripAlleles(SNP)]
+# nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
+# setorder(nacc_adgc_top, P)
+# nacc_adgc_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
 ```
 
 ```{r rosmap-gwas-results}
-rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
-setorder(rosmap_results, P)
-rosmap_results[P < 1e-5]
-rosmap_results[SNP %in% nacc_adgc_top$SNP]
+# rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
+# setorder(rosmap_results, P)
+# rosmap_results[P < 1e-5]
+# rosmap_results[SNP %in% nacc_adgc_top$SNP]
 ```
 
 ```{r}
-nacc_rosmap_mega <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
-setorder(nacc_rosmap_mega, P)
-nacc_rosmap_mega_top <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.clumped")
-nacc_rosmap_mega[SNP %in% nacc_rosmap_mega_top$SNP]
+# nacc_rosmap_mega <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
+# setorder(nacc_rosmap_mega, P)
+# nacc_rosmap_mega_top <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.clumped")
+# nacc_rosmap_mega[SNP %in% nacc_rosmap_mega_top$SNP]
 ```
 
 ```{r adni-mega}
-adni_mega <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
-adni_mega_top <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.clumped")
-adni_mega_top <- adni_mega[SNP %in% adni_mega_top$SNP]
-setorder(adni_mega_top, P)
-adni_mega_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
+# adni_mega <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
+# adni_mega_top <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.clumped")
+# adni_mega_top <- adni_mega[SNP %in% adni_mega_top$SNP]
+# setorder(adni_mega_top, P)
+# adni_mega_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
 ```
 
 ```{r act-meta}
-act_meta <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
-setorder(act_meta, P)
-act_meta[P < 1e-5]
+# act_meta <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
+# setorder(act_meta, P)
+# act_meta[P < 1e-5]
 ```
 
 ```{r magma}
-adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
-genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>% 
-  .[, .(V1, V6)] %>% 
-  setnames(c("V1", "V6"), c("GENE", "gene"))
-adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
-setorder(adni_mega_magma, P)
-head(adni_mega_magma, 20)
-
-magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out", 
-                   skip = 4) %>% 
-  setorder(P) %>% 
-  .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>% 
-  head(8) %>% 
-  .[, .(FULL_NAME, NGENES, P)] %>% 
-  kable() %>% 
-  kable_styling()
-
-magma_gsa
+# adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
+# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>% 
+#   .[, .(V1, V6)] %>% 
+#   setnames(c("V1", "V6"), c("GENE", "gene"))
+# adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
+# setorder(adni_mega_magma, P)
+# head(adni_mega_magma, 20)
+# 
+# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out", 
+#                    skip = 4) %>% 
+#   setorder(P) %>% 
+#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>% 
+#   head(8) %>% 
+#   .[, .(FULL_NAME, NGENES, P)] %>% 
+#   kable() %>% 
+#   kable_styling()
+# 
+# magma_gsa
   
 ```
 
