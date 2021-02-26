@@ -1,16 +1,13 @@
 ---
 title: "Genome-Wide Association Study of Brain Arteriolosclerosis"
+description: |
+  A new article created using the Distill format.
 author:
-  - Lincoln M.P. Shade^1^
-  - Yuriko Katsumata^1,2^
-  - Timothy J. Hohman^3^
-  - Julie A. Schneider^4^
-  - Kwangsik Nho
-  - Alzheimer’s Disease Genetics Consortium
-  - Peter T. Nelson^2,5^
-  - David W. Fardo^1,2^
+  - name: Lincoln M.P. Shade 
+    url: https://github.com/lincoln-shade
+    affiliation: Department of Biostatistics, College of Public Health, University of Kentucky, Lexington, KY
 date: "`r Sys.Date()`"
-output: word_document
+output: distill::distill_article
 bibliography: references.bib
 csl: springer_basic.csl
 link-citations: true
@@ -99,19 +96,13 @@ In all cohorts, we performed principal component analysis (PCA) in PLINK v1.9 us
 
 ### **Single-variant analyses**
 
-We first performed single-variant association analyses in the NACC/ADGC participants using logistic regression in PLINK v1.9 and ordinal regression in R using the MASS package [@chang; @rcoreteam2020]. To create a dichotomous outcome variable for logistic regression, we counted participants with none or mild B-ASC as controls and those with moderate or severe B-ASC as cases. This decision was made based on previous studies that used these cut points and studies that found that moderate-to-severe B-ASC was associated with worse cognitive functioning [@ighodaro2017; @arvanitakis2016]. Covariates in the regression models included age at death, sex, ADGC cohort indicators, and the first five PCs of the genetic relatedness matrix. An additive mode of inheritance was assumed in all analyses. We used a Bonferroni-corrected threshold of P-value \< 5×10^-8^ for genome-wide significance and a predetermined "suggestive" threshold of P-value \< 1×10^-5^. Then, using PLINK v1.9, we clumped variants meeting this threshold to create a set of independent variants (defined as LD r^2^ \< 0.05). For suggestive variants in ordinal regression analyses, we tested the proportional odds assumption using Brant tests in the brant R package [@schlegel2020]. Finally, we examined single variants previously found to be putatively associated with B-ASC in Chou et al. (2013) to determine if any were validated in NACC/ADGC at the P-value \< 0.05 significance level [@chou2013].
+We first performed single-variant association analyses in the NACC/ADGC participants using logistic regression in PLINK v1.9 and ordinal regression in R using the MASS package [@chang; @rcoreteam2020]. To create a dichotomous outcome variable for logistic regression, we counted participants with none or mild B-ASC as controls and those with moderate or severe B-ASC as cases. This decision was made based on previous studies that used these cut points and found that moderate-to-severe B-ASC was associated with worse cognitive functioning [@ighodaro2017; @arvanitakis2016]. Covariates in the regression models included age at death, sex, ADGC cohort indicators, and the first five PCs of the genetic relatedness matrix. An additive mode of inheritance was assumed in all analyses. We used a Bonferroni-corrected threshold of P \< 5×10^-8^ for genome-wide significance and a predetermined "suggestive" threshold of P \< 1×10^-5^. Then, using PLINK v1.9, we clumped variants meeting this threshold to create a set of independent variants (defined as LD r^2^ \< 0.05). For suggestive variants in ordinal regression analyses, we tested the proportional odds assumption using Brant tests in the brant R package [@schlegel2020]. Finally, we examined single variants previously found to be putatively associated with B-ASC in Chou et al. (2013) to determine if any were validated in NACC/ADGC at the P-value \< 0.05 significance level [@chou2013].
 
-In our ROSMAP analyses, we first performed single-variant regression analyses with variants identified as suggestively significant in the NACC/ADGC analyses, using a significance threshold of P-value \< 0.05 for these variants. We then performed ordinal and dichotomous genome-wide single-variant the procedures used in the NACC/ADGC analyses. Covariates included age at death, sex, cohort (ROS vs. MAP) and the first five PCs. We then performed a mega-analysis on both cohorts, including an indicator variable for ROSMAP participants. We also performed both fixed- and random-effects meta-analyses in PLINK v1.9 for individual ADGC and ROSMAP logistic GWAS results.
-
-To seek replication of our results, we analyzed the top three variants from the NACC/ADGC and ROSMAP mega-analysis separately in the ADNI and ACT datasets. We then added the ADNI and ACT participants sequentially to our combined NACC/ADGC and ROSMAP dataset to perform additional mega-analyses.
+In our ROSMAP analyses, we first performed single-variant regression analyses with variants identified as suggestively significant in the NACC/ADGC analyses, using a significance threshold of P-value \< 0.05 for these variants. We then performed ordinal and dichotomous genome-wide single-variant analyses using the same B-ASC dichotomization cut point for logistic regression and the same significance thresholds as in the NACC/ADGC analyses. Covariates included age at death, sex, and the first five PCs. Given that we had individual-level data for both studies, we performed a mega-analysis on both cohorts, including an indicator variable for ROSMAP participants. We then performed both fixed- and random-effects meta-analyses in PLINK v1.9 for individual ADGC and ROSMAP logistic GWAS results.
 
 ### **Gene-based analyses**
 
-# Placeholder
-
-Following single-variant analyses, we performed gene-based and gene-set analyses using MAGMA [@leeuw2015]. First, we annoted variants to genes using Hg37 positions, and annotated all variants within a 1000-kilobase window of a gene as associated with it, producing a total of **XXXXX** genes with at least one annotated variant. We then performed competitive gene-based analyses in MAGMA
-
-Gene sets were downloaded
+~~After single-variant analyses, we aggregated single-variant P-values into aggregate set-based P-values for individual genes using the aggregated Cauchy association test (ACAT) using the ACAT package in R.28,29 We chose the ACAT method to compute the aggregate P-values because it has similar or greater power to detect association compared to Fisher's permutation method while being considerably less computationally intensive.28 We performed this procedure separately for NACC/ADGC, ROSMAP, and mega-analytic summary statistics. Briefly, gene names and genome positions were first obtained from the UCSC Genome Browser (hg19).30--32 We analyzed a total of 29,113 genes, including non-coding RNA genes. Then, using summary statistics from our single-variant GWASs, we aggregated P-values for all variants within 100 kilobases (Kb) of each gene's 5' and 3' start and end transcription sites using ACAT. We chose a 100 Kb window because the majority of non-coding cis-QTLs of traits are located in this window; however, cis­-QTLs, particularly enhancers, may be located as far away as 1000 Kb from gene transcription sites.33,34 We chose a conventional genome-wide Bonferroni-adjusted significance threshold of P \< 2.5x10-6 (0.05/20,000).~~
 
 ### **Colocalization analyses**
 

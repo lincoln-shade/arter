@@ -6,7 +6,7 @@
 
 # annotate snps to gene locations
 magma \
-  --annotate \
+  --annotate window=1000 \
   --snp-loc data/adni_npc/nacc_adgc_rosmap_adni_unrelated.bim \
   --gene-loc raw_data/magma/NCBI37.3.gene.loc \
   --out output/magma/nacc_adgc_rosmap_adni_unrelated
