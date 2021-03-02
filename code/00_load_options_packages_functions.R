@@ -4,7 +4,8 @@
 options(digits = 15)
 
 library(pacman)
-p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools)
+p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools, qusage)
+# options(kableExtra.auto_format = FALSE)
 
 strip_alleles <- function(x) {
   x <- stri_replace_last_regex(x, ":[ACTG]*:[ACTG]*", "")

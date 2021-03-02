@@ -60,7 +60,9 @@ table_1_data[, `Age of Death` := age_death]
 #                rep(TestDeathAge(), 2)
 # )
 
-table_1 <- make_table_one(table_1_data[, .(Cohort, `B-ASC`, Sex, `Age of Death`)], "Cohort") %>% 
+table_1_data <- make_table_one(table_1_data[, .(Cohort, `B-ASC`, Sex, `Age of Death`)], "Cohort") 
+
+table_1 <- table_1_data %>% 
   .[, -c("N Missing")] %>% 
   as_grouped_data(groups = c("Variable")) %>% 
   flextable()

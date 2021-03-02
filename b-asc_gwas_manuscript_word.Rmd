@@ -6,6 +6,8 @@ author:
   - Timothy J. Hohman^3^
   - Julie A. Schneider^4^
   - Kwangsik Nho
+  - Andrew Saykin
+  - Shubhabrata Mukherjee
   - Alzheimer’s Disease Genetics Consortium
   - Peter T. Nelson^2,5^
   - David W. Fardo^1,2^
@@ -17,7 +19,7 @@ link-citations: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, include = FALSE)
 ```
 
 ```{r load-opts-packages-functions}
@@ -29,6 +31,27 @@ load("data/nacc_adgc/nacc_adgc_unrelated.RData")
 load("data/rosmap/rosmap_unrelated.RData")
 load("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.RData")
 load("data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
+```
+
+```{r load-single-variant-analysis-results, results = FALSE}
+nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic")
+nacc_adgc_results[, SNP := strip_alleles(SNP)]
+rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
+nacc_rosmap_mega_results <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
+adni_mega_results <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
+act_meta_results <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
+```
+
+```{r adni-mega-results, results=FALSE}
+# adni_mega_top <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.clumped")
+# adni_mega_top <- adni_mega[SNP %in% adni_mega_top$SNP]
+# setorder(adni_mega_top, P)
+# adni_mega_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
+```
+
+```{r act-meta-results, results=FALSE}
+# setorder(act_meta, P)
+# act_meta[P < 1e-5]
 ```
 
 # Author Affiliations
@@ -89,11 +112,11 @@ In the NACC Neuropathology Data Set, B-ASC is graded as an ordinal variable with
 
 ## **Quality control (QC) of genotype data**
 
-The data in our study were all subset from datasets whose QC measures have been previously described . We performed additional standard QC procedures on all genotyping data using PLINK v1.9 and KING [@chang2015; @chang; @purcell2007; @manichaikul2010; @marees2018]. Variants were excluded if they had (1) a minor allele frequency (MAF) less than 5%; (2) a call rate of less than 95%; or (3) a Hardy-Weinberg equilibrium exact test P-value \< 10^-6^. All participants were checked for duplicate genotype information across studies, and all participants with duplicated genotyping data were removed. Of participants with a high degree of relatedness estimated using identical by descent (IBD) indicated by 2^nd^-degree relation (IBD \> 0.18) or closer in PLINK, all but the participant with the highest genotyping rate in each related cluster were removed, with ties broken randomly. In NACC/ADGC analyses, **XXXXXXX** variants and `r nacc_adgc_unrelated[, .N]` participants passed QC protocols. In the ROSMAP dataset, **XXXXXXX** and `r rosmap_unrelated[, .N]` participants passed QC protocols. Thirteen ADNI participants were identified as NACC/ADGC duplicates and removed, leaving `r nacc_adgc_rosmap_adni_unrelated[adni == 1, .N]` participants for analysis. A total of **XXX** ACT participants passed QC measures.
+The data in our study were all subset from datasets whose QC measures have been previously described . We performed additional standard QC procedures on all genotyping data using PLINK v1.9 and KING [@chang2015; @chang; @purcell2007; @manichaikul2010; @marees2018]. Variants were excluded if they had (1) a minor allele frequency (MAF) less than 5%; (2) a call rate of less than 95%; or (3) a Hardy-Weinberg equilibrium exact test P-value \< 10^-6^. All participants were checked for duplicate genotype information across studies, and all participants with duplicated genotyping data were removed. Of participants with a high degree of relatedness estimated using identical by descent (IBD) indicated by 2^nd^-degree relation (proportion IBD \> 0.18) or closer in PLINK, all but the participant with the highest genotyping rate in each related cluster were removed, with ties broken randomly. In NACC/ADGC analyses, `r nacc_adgc_results[, .N]` variants and `r nacc_adgc_unrelated[, .N]` participants passed QC protocols. In the ROSMAP dataset, `r rosmap_results[, .N]` variants and `r rosmap_unrelated[, .N]` participants passed QC protocols. Thirteen ADNI participants were identified as NACC/ADGC duplicates and removed, leaving `r nacc_adgc_rosmap_adni_unrelated[adni == 1, .N]` participants for analysis. A total of **XXX (\~326)** ACT participants passed QC measures.
 
 ## **Identifying ethnic outliers**
 
-In all cohorts, we performed principal component analysis (PCA) in PLINK v1.9 using a pruned subset of independent (linkage disequilibrium (LD) r^2^ \< 0.2) variants from each dataset merged to data from the 1000 Genomes Project Phase 3 (1000 Genomes, n = 2504) [@Abecasis2012]. All variants were checked to ensure that major and minor alleles matched in the study datasets and 1000 Genomes. We then plotted the standardized first and second principal components (PCs) for each participant using the ggplot2 R package in R version 4.0.3 [@rcoreteam2020]. All participants whose plot positions were located within a Euclidean distance of 0.3 from the mean plot positions of 1000 Genomes participants in the EUR superpopulation were considered to be of European descent and were included in analyses. We then re-ran PCA for the included participants and used included the first five PCs to use as covariates in regression models.
+In all cohorts, we performed principal component analysis (PCA) in PLINK v1.9 using a pruned subset of independent (linkage disequilibrium (LD) r^2^ \< 0.05) variants from each dataset merged to data from the 1000 Genomes Project Phase 3 (1000 Genomes, n = 2504) [@Abecasis2012]. All variants were checked to ensure that major and minor alleles matched in the study datasets and 1000 Genomes. We then plotted the standardized first and second principal components (PCs) for each participant using the ggplot2 R package in R version 4.0.3 [@rcoreteam2020]. All participants whose plot positions were located within a Euclidean distance of 0.3 from the mean plot positions of 1000 Genomes participants in the EUR superpopulation were considered to be of European descent and were included in analyses. We then re-ran PCA for the included participants and used included the first five PCs to use as covariates in regression models.
 
 ## **Statistical analyses**
 
@@ -109,9 +132,7 @@ To seek replication of our results, we analyzed the top three variants from the 
 
 # Placeholder
 
-Following single-variant analyses, we performed gene-based and gene-set analyses using MAGMA [@leeuw2015]. First, we annoted variants to genes using Hg37 positions, and annotated all variants within a 1000-kilobase window of a gene as associated with it, producing a total of **XXXXX** genes with at least one annotated variant. We then performed competitive gene-based analyses in MAGMA
-
-Gene sets were downloaded
+Following single-variant analyses, we performed gene-based and gene-set analyses using MAGMA [@leeuw2015]. First, we annoted variants to genes using Hg37 positions, and annotated all variants within a 1000-kilobase window of a gene as associated with it, producing a total of **XXXXX** genes with at least one annotated variant. We then performed competitive gene-based analyses in MAGMA. For the gene-set analysis, we used gene sets curated for Enrichment Map ([https://enrichmentmap.readthedocs.io](https://enrichmentmap.readthedocs.io/en/latest/index.html#)) that included gene sets based on multiple resources, including Reactome, Gene Ontology, the Pathway Interaction Database, NetPath, and the PANTHER database [@merico2010; ].
 
 ### **Colocalization analyses**
 
@@ -123,15 +144,33 @@ Given previously identified potential differences in clinical risk factors for B
 
 ### **Testing Variants of Interest with WMH Volume**
 
-We tested the top two variants from the single-variant meta-analysis for association with WMH volume in Alzheimer's Disease Neuroimaging Initiative (ADNI). *Insert section here. Either Kwangsik or someone else at IU should write this section or Lincoln should discuss with Kwangsik on what methods were used for analysis.*
+We tested the top two variants from the single-variant meta-analysis for association with WMH volume in Alzheimer's Disease Neuroimaging Initiative (ADNI). ***Insert section here. Either Kwangsik or someone else at IU should write this section or Lincoln should discuss with Kwangsik on what methods were used for analysis.***
 
 # Results
 
-Of the 3318 NACC participants that met inclusion criteria for Sanalysis, 922 (27.8%) had no B-ASC, 1002 (30.2%) had mild B-ASC, 1021 (30.8%) had moderate B-ASC, and 373 (11.2%) had severe B-ASC (see **Table 1**). ROSMAP participants that met inclusion for analysis had comparatively less B-ASC pathology (P-value = 0.002): 411 (34.5%) had no B-ASC, 408 (34.3%) had mild B-ASC, 286 (24.0%) had moderate B-ASC, and 85 (7.1%) had severe B-ASC. NACC participants were also significantly more likely to be male (50.2% vs. 32.5%, P-value \< 0.001) and had younger ages at death on average (mean age of death 81.9 vs. 89.6, P-value \< 0.001) compared to ROSMAP participants. These comparative differences in the cohort demographics largely held in the secondary analysis that included only participants whose ages of death were eighty years or above, with the caveat that the difference in mean age of death was smaller between NACC and ROSMAP (87.7 vs. 90.7, P-value \< 0.001).
-
-```{r}
-# make table_1 object
+```{r prep-table-1}
+# prepare table_1 data
 source("code/paper_tables_figures/01_make_table_1.R")
+# inline r code for paragraph
+nacc_none <- table_1_data[Labels == "None", "NACC/ADGC"]
+nacc_mild <- table_1_data[Labels == "Mild", "NACC/ADGC"]
+nacc_moderate <- table_1_data[Labels == "Moderate", "NACC/ADGC"]
+nacc_severe <- table_1_data[Labels == "Severe", "NACC/ADGC"]
+rosmap_none <- table_1_data[Labels == "None", "ROSMAP"]
+rosmap_mild <- table_1_data[Labels == "Mild", "ROSMAP"]
+rosmap_moderate <- table_1_data[Labels == "Moderate", "ROSMAP"]
+rosmap_severe <- table_1_data[Labels == "Severe", "ROSMAP"]
+nacc_male <- nacc_adgc_unrelated[NPSEX == 1, round(.N * 100 / nacc_adgc_unrelated[, .N])]
+rosmap_male <- rosmap_unrelated[msex == 1, round(.N * 100 / rosmap_unrelated[, .N])]
+nacc_age <- nacc_adgc_unrelated[, round(mean(NACCDAGE), 1)]
+rosmap_age <- rosmap_unrelated[, round(mean(age_death), 1)]
+
+```
+
+Of the `r nacc_adgc_unrelated[, .N]` NACC participants that met inclusion criteria for Sanalysis, `r nacc_none` had no B-ASC, `r nacc_mild` had mild B-ASC, `r nacc_moderate` had moderate B-ASC, and `r nacc_severe` had severe B-ASC (see **Table 1**). ROSMAP participants that met inclusion for analysis had comparatively less B-ASC pathology (P-value = 0.002): `r rosmap_none` had no B-ASC, `r rosmap_mild` had mild B-ASC, `r rosmap_moderate` had moderate B-ASC, and `r rosmap_severe` had severe B-ASC. NACC participants were also significantly more likely to be male (nacc_adgc_unrelated[NPSEX == 1, round(`r nacc_male`% vs.`r rosmap_male`%, P-value \< 0.001) and had younger ages at death on average (mean age of death `r nacc_age` vs. `r rosmap_age`, P-value \< 0.001) compared to ROSMAP participants. These comparative differences in the cohort demographics largely held in the secondary analysis that included only participants whose ages of death were eighty years or above, with the caveat that the difference in mean age of death was smaller between NACC and ROSMAP (87.7 vs. 90.7, P-value \< 0.001).
+
+```{r include=TRUE}
+# make table_1 object
 table_1 <- autofit(table_1) %>% 
   padding(padding = 2, part = "all")
 table_1
@@ -139,13 +178,51 @@ table_1
 
 ## Single-variant analyses
 
-In the logistic regression analysis, 1394 (42.0%) and 371 (30.1%) of participants of had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the NACC/ADGC analysis, one locus, rs2603462 on chromosome 6q14.1, is genome-wide significantly associated with B-ASC (odds ratio [OR] = 1.47, P-value = 1.4 x 10^-8^). We identified seven other loci that meet our suggestive association threshold of P-value \< 1×10^-5^, described in **Table 2**. No variants achieve genome-wide significance in any of the ROSMAP analyses, though nine loci meet our suggestive threshold in the primary logistic regression analysis. Of the seven NACC/ADGC loci that meet our suggestive threshold that were also tested in the ROSMAP analysis, rs7902929 on chromosome 10q25.1 is validated at P-value \< 0.05 level (NACC/ADGC OR = 1.58, P-value = 9.3 x 10-6; ROSMAP OR = 1.60, P-value = 0.0065). For the other six loci, two ROSMAP ORs are 1.00 and four have effect sizes in the same direction in effect as in NACC/ADGC, though of smaller magnitude. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top eight loci in the NACC primary logistic regression, four also meet our suggestive threshold in the ordinal regression, along with eight other loci. In the primary mega-analysis using logistic regression, ten loci meet the suggestive threshold, with rs7902929 (OR = 1.58, P-value = 2.0 x 10-7) and rs2603462 (OR = 1.35, P-value = 3.0 x 10-7) producing the smallest P-values (see **Table 3**). Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013), no variants were validated at the P-value \< 0.05 significance level in the NACC/ADGC cohort.
+```{r single-variant-inline}
+nacc_n_case <- nacc_adgc_unrelated[NACCARTE %in% 2:3, .N]
+nacc_percent_case <- round(nacc_n_case / nacc_adgc_unrelated[, .N] * 100, 1)
+
+rosmap_n_case <- rosmap_unrelated[arteriol_scler %in% 2:3, .N]
+rosmap_percent_case <- round(rosmap_n_case / rosmap_unrelated[, .N] * 100, 1)
+
+nacc_elovl4_p <- nacc_adgc_results[CHR == 6][grep("rs2603462", SNP), signif(P, 2)]
+nacc_elovl4_or <- nacc_adgc_results[CHR == 6][grep("rs2603462", SNP), signif(OR, 3)]
+nacc_sorcs3_p <- nacc_adgc_results[CHR == 10][grep("rs7902929", SNP), signif(P, 2)]
+nacc_sorcs3_or <- nacc_adgc_results[CHR == 10][grep("rs7902929", SNP), signif(OR, 3)]
+
+rosmap_sorcs3_p <- rosmap_results[CHR == 10][grep("rs7902929", SNP), signif(P, 2)]
+rosmap_sorcs3_or <- rosmap_results[CHR == 10][grep("rs7902929", SNP), signif(OR, 3)]
+```
+
+```{r table-2-data}
+source("code/paper_tables_figures/02_make_table_2_data.R")
+```
+
+In the logistic regression analysis, `r nacc_n_case` (`r nacc_percent_case`%) and `r rosmap_n_case` (`r rosmap_percent_case`%) of participants had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the NACC/ADGC analysis, one locus, rs2603462 on chromosome 6q14.1, is genome-wide significantly associated with B-ASC (odds ratio [OR] = `r nacc_elovl4_or`, P-value = `r nacc_elovl4_p`). We identified 13 other loci that meet our suggestive association threshold of P-value \< 1×10^-5^, described in **Table 2**. No variants achieve genome-wide significance in any of the ROSMAP analyses, though **X** loci met our suggestive threshold in the primary logistic regression analysis. Of the 14 NACC/ADGC loci that met our suggestive threshold that were also tested in the ROSMAP analysis, rs7902929 on chromosome 10q25.1 was validated at P-value \< 0.05 level (NACC/ADGC OR = `r nacc_sorcs3_or`, P-value = `r nacc_sorcs3_p`; ROSMAP OR = `r rosmap_sorcs3_or`, P-value = `r rosmap_sorcs3_p`). For the other 13 loci, two ROSMAP ORs are \<1.00 and 11 have effect sizes in the same direction in effect as in NACC/ADGC, though of smaller magnitude. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top 14 loci in the NACC primary logistic regression, **X** also meet our suggestive threshold in the ordinal regression, along with **X** other loci. In the primary mega-analysis using logistic regression, **X** loci meet the suggestive threshold, with rs7902929 (OR = 1.58, P-value = 2.0 x 10-7) and rs2603462 (OR = 1.35, P-value = 3.0 x 10-7) producing the smallest P-values (see **Table 3**). Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013), no variants were validated at the P-value \< 0.05 significance level in the NACC/ADGC cohort.
+
+```{r table-2, include=TRUE}
+# make table_2 object
+table_2_data$`NACC P` <- format(table_2_data$`NACC P`, scipen=2)
+table_2_data$`ROSMAP P` <- format(table_2_data$`ROSMAP P`, drop0trailing = TRUE)
+table_2 <- flextable(table_2_data)
+
+table_2 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all")
+
+```
+
+```{r table-3, include = TRUE}
+
+```
+
+In the ADNI neuropathology cohort, both rs2603462 (OR = **X**, P = **X**) and rs7902929 (OR = **X**, P =**X** ) were valiedated at the *P* \< 0.05 significance level (see **Table 4**), while in the ACT neuropathology cohort, neither variant was validated.
 
 In the secondary analysis using only participants with an age of death of 80 years or older, no variants achieved genome-wide significance (P-value \< 5x10^-8^). In the NACC/ADGC analyses, we identified 10 and 9 independent loci in the logistic and ordinal regression analyses, respectively, that met the suggestive threshold. Three loci were suggestively associated with B-ASC in both the logistic and ordinal analyses: rs4491854, an intergenic SNP near EOMES on chromosome 3 (logistic P-value = 8.0x10-7, ordinal P-value = 6.2x10-6); rs11928305, an intronic SNP in FAM19A1/TAFA1 on chromosome 3 (logistic P-value = 6.1x10-6, ordinal P-value = 4.0x10-7); and rs1956605, and intergenic SNP 500 Kb from NOVA1 on chromosome 14 (logistic P-value = 4.9x10-6, ordinal P-value = 6.3x10-6). No suggestive variants from the NACC/ADGC analyses were validated in the ROSMAP analyses at the P-value \< 0.05 significance threshold (see supplementary tables S3 and S4).
 
 ## Gene-based analyses
 
-In the gene-based analyses, no genes achieved Bonferroni-adjusted significance (P-value \< 2.5x10-6). In both the NACC/ADGC logistic analysis and the mega-analyses with ROSMAP, PROP1 had the smallest P-value (P-values = 1.4 x 10-4 and 1.5 x 10-4, respectively). In the NACC/ADGC ordinal analysis, CDHR4 led a group of genes at chromosome 3p21.31 (P-value = 3.3 x 10-5).
+In the gene-based analyses, no genes achieved Bonferroni-adjusted significance (P-value \< 2.5x10-6).
 
 ## Colocalization analyses
 
@@ -163,9 +240,9 @@ Insert section here.
 
 # Conclusions
 
-In the NACC and ROSMAP neuropathology datasets derived from data from multiple research centers, we performed the first GWAS of autopsy-proven B-ASC. We found a significant association between one locus on chromosome six and B-ASC in the NACC/ADGC analysis. This locus colocalizes with *ELOVL4* gene expression in GTEx (PPH4 = 93.3%), providing evidence that this locus may affect B-ASC risk through mediating *ELOVL4* expression (see **Figure 1**). We also found suggestive evidence for association between other loci and B-ASC risk in both cohorts and that some of these loci colocalize with gene eQTL and sQTL in GTEx.
+In this study, we performed the first GWAS of autopsy-proven B-ASC using neuropathology and genotype data from four neuropathology cohorts derived from multiple research centers. We found a significant association between one locus on Chromosome 6 and B-ASC in the NACC/ADGC cohort (*P* = `r nacc_elovl4_p`). This locus colocalizes with *ELOVL4* gene expression in GTEx (PPH4 = 93.3%), providing evidence that this locus may affect B-ASC risk through mediating *ELOVL4* expression (see **Figure X**). Another locus on Chromosome 10 near *SORCS3* suggestively associated with B-ASC was validated in the ROSMAP cohort. These variants' effects were successfully replicated in the ADNI cohort, but failed to replicate in the ACT cohort. We also found suggestive evidence for association between other loci and B-ASC risk in both cohorts and that some of these loci colocalize with gene eQTL and sQTL in GTEx.
 
-Most genetic loci identified as being associated with B-ASC in NACC were not validated in ROSMAP. This could be potentially explained via the significantly different demographic attributes and study designs between the two cohorts, as ROSMAP participants were simultaneously older at death and had lower risk of B-ASC pathology, indicating that there may be unaccounted-for genetic confounding in our analyses. Differences in neuropathological grading of B-ASC in each cohort may also contribute to the heterogeneity of results, as B-ASC is graded globally in NACC but is graded in the basal ganglia in ROSMAP. Despite these limitations, one suggestive locus on chromosome ten identified in NACC/ADGC was validated in ROSMAP and had nearly the same affect size in each cohort (OR 1.58 vs. 1.60). Furthermore, all B-ASC-associated loci in NACC had affect sizes in the same direction in ROSMAP, which suggests that these loci may be associated with B-ASC but suffer from the "winner's curse" in the NACC/ADGC analyses.
+Most genetic loci identified as being associated with B-ASC in NACC were not validated in ROSMAP. This could be potentially explained via the significantly different demographic attributes and study designs between the two cohorts, as ROSMAP participants were simultaneously older at death and had lower risk of B-ASC pathology, indicating that there may be unaccounted-for genetic confounding and differential selection bias between cohorts. For instance, ROS recruits from Catholic sisters and brothers, who are on average more highly educated than the general population. Each ADRC also has its own recruitment population. Differences in neuropathological grading of B-ASC in each cohort may also contribute to the heterogeneity of results, as B-ASC is graded globally in NACC but is graded in the basal ganglia in ROSMAP. Despite these limitations, one suggestive locus on chromosome ten identified in NACC/ADGC was validated in ROSMAP and had nearly the same affect size in each cohort (OR 1.58 vs. 1.60). Furthermore, 11 of 13 B-ASC-associated loci in NACC had affect sizes in the same direction in ROSMAP, which suggests that these loci may be associated with B-ASC but suffer from the "winner's curse" in the NACC/ADGC analyses.
 
 *ELOVL4* codes for the elongation of very long chain fatty acids-4 protein, an elongase that synthesizes very long chain saturated and unsaturated fatty acids. Most research on *ELOVL4*has focused on its association with mendelian diseases affecting the visual and nervous systems, such as Stargardt-like macular dystrophy and spinocerebellar ataxia [@hopiavuori2019]. In GTEx, ELOVL4 is more highly expressed in the brain (median transcripts per kilobase million [TPM] 5.5-43.9) relative to most other tissues. We searched the GWAS Catalog and found two recent studies that found genome-wide significant associations between variants mapped to *ELOVL4* and multiple body weight-related phenotypes, including waist circumference adjusted for body mass index (BMI) (rs76567515, P = 2 x 10-12), waist-to-hip ratio (rs76567515, P = 3 x 10-10), and waist-to-hip ratio adjusted for BMI (rs1849275, P = 1 x 10-9) [@buniello2019; @zhu2020; @kichaev2019]. These variants are significant eQTLs for ELOVL4 in GTEx, but are each located \>200 Kb from the locus identified in our study and are not in LD with the lead variant (r2 \< 0.05). Additionally, another suggestive variant in NACC/ADGC, rs387083, is located between the free fatty acid receptor genes *FFAR1* and *FFAR3* on chromosome nineteen. These results suggest that fatty acid metabolism and signaling may play a role in B-ASC risk, and that ELOVL4 may potentially be related to B-ASC risk through its effects on BMI-related phenotypes.
 
@@ -173,37 +250,13 @@ The variant suggestively associated with B-ASC in the NACC/ADGC primary analyses
 
 Variants identified as suggestively associated with B-ASC among participants aged 80 years or older at death were largely different than those identified in our primary analyses. One intronic locus of FAM19A1 was identified as suggestively associated with B-ASC in the NACC/ADGC dataset. This gene is highly and preferentially expressed in the brain [@thegeno2013]. FAM19A1 belongs to the family with sequence similarity 19 member A gene family, a five-member gene family with largely unknown function, though the family shares structural similarity to the CC-chemokine family [@wangyingbao2018]. A locus near the 3' end of another member of this family, FAM19A5, was identified as suggestively associated with B-ASC in the NACC/ADGC primary ordinal analysis. A recent study found that FAM19A5 is an adipokine that is capable of inhibiting post-injury neointima formation in injured blood vessels, and that FAM19A5 expression is downregulated in obesity.49 Another study found that FAM19A3, another gene homologue of FAM19A1, is highly expressed in microglia and helps attenuate cerebral ischemia [@shao2015].
 
-Two loci suggestively associated with B-ASC in the analyses on older participants colocalized with gene expression with HLA-A and NRMAL2P in GTEx. HLA-A is a Major Histone Compatibility Complex (MHC) gene and is an integral component of the immune system. HLA-A has been found to be significantly associated with 120 complex traits in the GWAS Atlas [@watanabe2019]. While not identified in GWAS, certain HLA-A alleles have evidence of association with Alzheimer's disease (AD) risk [@cifuentes2014]. In one recent study, authors used ADNI data to investigate the association between AD HLA-A found that HLA-A variants were associated with atrophy of the left parahippocampus, right hippocampus, and right amygdala [@wang2017]. NRMAL2P is a long non-coding RNA (LncRNA) pseudogene that has previously been linked to gastric, colon, and esophageal cancers [@feng2020; @johnson2017; @mizumoto2019].
+Two loci suggestively associated with B-ASC in the analyses on older participants colocalized with gene expression with HLA-A and NRMAL2P in GTEx. HLA-A is a Major Histone Compatibility Complex (MHC) gene and is an integral component of the immune system. HLA-A has been found to be significantly associated with 120 complex traits in the GWAS Atlas [@watanabe2019]. While not identified in GWAS, certain HLA-A alleles have evidence of association with Alzheimer's disease (AD) risk [@cifuentes2014]. In one recent study, authors used ADNI data to investigate the association between AD HLA-A found that HLA-A variants were associated with atrophy of the left parahippocampus, right hippocampus, and right amygdala [@wang2017]. NRMAL2P is a long non-coding RNA (LncRNA) pseudogene that has previously been linked to gastric, colon, and esophageal cancers [@feng2020; @johnson2017; @mizumoto2019; ].
 
 None of the effects of top loci in the NACC/ADGC GWAS were mediated by diabetes or hypertension status in NACC. This finding fails to help clarify the somewhat inconsistent evidence of association between these clinical risk factors and B-ASC pathology. However, this analysis was limited by a substantially smaller sample size (n = 1679) than our other analysis and the diagnostic criteria used, as the diagnostic variables in NACC used consisted of a mixture of patient self-reports, physician reporting, and use of hypertension or diabetes medications. Future studies employing causal inference methods such as two-sample Mendelian randomization may be able to provide clearer evidence for or against the genetic mediation of B-ASC risk by clinical risk factors.
 
 In closing, we used autopsy-derived endophenotypes linked to genetic data in multiple cohorts to identify genetic loci associated with B-ASC pathology. We found one locus significantly associated with B-ASC that colocalizes with ELOVL4 gene expression in GTEx. This study provides first GWAS of autopsy-verified brain arteriolosclerosis pathology and contributes a growing body of literature that recognizes the importance of using autopsy-based cohorts to augment clinical diagnoses to study the genetics of dementia and cognitive impairment.
 
 # Code Stash
-
-```{r nacc-adgc-gwas-results}
-# nacc_adgc_results <- fread("output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic", fill = T)
-# nacc_adgc_results[, SNP := StripAlleles(SNP)]
-# nacc_adgc_top <- fread("output/nacc_adgc/nacc_adgc_unrelated.clumped")
-# nacc_adgc_top[, SNP := StripAlleles(SNP)]
-# nacc_adgc_top <- nacc_adgc_results[SNP %in% nacc_adgc_top$SNP]
-# setorder(nacc_adgc_top, P)
-# nacc_adgc_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
-```
-
-```{r rosmap-gwas-results}
-# rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
-# setorder(rosmap_results, P)
-# rosmap_results[P < 1e-5]
-# rosmap_results[SNP %in% nacc_adgc_top$SNP]
-```
-
-```{r}
-# nacc_rosmap_mega <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
-# setorder(nacc_rosmap_mega, P)
-# nacc_rosmap_mega_top <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.clumped")
-# nacc_rosmap_mega[SNP %in% nacc_rosmap_mega_top$SNP]
-```
 
 ```{r adni-mega}
 # adni_mega <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
@@ -228,16 +281,13 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 # setorder(adni_mega_magma, P)
 # head(adni_mega_magma, 20)
 # 
-# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out", 
-#                    skip = 4) %>% 
-#   setorder(P) %>% 
-#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>% 
-#   head(8) %>% 
-#   .[, .(FULL_NAME, NGENES, P)] %>% 
-#   kable() %>% 
-#   kable_styling()
+# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out",
+#                    skip = 4) %>%
+#   setorder(P) %>%
+#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>%
+#   .[, .(FULL_NAME, NGENES, P)]
 # 
-# magma_gsa
+# head(magma_gsa, 10)
   
 ```
 

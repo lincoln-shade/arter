@@ -3,7 +3,7 @@ title: "Genome-Wide Association Study of Brain Arteriolosclerosis"
 description: |
   A new article created using the Distill format.
 author:
-  - name: Lincoln M.P. Shade 
+  - name: Lincoln M.P. Shade
     url: https://github.com/lincoln-shade
     affiliation: Department of Biostatistics, College of Public Health, University of Kentucky, Lexington, KY
 date: "`r Sys.Date()`"
@@ -123,7 +123,7 @@ Of the 3318 NACC participants that met inclusion criteria for Sanalysis, 922 (27
 ```{r}
 # make table_1 object
 source("code/paper_tables_figures/01_make_table_1.R")
-table_1 <- autofit(table_1) %>% 
+table_1 <- autofit(table_1) %>%
   padding(padding = 2, part = "all")
 table_1
 ```
@@ -212,24 +212,24 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 
 ```{r magma}
 # adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
-# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>% 
-#   .[, .(V1, V6)] %>% 
+# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>%
+#   .[, .(V1, V6)] %>%
 #   setnames(c("V1", "V6"), c("GENE", "gene"))
 # adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
 # setorder(adni_mega_magma, P)
 # head(adni_mega_magma, 20)
-# 
-# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out", 
-#                    skip = 4) %>% 
-#   setorder(P) %>% 
-#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>% 
-#   head(8) %>% 
-#   .[, .(FULL_NAME, NGENES, P)] %>% 
-#   kable() %>% 
+#
+# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out",
+#                    skip = 4) %>%
+#   setorder(P) %>%
+#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>%
+#   head(8) %>%
+#   .[, .(FULL_NAME, NGENES, P)] %>%
+#   kable() %>%
 #   kable_styling()
-# 
+#
 # magma_gsa
-  
+
 ```
 
 ```{r locuszoom1, out.height=550, out.width=600}
