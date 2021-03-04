@@ -41,6 +41,8 @@ rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
 nacc_rosmap_mega_results <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
 adni_mega_results <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
 act_meta_results <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
+act_results <- fread("raw_data/brainartbin.assoc.logistic.txt")
+adni_replication_top <- fread("output/ADNI_NPC/top_replication.assoc.logistic")
 ```
 
 ```{r adni-mega-results, results=FALSE}
@@ -105,9 +107,9 @@ In our first study, we linked neuropathology data from participants in thirty-on
 
 The ROSMAP study has been previously described in detail and consists of harmonized data from two longitudinal cohorts: The Religious Orders Study (ROS) and the Memory and Aging Project (MAP). ROS began in 1994 and recruited older Catholic Priests and Sisters from around the United States. MAP began in 1997 and recruited older adults who at the time had no diagnosis of dementia. A total of **XXXX** ROSMAP participants had both autopsy and genotype data available.
 
-Some data used in the preparation of this article were obtained from the ADNI database ([adni.loni.usc.edu](<http://adni.loni.usc.edu/>)). The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of mild cognitive impairment (MCI) and early Alzheimer's disease (AD).
+Some data used in the preparation of this article were obtained from the ADNI database ([adni.loni.usc.edu](http://adni.loni.usc.edu/)). The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of mild cognitive impairment (MCI) and early Alzheimer's disease (AD). A subset of
 
-The ACT study began in 1994 and recruited residents in the greater Seattle area aged 65 years and older without dementia at time of enrollment . The goal of the The study has expanded to include three cohorts and continuous enrollment using the same enrollment criteria and has a current total of 4,960 particpants across all three cohorts.
+The ACT study began in 1994 and recruited residents in the greater Seattle area aged 65 years and older without dementia at time of enrollment [@kukull2002]. The goal of the The study has expanded to include three cohorts and continuous enrollment using the same enrollment criteria and has a current total of 4,960 particpants across all three cohorts.
 
 ## **Definitions of B-ASC variables used**
 
@@ -133,9 +135,7 @@ To seek replication of our results, we analyzed the top three variants from the 
 
 ### **Gene-based analyses**
 
-# Placeholder
-
-Following single-variant analyses, we performed gene-based and gene-set analyses using MAGMA [@leeuw2015]. First, we annoted variants to genes using Hg37 positions, and annotated all variants within a 1000-kilobase window of a gene as associated with it, producing a total of **XXXXX** genes with at least one annotated variant. We then performed competitive gene-based analyses in MAGMA. For the gene-set analysis, we used gene sets curated for Enrichment Map ([https://enrichmentmap.readthedocs.io](https://enrichmentmap.readthedocs.io/en/latest/index.html#)) that included gene sets based on multiple resources, including Reactome, Gene Ontology, the Pathway Interaction Database, NetPath, and the PANTHER database [@merico2010; ].
+Following single-variant analyses, we performed gene-based and gene-set analyses using MAGMA [@leeuw2015]. First, we annoted variants to genes using Hg37 positions, and annotated all variants within a 1000-kilobase window of a gene as associated with it, producing a total of **XXXXX** genes with at least one annotated variant. We then performed competitive gene-based analyses in MAGMA. For the gene-set analysis, we used gene sets curated for Enrichment Map ([https://enrichmentmap.readthedocs.io](https://enrichmentmap.readthedocs.io/en/latest/index.html#)) that included gene sets based on multiple resources, including Reactome, Gene Ontology, the Pathway Interaction Database, NetPath, and the PANTHER database [@merico2010; @croft2011; @ashburner2000; @subramanian2005; @schaefer2009; @kandasamy2010; @romero2005; @mi2005]. We used a total of **XXXX** gene sets in our analysis.
 
 ### **Colocalization analyses**
 
@@ -216,10 +216,24 @@ table_2 %>%
 ```
 
 ```{r table-3, include = TRUE}
+source("code/paper_tables_figures/03_table_3_data.R")
+table_3_data[, P := format(P, scipen=2)]
+table_3_ncol <- ncol(table_3_data)
+
+table_3 <- flextable(table_3_data)
+
+table_3 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all") %>% 
+  add_header_row(values = c("Table 3: NACC/ADGC and ROSMAP Mega-Analysis Results"), colwidths = table_3_ncol)
 
 ```
 
 In the ADNI neuropathology cohort, both rs2603462 (OR = **X**, P = **X**) and rs7902929 (OR = **X**, P =**X** ) were valiedated at the *P* \< 0.05 significance level (see **Table 4**), while in the ACT neuropathology cohort, neither variant was validated.
+
+```{r table-4, include=TRUE}
+
+```
 
 In the secondary analysis using only participants with an age of death of 80 years or older, no variants achieved genome-wide significance (P-value \< 5x10^-8^). In the NACC/ADGC analyses, we identified 10 and 9 independent loci in the logistic and ordinal regression analyses, respectively, that met the suggestive threshold. Three loci were suggestively associated with B-ASC in both the logistic and ordinal analyses: rs4491854, an intergenic SNP near EOMES on chromosome 3 (logistic P-value = 8.0x10-7, ordinal P-value = 6.2x10-6); rs11928305, an intronic SNP in FAM19A1/TAFA1 on chromosome 3 (logistic P-value = 6.1x10-6, ordinal P-value = 4.0x10-7); and rs1956605, and intergenic SNP 500 Kb from NOVA1 on chromosome 14 (logistic P-value = 4.9x10-6, ordinal P-value = 6.3x10-6). No suggestive variants from the NACC/ADGC analyses were validated in the ROSMAP analyses at the P-value \< 0.05 significance threshold (see supplementary tables S3 and S4).
 
@@ -305,8 +319,7 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 
 ADGC
 
-Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso
-Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ([www.fnih.org](<https://fnih.org/>)). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
+Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ([www.fnih.org](https://fnih.org/)). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
 
 TL-1
 

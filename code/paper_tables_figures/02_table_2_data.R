@@ -66,4 +66,4 @@ table_2_data[, `NACC P` := signif(`NACC P`, 2)]
 table_2_data[, `ROSMAP P` := signif(`ROSMAP P`, 2)]
 
 
-table_2_data <- table_2_data[, .(SNP,Gene, CHR, BP, `A1/A2`, `NACC OR [95% CI]`, `NACC P`, `ROSMAP OR [95% CI]`, `ROSMAP P`)]
+table_2_data <- table_2_data[, .(CHR, BP, Gene, SNP, `A1/A2`, `NACC OR [95% CI]`, `NACC P`, `ROSMAP OR [95% CI]`, `ROSMAP P`)]
