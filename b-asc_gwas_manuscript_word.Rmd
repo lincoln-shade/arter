@@ -8,9 +8,10 @@ author:
   - Kwangsik Nho
   - Andrew Saykin
   - Shubhabrata Mukherjee
-  - Alzheimer’s Disease Genetics Consortium
   - Peter T. Nelson^2,5^
   - David W. Fardo^1,2^
+  - Alzheimer’s Disease Genetics Consortium
+  - for the Alzheimer's Disease Neuroimaging Initiative^*^
 date: "`r Sys.Date()`"
 output: word_document
 bibliography: references.bib
@@ -66,6 +67,8 @@ act_meta_results <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta"
 
 ^5^Pathology and Laboratory Medicine, University of Kentucky, Lexington, KY
 
+^\*^Data used in preparation of this article were obtained from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database (adni.loni.usc.edu). As such, the investigators within the ADNI contributed to the design and implementation of ADNI and/or provided data but did not participate in analysis or writing of this report. A complete listing of ADNI investigators can be found at: <http://adni.loni.usc.edu/wp-content/uploads/how_to_apply/ADNI_Acknowledgement_List.pdf>
+
 ## Corresponding Author
 
 Lincoln Shade
@@ -100,11 +103,11 @@ In the present study, we conduct a GWAS using B-ASC pathology as the endophenoty
 
 In our first study, we linked neuropathology data from participants in thirty-one National Institute on Aging-funded Alzheimer's Disease Research Centers (ADRCs) studies from the NACC Neuropathology Data Set to ADGC genotype data [@welcome; @besser2018]. Each ADRC has its own recruitment strategies, populations, and study design, and data are collected and aggregated by NACC. A total of **XXXX** participants had both neuropathology and genotype data available. We then excluded all participants diagnosed with any of nineteen rare neurological conditions (see **Supplementary Table S1** for full exclusion criteria).
 
-The ROSMAP study has been previously described in detail and consists of harmonized data from two longitudinal cohorts: The Religious Orders Study (ROS) and the Memory and Aging Project (MAP). ROS began in 1994 and recruited older Catholic Priests and Sisters from around the United States. MAP began in 1997 and recruited older adults who at the time had no diagnosis of dementia. A total of **XXXX** ROSMAP participants had both autopsy and genotyping data available.
+The ROSMAP study has been previously described in detail and consists of harmonized data from two longitudinal cohorts: The Religious Orders Study (ROS) and the Memory and Aging Project (MAP). ROS began in 1994 and recruited older Catholic Priests and Sisters from around the United States. MAP began in 1997 and recruited older adults who at the time had no diagnosis of dementia. A total of **XXXX** ROSMAP participants had both autopsy and genotype data available.
 
-The ADNI study...
+Some data used in the preparation of this article were obtained from the ADNI database ([adni.loni.usc.edu](<http://adni.loni.usc.edu/>)). The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of mild cognitive impairment (MCI) and early Alzheimer's disease (AD).
 
-The ACT study...
+The ACT study began in 1994 and recruited residents in the greater Seattle area aged 65 years and older without dementia at time of enrollment . The goal of the The study has expanded to include three cohorts and continuous enrollment using the same enrollment criteria and has a current total of 4,960 particpants across all three cohorts.
 
 ## **Definitions of B-ASC variables used**
 
@@ -274,15 +277,16 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 
 ```{r magma}
 # adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
-# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>% 
-#   .[, .(V1, V6)] %>% 
+# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>%
+#   .[, .(V1, V6)] %>%
 #   setnames(c("V1", "V6"), c("GENE", "gene"))
 # adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
 # setorder(adni_mega_magma, P)
 # head(adni_mega_magma, 20)
 # 
 # magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out",
-#                    skip = 4) %>%
+#                    skip = 4)
+# magma_gsa <- magma_gsa %>%  
 #   setorder(P) %>%
 #   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>%
 #   .[, .(FULL_NAME, NGENES, P)]
@@ -296,5 +300,18 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 
 # knitr::include_graphics("example.pdf")
 ```
+
+# Acknowledgements
+
+ADGC
+
+Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso
+Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ([www.fnih.org](<https://fnih.org/>)). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
+
+TL-1
+
+PSMRF
+
+NACC?
 
 # References

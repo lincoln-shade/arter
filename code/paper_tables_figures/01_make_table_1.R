@@ -66,4 +66,18 @@ table_1 <- table_1_data %>%
   .[, -c("N Missing")] %>% 
   as_grouped_data(groups = c("Variable")) %>% 
   flextable()
+
+# # kableExtra version (not good for knitting to Word)
+# table1[, Variable := NULL]
+# print(
+#   table1 %>% 
+#     kable(format = "html") %>% 
+#     kable_styling(bootstrap_options = c("responsive", "condensed", "striped")) %>% 
+#     collapse_rows(columns = 1) %>% 
+#     add_header_above(c(" " = 1, "Overall" = 1, "NACC" = 1, "ROSMAP" = 1, " " = 1), align = "l") %>% 
+#     add_header_above(c("Table 1: NACC and ROSMAP cohort summary" = 5)) %>% 
+#     group_rows("Brain Arteriolosclerosis", 1, 4) %>% 
+#     group_rows("Sex", 5, 6) %>% 
+#     group_rows("Age of Death", 7, 8)
+# )
   
