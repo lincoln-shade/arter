@@ -5,17 +5,19 @@ author:
   - Yuriko Katsumata^1,2^
   - Timothy J. Hohman^3^
   - Julie A. Schneider^4^
-  - Kwangsik Nho
-  - Andrew Saykin
-  - Shubhabrata Mukherjee
-  - Peter T. Nelson^2,5^
+  - Kwangsik Nho^5^
+  - Andrew Saykin^5^
+  - Shubhabrata Mukherjee^6^
+  - Kevin L. Boehme^7^
+  - John Kauwe^8^
+  - Peter T. Nelson^2,9^
   - David W. Fardo^1,2^
   - Alzheimer’s Disease Genetics Consortium
   - for the Alzheimer's Disease Neuroimaging Initiative^*^
 date: "`r Sys.Date()`"
 output: word_document
-bibliography: references.bib
-csl: springer_basic.csl
+bibliography: doc/references.bib
+csl: doc/springer_basic.csl
 link-citations: true
 ---
 
@@ -41,7 +43,7 @@ rosmap_results <- fread("output/rosmap/rosmap_unrelated.assoc.logistic")
 nacc_rosmap_mega_results <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
 adni_mega_results <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
 act_meta_results <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
-act_results <- fread("raw_data/brainartbin.assoc.logistic.txt")
+act_results <- fread("raw_data/brainartbin.assoc.logistic.txt", na.strings = "\\N")
 adni_replication_top <- fread("output/ADNI_NPC/top_replication.assoc.logistic")
 ```
 
@@ -65,9 +67,17 @@ adni_replication_top <- fread("output/ADNI_NPC/top_replication.assoc.logistic")
 
 ^3^Vanderbilt Memory & Alzheimer's Center, Department of Neurology, Vanderbilt University Medical Center, Nashville, Tennessee
 
-^4^Departments of Neurology and Pathology, Rush University Medical Center, Chicago, IL, 60612, USA.
+^4^Departments of Neurology and Pathology, Rush University Medical Center, Chicago, IL
 
-^5^Pathology and Laboratory Medicine, University of Kentucky, Lexington, KY
+^5^Department of Radiology & Imaging Sciences, Indiana University School of Medicine, Indianapolis, IN
+
+^6^Department of Medicine, University of Washington, Seattle, WA
+
+^7^ARUP Laboratories, Salt Lake City, UT
+
+^8^Office of the President, Brigham Young University--Hawaii, Laie, HI
+
+^9^Pathology and Laboratory Medicine, University of Kentucky, Lexington, KY
 
 ^\*^Data used in preparation of this article were obtained from the Alzheimer's Disease Neuroimaging Initiative (ADNI) database (adni.loni.usc.edu). As such, the investigators within the ADNI contributed to the design and implementation of ADNI and/or provided data but did not participate in analysis or writing of this report. A complete listing of ADNI investigators can be found at: <http://adni.loni.usc.edu/wp-content/uploads/how_to_apply/ADNI_Acknowledgement_List.pdf>
 
@@ -107,9 +117,9 @@ In our first study, we linked neuropathology data from participants in thirty-on
 
 The ROSMAP study has been previously described in detail and consists of harmonized data from two longitudinal cohorts: The Religious Orders Study (ROS) and the Memory and Aging Project (MAP). ROS began in 1994 and recruited older Catholic Priests and Sisters from around the United States. MAP began in 1997 and recruited older adults who at the time had no diagnosis of dementia. A total of **XXXX** ROSMAP participants had both autopsy and genotype data available.
 
-Some data used in the preparation of this article were obtained from the ADNI database ([adni.loni.usc.edu](http://adni.loni.usc.edu/)). The ADNI was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of mild cognitive impairment (MCI) and early Alzheimer's disease (AD). A subset of
+The ADNI ([adni.loni.usc.edu](http://adni.loni.usc.edu/)) was launched in 2003 as a public-private partnership, led by Principal Investigator Michael W. Weiner, MD. The primary goal of ADNI has been to test whether serial magnetic resonance imaging (MRI), positron emission tomography (PET), other biological markers, and clinical and neuropsychological assessment can be combined to measure the progression of mild cognitive impairment (MCI) and early Alzheimer's disease (AD). A subset of ADNI participants undergo autopsy and receive neuropathological phenotyping. A total of 60 ADNI participants had both B-ASC and genotype data available.
 
-The ACT study began in 1994 and recruited residents in the greater Seattle area aged 65 years and older without dementia at time of enrollment [@kukull2002]. The goal of the The study has expanded to include three cohorts and continuous enrollment using the same enrollment criteria and has a current total of 4,960 particpants across all three cohorts.
+The ACT study began in 1994 and recruited residents in the greater Seattle area aged 65 years and older without dementia at time of enrollment [@kukull2002]. The goal of the The study has expanded to include three cohorts and continuous enrollment using the same enrollment criteria and has a current total of 4,960 particpants across all three cohorts. A total of **XXX** ACT participants had both B-ASC and genotype data available.
 
 ## **Definitions of B-ASC variables used**
 
@@ -131,7 +141,7 @@ We first performed single-variant association analyses in the NACC/ADGC particip
 
 In our ROSMAP analyses, we first performed single-variant regression analyses with variants identified as suggestively significant in the NACC/ADGC analyses, using a significance threshold of P-value \< 0.05 for these variants. We then performed ordinal and dichotomous genome-wide single-variant the procedures used in the NACC/ADGC analyses. Covariates included age at death, sex, cohort (ROS vs. MAP) and the first five PCs. We then performed a mega-analysis on both cohorts, including an indicator variable for ROSMAP participants. We also performed both fixed- and random-effects meta-analyses in PLINK v1.9 for individual ADGC and ROSMAP logistic GWAS results.
 
-To seek replication of our results, we analyzed the top three variants from the NACC/ADGC and ROSMAP mega-analysis separately in the ADNI and ACT datasets. We then added the ADNI and ACT participants sequentially to our combined NACC/ADGC and ROSMAP dataset to perform additional mega-analyses.
+To seek replication of our results, we analyzed the top three variants from the NACC/ADGC and ROSMAP mega-analysis separately in the ADNI and ACT datasets. We then added the ADNI and ACT participants sequentially to our combined NACC/ADGC and ROSMAP dataset to perform additional mega-analyses. A total of `r adni_mega_results[, .N]` variants were shared between the NACC/ADGC, ROSMAP, and ADNI datasets that passed QC measures, and a total of `r act_meta_results[, .N]` variants were also shared with ACT and passed QC measures.
 
 ### **Gene-based analyses**
 
@@ -139,7 +149,7 @@ Following single-variant analyses, we performed gene-based and gene-set analyses
 
 ### **Colocalization analyses**
 
-To investigate potential functional mechanisms of variants driving GWAS signals for B-ASC, we performed colocalization analyses for suggestive variants using the coloc R package and QTL summary statistic data from The Genotype-Tissue Expression (GTEx) project V8 publicly available data [@thegeno2013; @aguet2017; @giambartolomei2014; @gtexpor]. QTL are calculated in GTEx by performing single-variant analysis of gene expression for all variants within 1000 Kb of the transcription start or end site for each gene. First, we systematically checked to determine if suggestive variants from B-ASC analyses (P-value \< 1×10^-5^) are significant expression QTL (eQTL) or splicing QTL (sQTL) using GTEx summary statistics of participants of European descent. We then analyzed variants that were eQTL or sQTL in brain, nerve, blood, cultured cell lines, or vascular tissues (see Supplementary Table S2 for a full description of tissues used) and had nominal P-values less than ten times greater than the variant with the smallest nominal P-value for the associated QTL phenotype. We used default prior probabilities in the coloc package of P­~1~ = P~2~ = 1e-4 and P~12~ = 1e-5, meaning that each variant has a 1/10,000 prior probability of being associated with either trait, and a variant associated with either trait in turn has a 1/10 prior probability of being associated with both traits [@giambartolomei2014]. Because the coloc package can currently only analyze dichotomous or continuous variables, for QTL variants from ordinal B-ASC GWAS, we used variant P-values in the corresponding logistic analyses. A posterior probability of colocalization (PPH4) of 50% or greater was chosen to indicate evidence for colocalization.
+To investigate potential functional mechanisms of variants driving GWAS signals for B-ASC, we performed colocalization analyses for suggestive variants using the coloc R package and QTL summary statistic data from The Genotype-Tissue Expression (GTEx) project V8 publicly available data [@thegeno2013; @aguet2017; @giambartolomei2014; @gtexpor]. QTL are calculated in GTEx by performing single-variant analysis of gene expression for all variants within 1000 Kb of the transcription start or end site for each gene. First, we systematically checked to determine if suggestive variants from B-ASC analyses (P-value \< 1×10^-5^) were significant expression QTL (eQTL) or splicing QTL (sQTL) using GTEx summary statistics of participants of European descent. We then analyzed variants that were eQTL or sQTL in brain, nerve, blood, cultured cell lines, or vascular tissues (see Supplementary Table S2 for a full description of tissues used) and had nominal P-values less than ten times greater than the variant with the smallest nominal P-value for the associated QTL phenotype. We used default prior probabilities in the coloc package of P­~1~ = P~2~ = 1e-4 and P~12~ = 1e-5, meaning that each variant has a 1/10,000 prior probability of being associated with either trait, and a variant associated with either trait in turn has a 1/10 prior probability of being associated with both traits [@giambartolomei2014]. Because the coloc package can currently only analyze dichotomous or continuous variables, for QTL variants from ordinal B-ASC GWAS, we used variant P-values in the corresponding logistic analyses. A posterior probability of colocalization (PPH4) of 50% or greater was chosen to indicate evidence for colocalization.
 
 ### **Sensitivity analyses**
 
@@ -153,7 +163,7 @@ We tested the top two variants from the single-variant meta-analysis for associa
 
 ```{r prep-table-1}
 # prepare table_1 data
-source("code/paper_tables_figures/01_make_table_1.R")
+source("code/paper_tables_figures/01_table_1.R")
 # inline r code for paragraph
 nacc_none <- table_1_data[Labels == "None", "NACC/ADGC"]
 nacc_mild <- table_1_data[Labels == "Mild", "NACC/ADGC"]
@@ -172,7 +182,7 @@ rosmap_age <- rosmap_unrelated[, round(mean(age_death), 1)]
 
 Of the `r nacc_adgc_unrelated[, .N]` NACC participants that met inclusion criteria for Sanalysis, `r nacc_none` had no B-ASC, `r nacc_mild` had mild B-ASC, `r nacc_moderate` had moderate B-ASC, and `r nacc_severe` had severe B-ASC (see **Table 1**). ROSMAP participants that met inclusion for analysis had comparatively less B-ASC pathology (P-value = 0.002): `r rosmap_none` had no B-ASC, `r rosmap_mild` had mild B-ASC, `r rosmap_moderate` had moderate B-ASC, and `r rosmap_severe` had severe B-ASC. NACC participants were also significantly more likely to be male (nacc_adgc_unrelated[NPSEX == 1, round(`r nacc_male`% vs.`r rosmap_male`%, P-value \< 0.001) and had younger ages at death on average (mean age of death `r nacc_age` vs. `r rosmap_age`, P-value \< 0.001) compared to ROSMAP participants. These comparative differences in the cohort demographics largely held in the secondary analysis that included only participants whose ages of death were eighty years or above, with the caveat that the difference in mean age of death was smaller between NACC and ROSMAP (87.7 vs. 90.7, P-value \< 0.001).
 
-```{r include=TRUE}
+```{r table-1, include=TRUE}
 # make table_1 object
 table_1 <- autofit(table_1) %>% 
   padding(padding = 2, part = "all")
@@ -198,7 +208,7 @@ rosmap_sorcs3_or <- rosmap_results[CHR == 10][grep("rs7902929", SNP), signif(OR,
 ```
 
 ```{r table-2-data}
-source("code/paper_tables_figures/02_make_table_2_data.R")
+source("code/paper_tables_figures/02_table_2_data.R")
 ```
 
 In the logistic regression analysis, `r nacc_n_case` (`r nacc_percent_case`%) and `r rosmap_n_case` (`r rosmap_percent_case`%) of participants had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the NACC/ADGC analysis, one locus, rs2603462 on chromosome 6q14.1, is genome-wide significantly associated with B-ASC (odds ratio [OR] = `r nacc_elovl4_or`, P-value = `r nacc_elovl4_p`). We identified 13 other loci that meet our suggestive association threshold of P-value \< 1×10^-5^, described in **Table 2**. No variants achieve genome-wide significance in any of the ROSMAP analyses, though **X** loci met our suggestive threshold in the primary logistic regression analysis. Of the 14 NACC/ADGC loci that met our suggestive threshold that were also tested in the ROSMAP analysis, rs7902929 on chromosome 10q25.1 was validated at P-value \< 0.05 level (NACC/ADGC OR = `r nacc_sorcs3_or`, P-value = `r nacc_sorcs3_p`; ROSMAP OR = `r rosmap_sorcs3_or`, P-value = `r rosmap_sorcs3_p`). For the other 13 loci, two ROSMAP ORs are \<1.00 and 11 have effect sizes in the same direction in effect as in NACC/ADGC, though of smaller magnitude. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top 14 loci in the NACC primary logistic regression, **X** also meet our suggestive threshold in the ordinal regression, along with **X** other loci. In the primary mega-analysis using logistic regression, **X** loci meet the suggestive threshold, with rs7902929 (OR = 1.58, P-value = 2.0 x 10-7) and rs2603462 (OR = 1.35, P-value = 3.0 x 10-7) producing the smallest P-values (see **Table 3**). Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013), no variants were validated at the P-value \< 0.05 significance level in the NACC/ADGC cohort.
@@ -215,6 +225,20 @@ table_2 %>%
 
 ```
 
+```{r figure-1, include=TRUE, results=TRUE, out.height=550, out.width=600, fig.cap ="Figure 1: Manhattan Plot of NACC/ADGC GWAS"}
+if (!file.exists("doc/plots/figure_1.png")) {
+  figure_1 <- plot_manhattan(nacc_adgc_results)
+  ggsave(figure_1,
+         filename = "doc/plots/figure_1.png",
+         device = "png",
+         units = "in",
+         width = 12,
+         height = 6)
+}
+
+knitr::include_graphics(path="doc/plots/figure_1.png")
+```
+
 ```{r table-3, include = TRUE}
 source("code/paper_tables_figures/03_table_3_data.R")
 table_3_data[, P := format(P, scipen=2)]
@@ -229,21 +253,68 @@ table_3 %>%
 
 ```
 
-In the ADNI neuropathology cohort, both rs2603462 (OR = **X**, P = **X**) and rs7902929 (OR = **X**, P =**X** ) were valiedated at the *P* \< 0.05 significance level (see **Table 4**), while in the ACT neuropathology cohort, neither variant was validated.
+```{r table-4-data}
+source("code/paper_tables_figures/04_table_4_data.R")
+adni_elovl4_or_95ci <- table_4_data[SNP == "rs2603462", adni_or_95ci]
+adni_elovl4_p <- table_4_data[SNP == "rs2603462", P_ADNI]
+adni_sorcs3_or_95ci <- table_4_data[SNP == "rs7902929", adni_or_95ci]
+adni_sorcs3_p <- table_4_data[SNP == "rs7902929", P_ADNI]
+```
+
+In the ADNI neuropathology cohort, effects of both rs2603462 (OR = `r adni_elovl4_or_95ci`, P = `r adni_elovl4_p`) and rs7902929 (OR = `r adni_sorcs3_or_95ci`, P = `r adni_sorcs3_p` ) were replicated at the *P* \< 0.05 significance level (see **Table 4**), while in the ACT neuropathology cohort, neither variant was replicated.
 
 ```{r table-4, include=TRUE}
+table_4 <- flextable(table_4_data)
 
+table_4 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all") %>% 
+  add_header_row(values = c("", 
+                            "ADNI Replication", 
+                            "ACT Replication", 
+                            "ADNI Mega-Analysis", 
+                            "ACT Meta-Analysis"),
+                 colwidths = c(4, 2, 2, 2, 2)) %>% 
+  add_header_row(values = c("Table 4: ADNI and ACT Replication Results of Top Variants"),
+                 colwidths = ncol(table_4_data)) %>% 
+  set_header_labels(adni_or_95ci="OR [95% CI]",
+                    P_ADNI="P",
+                    act_or_95ci="OR [95% CI]",
+                    P_ACT="P",
+                    adni_mega_or_95ci="OR [95% CI]",
+                    P_ADNI_m="P")
 ```
 
 In the secondary analysis using only participants with an age of death of 80 years or older, no variants achieved genome-wide significance (P-value \< 5x10^-8^). In the NACC/ADGC analyses, we identified 10 and 9 independent loci in the logistic and ordinal regression analyses, respectively, that met the suggestive threshold. Three loci were suggestively associated with B-ASC in both the logistic and ordinal analyses: rs4491854, an intergenic SNP near EOMES on chromosome 3 (logistic P-value = 8.0x10-7, ordinal P-value = 6.2x10-6); rs11928305, an intronic SNP in FAM19A1/TAFA1 on chromosome 3 (logistic P-value = 6.1x10-6, ordinal P-value = 4.0x10-7); and rs1956605, and intergenic SNP 500 Kb from NOVA1 on chromosome 14 (logistic P-value = 4.9x10-6, ordinal P-value = 6.3x10-6). No suggestive variants from the NACC/ADGC analyses were validated in the ROSMAP analyses at the P-value \< 0.05 significance threshold (see supplementary tables S3 and S4).
 
 ## Gene-based analyses
 
-In the gene-based analyses, no genes achieved Bonferroni-adjusted significance (P-value \< 2.5x10-6).
+```{r table-5-data}
+source("code/paper_tables_figures/05_table_5_data.R")
+```
+
+In the gene-based analyses, no genes achieved Bonferroni-adjusted significance (P-value \< 2.5x10-6). In the gene-set analysis, gene sets for epidermal cell differentiation (P-value = `r table_5_data[1, P]`) and DNA replication (P-value = `r table_5_data[2, P]` had the smallest P-values.
+
+```{r table-5, include=TRUE}
+table_5 <- flextable(table_5_data)
+
+table_5 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all") %>% 
+  set_header_labels(FULL_NAME = "Gene Set",
+                    NGENES = "Number of Genes") %>% 
+  add_header_row(values = c("Table 5: Gene-Set Analysis Results"),
+                 colwidths = ncol(table_5_data))
+```
 
 ## Colocalization analyses
 
 In the mega-analyses, five variants met our criteria for colocalization analysis: rs2603462 colocalizes with B-ASC and ELOVL4 expression in the cerebellar hemisphere with PPH4 of 92.6%; rs1343705 colocalizes with expression of the non-coding gene RP11-408A13.3 in the cerebellum with a PPH4 of 87.2%; rs35010424 colocalizes with TAS2R5 expression in the hypothalamus with PPH4 of 84.4% and OR9N1P expression in the nucleus accumbens with PPH4 of 57.7%; rs34349961 colocalizes with SPRED2 expression in cultured fibroblasts with PPH4 of 74.6%; and rs6936285 colocalizes with CD83 in whole blood with PPH4 of 73.7% (see Table 4). In the NACC/ADGC analyses, rs2603462 and 3 suggestive loci are significant QTLs in GTEx and met our criteria for colocalization analysis across eleven phenotypes in nine tissues. Three of these loci colocalized with a PPH4 \> 50% across ten phenotypes. rs2603462 colocalizes with B-ASC and ELOVL4 expression in the cerebellar hemisphere with a PPH4 of 93.3%. rs2352974 is located in a gene-dense region of chromosome 3p21.31 and is a significant eQTL for DALRD3, FAM212A, MST1R, and TCTA in one tissue each, and a significant sQTL for RNF123 in four tissues; it colocalizes with B-ASC and seven of these phenotypes with PPH4 between 50.0% and 79.1%. No variants in the ROSMAP primary analyses met our criteria for colocalization analysis.
+
+```{r figure-2, include=TRUE, fig.show="hold", out.width="49%", fig.cap="Figure 2: Colocalization between B-ASC Risk (left) and ELOVL4 eQTL (right)"}
+knitr::include_graphics(path = c("doc/plots/elovl4_region_gwas.png",
+                                 "doc/plots/elovl4_region_eqtl.png"))
+```
 
 In the secondary NACC/ADGC analyses using only the oldest participants, eQTLs in GTEx were found for two genes, HLA-A and NMRAL2P. The HLA-A variant, rs9260090, is a significant eQTL in nine brain tissues, spanning the frontal cortex, basal ganglia, cingulate cortex, and cerebellum. Colocalization analysis in seven of these nine tissues showed evidence for colocalization with a posterior probability of colocalization (PPH4) greater than 50% and the brain cortex having the highest probability of colocalization (PPH4 = 82.1%). Evidence for colocalization is lowest in the hippocampus (PPH4 = 9.4%). The NMRAL2P variant, rs11718099, is an eQTL in the aortic artery, and colocalization analysis revealed a PPH4 of 86.2%. However, because rs11718099 was identified as being suggestively associated with B-ASC in the NACC/ADGC ordinal regression, its P-value from the logistic regression used for colocalization analysis is much larger (1.4 x 10^-3^ vs 8.7 x 10^-6^).
 
@@ -253,7 +324,7 @@ Performing fixed-effects meta-analysis on the NACC/ADGC ADGC genotyping cohorts 
 
 ## WMH Volume Analyses
 
-Insert section here.
+Neither rs2603462 nor rs7902929 had their association with B-ASC risk replicate with WMH volume in ADNI. While rs2503462 was significantly associated with WMH volume (P-value = 0.038), the B-ASC risk allele was associated with lower WMH volume, the opposite of what would be expected given the known positive association between B-ASC and WMH. The rs7902929 risk allele was not associated with WMH volume (P-value =0.65).  
 
 # Conclusions
 
@@ -273,58 +344,16 @@ None of the effects of top loci in the NACC/ADGC GWAS were mediated by diabetes 
 
 In closing, we used autopsy-derived endophenotypes linked to genetic data in multiple cohorts to identify genetic loci associated with B-ASC pathology. We found one locus significantly associated with B-ASC that colocalizes with ELOVL4 gene expression in GTEx. This study provides first GWAS of autopsy-verified brain arteriolosclerosis pathology and contributes a growing body of literature that recognizes the importance of using autopsy-based cohorts to augment clinical diagnoses to study the genetics of dementia and cognitive impairment.
 
-# Code Stash
-
-```{r adni-mega}
-# adni_mega <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic")
-# adni_mega_top <- fread("output/adni_npc/nacc_adgc_rosmap_adni_unrelated.clumped")
-# adni_mega_top <- adni_mega[SNP %in% adni_mega_top$SNP]
-# setorder(adni_mega_top, P)
-# adni_mega_top[, .(CHR, BP, SNP, P)] %>% kable() %>% kable_styling()
-```
-
-```{r act-meta}
-# act_meta <- fread("output/act/act__nacc_adgc_rosmap_adni_unrelated.meta")
-# setorder(act_meta, P)
-# act_meta[P < 1e-5]
-```
-
-```{r magma}
-# adni_mega_magma <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
-# genes <- fread("raw_data/magma/NCBI37.3.gene.loc", header = F) %>%
-#   .[, .(V1, V6)] %>%
-#   setnames(c("V1", "V6"), c("GENE", "gene"))
-# adni_mega_magma <- merge(adni_mega_magma, genes, "GENE")
-# setorder(adni_mega_magma, P)
-# head(adni_mega_magma, 20)
-# 
-# magma_gsa <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.gsa.out",
-#                    skip = 4)
-# magma_gsa <- magma_gsa %>%  
-#   setorder(P) %>%
-#   .[, FULL_NAME := stri_replace_first_regex(FULL_NAME, "%.*", "")] %>%
-#   .[, .(FULL_NAME, NGENES, P)]
-# 
-# head(magma_gsa, 10)
-  
-```
-
-```{r locuszoom1, out.height=550, out.width=600}
-# example of how to embed pdfs in rmd
-
-# knitr::include_graphics("example.pdf")
-```
-
 # Acknowledgements
 
-ADGC
+This work was supported by the University of Kentucky Center for Clinical and Translational Science TL-1 Fellowship (TLITR001997).
+
+Genotyping was performed by Alzheimer's Disease Genetics Consortium (ADGC), U01 AG032984, RC2AG036528.
+
+We thank the study participants and staff of the Rush Alzheimer's Disease Center. The ROSMAP studies are supported by NIA grants **xxxx**.
 
 Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ([www.fnih.org](https://fnih.org/)). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
 
-TL-1
-
-PSMRF
-
-NACC?
+The NACC database is funded by NIA/NIH Grant U01 AG016976. NACC data are contributed by the NIA-funded ADRCs: P30 AG019610 (PI Eric Reiman, MD), P30 AG013846 (PI Neil Kowall, MD), P50 AG008702 (PI Scott Small, MD), P50 AG025688 (PI Allan Levey, MD, PhD), P50 AG047266 (PI Todd Golde, MD, PhD), P30 AG010133 (PI Andrew Saykin, PsyD), P50 AG005146 (PI Marilyn Albert, PhD), P50 AG005134 (PI Bradley Hyman, MD, PhD), P50 AG016574 (PI Ronald Petersen, MD, PhD), P50 AG005138 (PI Mary Sano, PhD), P30 AG008051 (PI Thomas Wisniewski, MD), P30 AG013854 (PI Robert Vassar, PhD), P30 AG008017 (PI Jeffrey Kaye, MD), P30 AG010161 (PI David Bennett, MD), P50 AG047366 (PI Victor Henderson, MD, MS), P30 AG010129 (PI Charles DeCarli, MD), P50 AG016573 (PI Frank LaFerla, PhD), P50 AG005131 (PI James Brewer, MD, PhD), P50 AG023501 (PI Bruce Miller, MD), P30 AG035982 (PI Russell Swerdlow, MD), P30 AG028383 (PI Linda Van Eldik, PhD), P30 AG053760 (PI Henry Paulson, MD, PhD), P30 AG010124 (PI John Trojanowski, MD, PhD), P50 AG005133 (PI Oscar Lopez, MD), P50 AG005142 (PI Helena Chui, MD), P30 AG012300 (PI Roger Rosenberg, MD), P30 AG049638 (PI Suzanne Craft, PhD), P50 AG005136 (PI Thomas Grabowski, MD), P50 AG033514 (PI Sanjay Asthana, MD, FRCP), P50 AG005681 (PI John Morris, MD), P50 AG047270 (PI Stephen Strittmatter, MD, PhD).
 
 # References
