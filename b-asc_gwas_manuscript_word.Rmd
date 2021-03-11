@@ -324,7 +324,7 @@ Performing fixed-effects meta-analysis on the NACC/ADGC ADGC genotyping cohorts 
 
 ## WMH Volume Analyses
 
-Neither rs2603462 nor rs7902929 had their association with B-ASC risk replicate with WMH volume in ADNI. While rs2503462 was significantly associated with WMH volume (P-value = 0.038), the B-ASC risk allele was associated with lower WMH volume, the opposite of what would be expected given the known positive association between B-ASC and WMH. The rs7902929 risk allele was not associated with WMH volume (P-value =0.65).  
+Neither rs2603462 nor rs7902929 had their association with B-ASC risk replicate with WMH volume in ADNI. While rs2503462 was significantly associated with WMH volume (P-value = 0.038), the B-ASC risk allele was associated with lower WMH volume, the opposite of what would be expected given the known positive association between B-ASC and WMH. The rs7902929 risk allele was not associated with WMH volume (P-value =0.65).
 
 # Conclusions
 
@@ -357,3 +357,8 @@ Data collection and sharing for this project was funded by the Alzheimer's Disea
 The NACC database is funded by NIA/NIH Grant U01 AG016976. NACC data are contributed by the NIA-funded ADRCs: P30 AG019610 (PI Eric Reiman, MD), P30 AG013846 (PI Neil Kowall, MD), P50 AG008702 (PI Scott Small, MD), P50 AG025688 (PI Allan Levey, MD, PhD), P50 AG047266 (PI Todd Golde, MD, PhD), P30 AG010133 (PI Andrew Saykin, PsyD), P50 AG005146 (PI Marilyn Albert, PhD), P50 AG005134 (PI Bradley Hyman, MD, PhD), P50 AG016574 (PI Ronald Petersen, MD, PhD), P50 AG005138 (PI Mary Sano, PhD), P30 AG008051 (PI Thomas Wisniewski, MD), P30 AG013854 (PI Robert Vassar, PhD), P30 AG008017 (PI Jeffrey Kaye, MD), P30 AG010161 (PI David Bennett, MD), P50 AG047366 (PI Victor Henderson, MD, MS), P30 AG010129 (PI Charles DeCarli, MD), P50 AG016573 (PI Frank LaFerla, PhD), P50 AG005131 (PI James Brewer, MD, PhD), P50 AG023501 (PI Bruce Miller, MD), P30 AG035982 (PI Russell Swerdlow, MD), P30 AG028383 (PI Linda Van Eldik, PhD), P30 AG053760 (PI Henry Paulson, MD, PhD), P30 AG010124 (PI John Trojanowski, MD, PhD), P50 AG005133 (PI Oscar Lopez, MD), P50 AG005142 (PI Helena Chui, MD), P30 AG012300 (PI Roger Rosenberg, MD), P30 AG049638 (PI Suzanne Craft, PhD), P50 AG005136 (PI Thomas Grabowski, MD), P50 AG033514 (PI Sanjay Asthana, MD, FRCP), P50 AG005681 (PI John Morris, MD), P50 AG047270 (PI Stephen Strittmatter, MD, PhD).
 
 # References
+
+::: {#refs}
+:::
+
+# Supplementary Material

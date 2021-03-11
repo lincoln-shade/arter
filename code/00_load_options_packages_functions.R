@@ -4,7 +4,8 @@
 options(digits = 15)
 
 library(pacman)
-p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools, qusage, ggrepel, knitr)
+p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools, qusage, ggrepel, knitr, rentrez,
+       rtracklayer, arrow, coloc, GEOquery)
 # options(kableExtra.auto_format = FALSE)
 
 strip_alleles <- function(x) {
@@ -13,6 +14,14 @@ strip_alleles <- function(x) {
 
 source_url("https://raw.githubusercontent.com/lincoln-shade/r.functions/master/make_table_one.R", 
            sha1 = "618b76ddf7b93f365d7cd45fdf00910011dabb0c")
+
+make_output_file <- function(x, out) {
+  if (nchar(x) == 0) {
+    return(out)
+  } else {
+    return(paste0(x, out))
+  }
+}
 
 make_or_95_ci <- function(or, l95, u95, round_digits=2, flip_less_than_1=TRUE) {
   if (flip_less_than_1) {
