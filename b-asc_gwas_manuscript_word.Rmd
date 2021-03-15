@@ -34,6 +34,7 @@ load("data/nacc_adgc/nacc_adgc_unrelated.RData")
 load("data/rosmap/rosmap_unrelated.RData")
 load("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.RData")
 load("data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
+adni <- fread("raw_data/ADNI_NPC/ADNI_NPC_wCovariate.csv")
 ```
 
 ```{r load-single-variant-analysis-results, results = FALSE}
@@ -93,7 +94,7 @@ Phone: 859-893-5798
 
 # Abstract
 
-Brain arteriolosclerosis (B-ASC) is a small-vessel cerebrovascular disease involving sclerotic thickening of arterioles in the brain. B-ASC pathology is common in aged autopsy cohorts, is associated with worse cognitive functioning, and is associated with other neuropathologies. The genetics of other contributors of dementia have been studied extensively, but to date no in-depth study has been conducted on genetic risk of autopsy-proven B-ASC. We perform the first genome-wide association study (GWAS) on B-ASC using multiple cohorts. We then follow-up on identified risk variants with functional analysis to investigate potential biological mechanisms. Individual GWAS and mega-analyses were conducted using data from participants in the National Alzheimer's Coordinating Center (NACC) and the Religious Orders Study and Memory and Aging Project (ROSMAP). Variants identified in GWAS were then checked for quantitative trait loci (QTL) associations in the Genotype Tissue Expression (GTEx) project. Colocalization analysis was then performed on identified QTL in brain and vascular tissues. Top variants were also examined for association with neuroimaging correlates of B-ASC in the Alzheimer's Disease Neuroimaging Initiative. One locus on chromosome six with lead variant rs2603462 is significantly associated with B-ASC in NACC and colocalizes with *ELOVL4* gene expression in the brain. Other variants in both cohorts achieved less stringent thresholds of association and colocalize with multiple QTL in GTEx. One locus on chromosome ten near *SORCS3* with lead variant rs7902929 suggestively associated with B-ASC in NACC was validated in ROSMAP. Genetic loci associated with B-ASC pathology were identified using multiple cohorts. Most loci associated with B-ASC in one cohort were not associated in the other. Multiple identified risk loci colocalize with gene expression or splicing QTL, providing evidence for potential biological mechanisms through which variants may influence disease risk. Due to the relatively small sample size and heterogeneity between the cohorts used, future studies should be done to better characterize genetic risk of B-ASC.
+Brain arteriolosclerosis (B-ASC) is a small-vessel cerebrovascular disease involving sclerotic thickening of arterioles in the brain. The genetics of other contributors of dementia have been studied extensively, but to date no in-depth study has been conducted on genetic risk of autopsy-proven B-ASC. We perform the first genome-wide association study (GWAS) on B-ASC using multiple aged neuropathologic cohorts. Initial GWAS and mega-analysis were performed using data from participants in the intersection of the National Alzheimer's Coordinating Center (NACC) and the Alzheimer's Disease Genetics Consortium (ADGC; NACC/ADGC intersection; N = `r nacc_adgc_unrelated[, .N]`) and the Religious Orders Study and Memory and Aging Project (ROSMAP; N = `r rosmap_unrelated[, .N]`). Replication of top variants and additional mega-analyses were performed using two smaller cohorts: the Alzheimer's Disease Neuroimaging Initiative (ADNI; N = `r adni[, .N]`) and the Adult Changes in Thought study (ACT; N = **326**). Lead variants in the top two loci in the NACC/ADGC and ROSMAP mega-analysis (rs7902929, *P* = **XX**; rs2603462, *P =* **XX**) replicated in ADNI (rs7902929, *P* = **XX**; rs2603462, *P =* **XX**) but not in ACT. The rs2603462 variant colocalizes with *ELOVL4* expression in the cerebellum (PPH4 = **XX**). Our study constitutes the most in-depth and comprehensive study of the genetic risk of brain arteriolosclerosis neuropathologic endophenotype to date.
 
 # Keywords
 
@@ -346,7 +347,7 @@ In closing, we used autopsy-derived endophenotypes linked to genetic data in mul
 
 # Acknowledgements
 
-This work was supported by the University of Kentucky Center for Clinical and Translational Science TL-1 Fellowship (TLITR001997).
+This work was supported by the University of Kentucky Center for Clinical and Translational Science TL-1 Fellowship (TLITR001997), the the National Center for Advancing Translational Sciences, UL1TR001998, and the Dean of the College of Medicine, University of Kentucky. The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH or the University of Kentucky.
 
 Genotyping was performed by Alzheimer's Disease Genetics Consortium (ADGC), U01 AG032984, RC2AG036528.
 
