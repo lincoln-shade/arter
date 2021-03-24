@@ -2,14 +2,19 @@
 
 #test!
 # variables
-lists=02_analysis/ordinal/snp.lists
-ls $lists | xargs -n 1 -P 22 bash -c '
-  plink19b3x \
+list_length=(ls data/tmp/ordinal_snp_list_* | wc -l)
+touch data/tmp/
+for i in {1..$list_length}
+  do
+  echo $i >> 
+
+ls $lists | xargs -n 1 -P 22 -I % \
+  plink \
     --bfile 02_analysis/ordinal/plink/plink \
-    --extract 02_analysis/ordinal/snp.lists/$0 \
+    --extract % \
     --allow-no-sex \
     --recode A \
-    --out 02_analysis/ordinal/tmp/$0.tmp;
+    --out 02_analysis/ordinal/tmp/$0.tmp; \
     
    Rscript --vanilla --slave 02_analysis/ordinal/03a_regression.R \
     02_analysis/ordinal/tmp/$0.tmp.raw # ; 

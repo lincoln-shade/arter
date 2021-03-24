@@ -310,6 +310,15 @@ table_5 %>%
 
 ## Colocalization analyses
 
+```{r}
+nacc_adgc_coloc <- fread("output/nacc_adgc/coloc_results.txt")
+rosmap_coloc <- fread("output/rosmap/coloc_results.txt")
+nacc_adgc_rosmap_coloc <- fread("output/nacc_adgc_rosmap/coloc_results.txt")
+adni_coloc <- fread("output/adni_npc/coloc_results.txt")
+setorder(nacc_adgc_coloc, -V10)
+nacc_adgc_coloc[V10 > 0.9] %>% kable() %>% kableExtra::kable_styling()
+```
+
 In the mega-analyses, five variants met our criteria for colocalization analysis: rs2603462 colocalizes with B-ASC and ELOVL4 expression in the cerebellar hemisphere with PPH4 of 92.6%; rs1343705 colocalizes with expression of the non-coding gene RP11-408A13.3 in the cerebellum with a PPH4 of 87.2%; rs35010424 colocalizes with TAS2R5 expression in the hypothalamus with PPH4 of 84.4% and OR9N1P expression in the nucleus accumbens with PPH4 of 57.7%; rs34349961 colocalizes with SPRED2 expression in cultured fibroblasts with PPH4 of 74.6%; and rs6936285 colocalizes with CD83 in whole blood with PPH4 of 73.7% (see Table 4). In the NACC/ADGC analyses, rs2603462 and 3 suggestive loci are significant QTLs in GTEx and met our criteria for colocalization analysis across eleven phenotypes in nine tissues. Three of these loci colocalized with a PPH4 \> 50% across ten phenotypes. rs2603462 colocalizes with B-ASC and ELOVL4 expression in the cerebellar hemisphere with a PPH4 of 93.3%. rs2352974 is located in a gene-dense region of chromosome 3p21.31 and is a significant eQTL for DALRD3, FAM212A, MST1R, and TCTA in one tissue each, and a significant sQTL for RNF123 in four tissues; it colocalizes with B-ASC and seven of these phenotypes with PPH4 between 50.0% and 79.1%. No variants in the ROSMAP primary analyses met our criteria for colocalization analysis.
 
 ```{r figure-2, include=TRUE, fig.show="hold", out.width="49%", fig.cap="Figure 2: Colocalization between B-ASC Risk (left) and ELOVL4 eQTL (right)"}

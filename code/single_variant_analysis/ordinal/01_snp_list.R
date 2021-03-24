@@ -5,19 +5,20 @@
 
 library(pacman)
 p_load(data.table, magrittr)
-
+cargs <- commandArgs(trailingOnly = TRUE)
+bim_file <- cargs[1]
 # load snps from .bim file
-bim <- fread("02_analysis/ordinal/plink/plink.bim", header = F) %>% 
+bim <- fread(bim_file, header = F) %>% 
   .[, .(V1, V2)] %>% 
   setnames(., c("V1", "V2"), c("chr", "snp")) %>% 
   .[, chr := factor(chr)]
 
-raw.length <- 30000 # desired approximate number of variants for each .raw file
-n.lists <- nrow(bim) %/% raw.length
-bim[, list.n := rep(1:n.lists, length.out=nrow(bim))]
+raw_length <- 30000 # desired approximate number of variants for each .raw file
+n_lists <- nrow(bim) %/% raw_length
+bim[, list_n := rep(1:n_lists, length.out=nrow(bim))]
 
-for (i in 1:n.lists) {
-  write.table(bim[list.n == i, snp], file = paste0("02_analysis/ordinal/snp.lists/list", i), 
+for (i in 1:n_lists) {
+  write.table(bim[list_n == i, snp], file = paste0("data/tmp/ordinal_snp_list_", i), 
               row.names = F, col.names = F, quote = F)
 }
 
