@@ -2,63 +2,57 @@
 ## ordinal regression
 ##-------------------------
 
-library(pacman)
-p_load(data.table, magrittr, MASS)
+source("code/00_load_options_packages_functions.R")
 
-argv = commandArgs(trailingOnly = TRUE)
+cargs <- commandArgs(trailingOnly = TRUE)
 
 #.raw file from regression.sh output with variant minor allele values for each participant
-raw <- fread(argv[1], header = T) 
-
+raw <- fread(cargs[1], header = T) 
+variables <- load.Rdata(cargs[2], "variables")
+phenotype <- cargs[3]
 # file with other variables for each participant
-load("01_data/data/nacc.ordinal.RData")
 
 # merge to create model matrix file
-regression.data <- merge(nacc.ordinal, raw, by = c("FID", "IID"))
-n.cols <- ncol(regression.data)
+ord_data <- merge(variables, raw, by = c("FID", "IID"))
+n_cols <- ncol(ord_data)
 
-# skip number of columns in nacc.ordinal and the first 4 non-merge-by columns in raw to get to genetic variant columns
-skip.col <- ncol(nacc.ordinal) + 4 
+# skip number of columns in variables and the first 4 non-merge-by columns in raw to get to genetic variant columns
+skip_cols <- ncol(variables) + 4 
   
 # replace colons with periods in SNP names, as colons in variable names messes up polr regression
-subColons <- function(x) { 
+sub_colons <- function(x) { 
   x <- gsub(":", ".", x)
 }
 
 # add the character "v" in the front of all variant names that do not start with "rs"
 # (variant names that start with numbers mess up the regression for some reason)
-#logistic.results[-grep("rs", snp), snp := paste0("v", snp)]
 
-for (i in which(colnames(regression.data) %in% 
-                colnames(regression.data)[
-                  -grep("rs", colnames(regression.data))
-                  ][
-                    -c(1:skip.col)])
-     ) {
-  colnames(regression.data)[i] <- paste0("v", colnames(regression.data)[i])
+for (i in which(colnames(ord_data) %in% 
+                colnames(ord_data)[-grep("rs", colnames(ord_data))][-c(1:skip_cols)])) {
+  colnames(ord_data)[i] <- paste0("v", colnames(ord_data)[i])
 }
   
-colnames(regression.data) <- subColons(colnames(regression.data))
+colnames(ord_data) <- sub_colons(colnames(ord_data))
   
 # response in ordered logistic regression must be a factor
-regression.data$NACCARTE <- as.ordered(regression.data$NACCARTE) 
+ord_data[[phenotype]] <- as.ordered(ord_data$NACCARTE) 
 
 # initialize output vectors
-tval <- numeric(length = (n.cols - skip.col))
-slope <- numeric(length = (n.cols - skip.col))
-snp <- character(length = (n.cols - skip.col))
-std.er <- numeric(length = (n.cols - skip.col))  
+tval <- numeric(length = (n_cols - skip_cols))
+slope <- numeric(length = (n_cols - skip_cols))
+snp <- character(length = (n_cols - skip_cols))
+std.er <- numeric(length = (n_cols - skip_cols))  
 # ordinal regression loop
-for (i in (skip.col + 1):n.cols) {
-  f = as.formula(paste("NACCARTE ~", colnames(regression.data)[i],
+for (i in (skip_cols + 1):n_cols) {
+  f = as.formula(paste("NACCARTE ~", colnames(ord_data)[i],
                        " + NPSEX + NACCDAGE + PC1 + PC2 + PC3 + PC4 + PC5 + ",
                        "ADGC.ADC2 + ADGC.ADC3 + ADGC.ADC4 + ADGC.ADC5 + ADGC.ADC6 + ADGC.ADC7", sep = ""))
-  m <- polr(f, data = regression.data, Hess = T)
+  m <- polr(f, data = ord_data, Hess = T)
   s <- as.data.frame(summary(m)["coefficients"])
-  snp[(i - skip.col)] <- colnames(regression.data)[i]
-  tval[(i - skip.col)] <- s[colnames(regression.data)[i], "coefficients.t.value"] #t-value of variant
-  slope[(i - skip.col)] <- s[colnames(regression.data)[i], "coefficients.Value"] #slope of variant
-  std.er[(i - skip.col)] <- s[colnames(regression.data)[i], "coefficients.Std..Error"]
+  snp[(i - skip_cols)] <- colnames(ord_data)[i]
+  tval[(i - skip_cols)] <- s[colnames(ord_data)[i], "coefficients.t.value"] #t-value of variant
+  slope[(i - skip_cols)] <- s[colnames(ord_data)[i], "coefficients.Value"] #slope of variant
+  std.er[(i - skip_cols)] <- s[colnames(ord_data)[i], "coefficients.Std..Error"]
 }
 
 # write outputs to file

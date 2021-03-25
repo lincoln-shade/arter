@@ -5,7 +5,7 @@ options(digits = 15)
 
 library(pacman)
 p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools, qusage, ggrepel, knitr, rentrez,
-       rtracklayer, arrow, coloc, GEOquery)
+       rtracklayer, arrow, coloc, GEOquery, miceadds, MASS)
 # options(kableExtra.auto_format = FALSE)
 
 strip_alleles <- function(x) {
