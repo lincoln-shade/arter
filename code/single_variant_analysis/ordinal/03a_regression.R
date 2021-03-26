@@ -8,16 +8,16 @@ cargs <- commandArgs(trailingOnly = TRUE)
 
 #.raw file from regression.sh output with variant minor allele values for each participant
 raw <- fread(cargs[1], header = T) 
-variables <- load.Rdata(cargs[2], "variables")
+model_data <- load.Rdata(cargs[2], "model_data")
 phenotype <- cargs[3]
-# file with other variables for each participant
+# file with other model_data for each participant
 
 # merge to create model matrix file
-ord_data <- merge(variables, raw, by = c("FID", "IID"))
+ord_data <- merge(model_data, raw, by = c("FID", "IID"))
 n_cols <- ncol(ord_data)
 
-# skip number of columns in variables and the first 4 non-merge-by columns in raw to get to genetic variant columns
-skip_cols <- ncol(variables) + 4 
+# skip number of columns in model_data and the first 4 non-merge-by columns in raw to get to genetic variant columns
+skip_cols <- ncol(model_data) + 4 
   
 # replace colons with periods in SNP names, as colons in variable names messes up polr regression
 sub_colons <- function(x) { 

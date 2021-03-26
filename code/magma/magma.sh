@@ -21,5 +21,6 @@ for i in {1..$batch_num}
 ## this script wouldn't work when I created line breaks
 cat data/tmp/magma_batches.tmp | xargs -n 1 -P $batch_num -I % magma --batch % $batch_num --bfile data/adni_npc/nacc_adgc_rosmap_adni_unrelated --pval output/adni_npc/nacc_adgc_rosmap_adni_unrelated.assoc.logistic ncol=NMISS --gene-annot output/magma/nacc_adgc_rosmap_adni_unrelated.genes.annot --genes-only --out output/magma/nacc_adgc_rosmap_adni_unrelated
 
-rm data/tmp/magma_batches.tmp
+magma --merge output/magma/nacc_adgc_rosmap_adni_unrelated --out output/magma/nacc_adgc_rosmap_adni_unrelated
+# rm data/tmp/magma_batches.tmp
 # magma --gene-results output/magma/nacc_adgc_rosmap_adni_unrelated.genes.raw --set-annot data/magma/gene_sets.txt set-col=1 gene-col=2 --out output/magma/nacc_adgc_rosmap_adni_unrelated

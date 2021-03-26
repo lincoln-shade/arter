@@ -296,16 +296,26 @@ source("code/paper_tables_figures/05_table_5_data.R")
 
 In the gene-based analyses, no genes achieved Bonferroni-adjusted significance (P-value \< 2.5x10-6). In the gene-set analysis, gene sets for epidermal cell differentiation (P-value = `r table_5_data[1, P]`) and DNA replication (P-value = `r table_5_data[2, P]` had the smallest P-values.
 
-```{r table-5, include=TRUE}
-table_5 <- flextable(table_5_data)
+```{r}
+magma_genes <- fread("output/magma/nacc_adgc_rosmap_adni_unrelated.genes.out")
+gene_labels <- fread("raw_data/magma/NCBI37.3.gene.loc", header = FALSE) %>% 
+  .[, .(V1, V6)] %>% 
+  setnames(colnames(.), c("GENE", "Gene"))
 
-table_5 %>% 
-  autofit() %>% 
-  padding(padding = 2, part = "all") %>% 
-  set_header_labels(FULL_NAME = "Gene Set",
-                    NGENES = "Number of Genes") %>% 
-  add_header_row(values = c("Table 5: Gene-Set Analysis Results"),
-                 colwidths = ncol(table_5_data))
+magma_genes <- merge(magma_genes, gene_labels, "GENE")
+```
+
+```{r table-5, include=TRUE}
+# may not use gene-set analyses... 
+# table_5 <- flextable(table_5_data)
+# 
+# table_5 %>% 
+#   autofit() %>% 
+#   padding(padding = 2, part = "all") %>% 
+#   set_header_labels(FULL_NAME = "Gene Set",
+#                     NGENES = "Number of Genes") %>% 
+#   add_header_row(values = c("Table 5: Gene-Set Analysis Results"),
+#                  colwidths = ncol(table_5_data))
 ```
 
 ## Colocalization analyses
