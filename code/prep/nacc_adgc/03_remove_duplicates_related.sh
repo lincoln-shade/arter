@@ -1,6 +1,5 @@
 #--------------------------------------------------
-# Step 2: identify related clusters and duplicates
-# and remove all but 1 ID from each cluster
+# Step 2: identify duplicates and remove
 #--------------------------------------------------
 # create PLINK fileset with only unpruned SNPs
 plink \
@@ -14,7 +13,7 @@ plink \
 plink \
   --bfile data/tmp/nacc_adgc_qc2_pruned.tmp \
   --genome \
-  --min 0.18 \
+  --min 0.90 \
   --out data/tmp/nacc_adgc_qc2_related.tmp
 
 # check missingness rate for related pairs

@@ -2,8 +2,7 @@
 # Create list of related individuals to remove
 #===============================================
 
-library(pacman)
-p_load(data.table, magrittr, stringi)
+source("code/00_load_options_packages_functions.R")
 
 related <- fread("data/tmp/nacc_adgc_qc2_related.tmp.genome")
 related[, pair := 1:.N]
@@ -74,11 +73,12 @@ nacc.simple.pairs <- nacc[!(pair %in% related.one.dup$pair | pair %in% nacc.mz$p
 #-------------------------------
 
 # individual in each pair with higher missingness is in even row
-nacc.related.remove.simple <- nacc.simple.pairs[seq(2, .N, 2), IID]
+nacc.related.remove.simple <- ifelse(nrow(nacc.simple.pairs) > 0, nacc.simple.pairs[seq(2, .N, 2), IID], NA)
 nacc.related.remove <- c(nacc.related.remove.simple,
                          nacc.mz$IID,
                          related.one.dup.dups
-                         )
+                         ) 
+nacc.related.remove <- nacc.related.remove[!(is.na(nacc.related.remove))]
 sum(duplicated(nacc.related.remove))
 
 nacc.related.rm <- data.table(FID="ADC", IID=nacc.related.remove)

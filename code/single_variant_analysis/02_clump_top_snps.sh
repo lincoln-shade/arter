@@ -6,6 +6,13 @@ bash code/single_variant_analysis/clump_top_snps.sh \
   output/nacc_adgc/nacc_adgc_unrelated.assoc.logistic \
   "output/nacc_adgc/nacc_adgc_unrelated"
 
+# nacc/adgc 80+
+bash code/single_variant_analysis/clump_top_snps.sh \
+  data/nacc_adgc/nacc_adgc_unrelated_80 \
+  output/nacc_adgc/nacc_adgc_unrelated_80.assoc.logistic \
+  "output/nacc_adgc/nacc_adgc_unrelated_80"
+
+# rosmap
 bash code/single_variant_analysis/clump_top_snps.sh \
   data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated \
   output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic \

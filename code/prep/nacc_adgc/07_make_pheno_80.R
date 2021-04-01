@@ -3,8 +3,7 @@
 ## binary and ordinal B-ASC analyses
 ##------------------------------------
 
-library(pacman)
-p_load(data.table, magrittr)
+source("code/00_load_options_packages_functions.R")
 
 # load UDS and MDS
 uds <- fread("/data_global/nacc/investigator_nacc52.csv", header = T, na.strings = c(-4, "999", "9999", "888")) %>%
@@ -20,7 +19,7 @@ nacc <- rbind(uds[, ..vars], mds[, ..vars])
 setnames(nacc, "NACCID", "IID")
 
 # keep nacc european ids and add first 5 PCs
-nacc_pcs <- fread("data/nacc_adgc/nacc_adgc_unrelated_pca.eigenvec", header = F)
+nacc_pcs <- fread("data/nacc_adgc/nacc_adgc_unrelated_pca_80.eigenvec", header = F)
 setnames(nacc_pcs, c("V1", "V2", "V3", "V4", "V5", "V6", "V7"), c("FID", "IID", "PC1", "PC2", "PC3", "PC4", "PC5"))
 
 nacc <- merge(nacc, nacc_pcs, "IID")
@@ -60,12 +59,12 @@ nacc <- nacc[, -"cohort"]
 ##--------------------
 # ordinal
 nacc_adgc_unrelated <- nacc
-save(nacc_adgc_unrelated, file = "data/nacc_adgc/nacc_adgc_unrelated.RData")
+save(nacc_adgc_unrelated, file = "data/nacc_adgc/nacc_adgc_unrelated_80.RData")
 
 # logistic 
 nacc[, NACCARTE := ifelse(NACCARTE < 2, 1, 2)]
-write.table(nacc, file = "data/nacc_adgc/nacc_adgc_unrelated_pheno.txt", row.names = F, col.names = T, quote = F)
-write.table(nacc[, -c("NACCARTE")], file = "data/nacc_adgc/nacc_adgc_unrelated_covar.txt", row.names = F, col.names = T, quote = F)
+write.table(nacc, file = "data/nacc_adgc/nacc_adgc_unrelated_80_pheno.txt", row.names = F, col.names = T, quote = F)
+write.table(nacc[, -c("NACCARTE")], file = "data/nacc_adgc/nacc_adgc_unrelated_80_covar.txt", row.names = F, col.names = T, quote = F)
 
 rm(list = ls())
 p_unload(all)

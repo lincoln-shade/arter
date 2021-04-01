@@ -3,8 +3,8 @@
 ##---------------------------------------------------------------------
 
 
-library(pacman)
-p_load(data.table, magrittr)
+source("code/00_load_options_packages_functions.R")
+
 cargs <- commandArgs(trailingOnly = TRUE)
 bim_file <- cargs[1]
 # load snps from .bim file
@@ -18,9 +18,9 @@ n_lists <- nrow(bim) %/% raw_length
 bim[, list_n := rep(1:n_lists, length.out=nrow(bim))]
 
 for (i in 1:n_lists) {
-  write.table(bim[list_n == i, snp], file = paste0("data/tmp/ordinal_snp_list_", i), 
-              row.names = F, col.names = F, quote = F)
+  fwrite(bim[list_n == i, .(snp)], file = paste0("data/tmp/ordinal_snp_list_", i), 
+              row.names = F, col.names = F, quote = F, sep = " ")
 }
 
-rm(list = ls())
-p_unload(all)
+list_index <- data.table(1:n_lists)
+fwrite(list_index, file = "data/tmp/snp_list_index.tmp", row.names = F, col.names = F, quote = F, sep = " ")

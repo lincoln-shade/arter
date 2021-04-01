@@ -1,11 +1,11 @@
 ##--------------------------------------------------------------
-## Create list if NACC IDs that meet includion criteria
+## Create list if NACC IDs aged 80+ and meet includion criteria
 ##--------------------------------------------------------------
 
 source("code/00_load_options_packages_functions.R")
 
 # set age minimum to 80 years at death
-min_age <- 0
+min_age <- 80
 
 adgc <- fread("/data_global/ADGC_HRC/converted/full/adgc_hrc_merged_qced.fam", header = F) %>% 
   .[, 1:2] %>% 
@@ -14,7 +14,7 @@ adgc <- fread("/data_global/ADGC_HRC/converted/full/adgc_hrc_merged_qced.fam", h
 
 Exclusion.Criteria <- function(nacc_dt) {
   nacc_dt %>% 
-  filter(is.na(NACCDOWN) | NACCDOWN != 1) %>%
+    filter(is.na(NACCDOWN) | NACCDOWN != 1) %>%
     filter(is.na(NPPDXA) | NPPDXA != 1) %>% filter(is.na(NPPDXB) | NPPDXB != 1) %>%
     filter(is.na(NPPDXD) | NPPDXD != 1) %>% filter(is.na(NPPDXE) | NPPDXE != 1) %>%
     filter(is.na(NPPDXF) | NPPDXF != 1) %>% filter(is.na(NPPDXG) | NPPDXG != 1) %>%
@@ -64,7 +64,7 @@ sum(duplicated(np_adgc$IID))
 ## write table
 ##---------------
 
-write.table(np_adgc[, .(FID, IID)], file = "data/tmp/nacc_ids.tmp.txt", row.names = F, col.names = F, quote = F)
+write.table(np_adgc[, .(FID, IID)], file = "data/tmp/nacc_ids_80.tmp.txt", row.names = F, col.names = F, quote = F)
 
 rm(list = ls())
 p_unload(all)

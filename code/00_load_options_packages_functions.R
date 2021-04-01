@@ -1,12 +1,57 @@
 #====================================================
 # load options, packages, and functions for project
 #====================================================
+
+#--------------
+# base options
+#--------------
 options(digits = 15)
 
-library(pacman)
-p_load(data.table, magrittr, ggplot2, stringi, readxl, flextable, devtools, qusage, ggrepel, knitr, rentrez,
-       rtracklayer, arrow, coloc, GEOquery, miceadds, MASS)
-# options(kableExtra.auto_format = FALSE)
+#------------------------
+# install/load packages
+#------------------------
+date <- "2021-03-30"
+cran_packages <- c("data.table", "magrittr", "ggplot2", "stringi", "readxl", "flextable", "devtools", "ggrepel", "knitr", "rentrez",
+                   "miceadds", "MASS", "dplyr", "GMMAT", "pacman", "remotes")
+ignore_deps <- c("SeqArray")
+github_packages <- c("coloc")
+bioc_packages <- c("rtracklayer", "GEOquery", "SNPRelate", "GENESIS", "GWASTools", "qusage", "SeqArray")
+
+# load arrow
+# if you're on linux and want to open parquet files from GTEx, you'll need to run the following when installing arrow
+if (!(require("arrow"))) {
+  Sys.setenv(ARROW_S3="ON")
+  Sys.setenv(NOT_CRAN="true")	
+  install.packages("arrow", repos = "https://arrow-r-nightly.s3.amazonaws.com")
+}
+
+# cran packages loaded with groundhog for improved reproducibility
+if (!require("groundhog")) {
+  install.packages("groundhog")
+}
+
+# bioconductor packages
+groundhog.library("BiocManager", date)
+
+for(p in bioc_packages) {
+  if(p %in% rownames(installed.packages()) == FALSE) {
+    BiocManager::install(p)
+  }
+  library(p, character.only = TRUE)
+}
+
+# cran packages
+groundhog.library(cran_packages, date, ignore.deps = ignore_deps)
+
+# github packages
+if (!require("coloc")) {
+  remotes::install_github("chr1swallace/coloc",build_vignettes=TRUE)
+}
+
+rm(bioc_packages, cran_packages, github_packages, date, ignore_deps, p)
+#------------------------
+# load custom functions
+#------------------------
 
 strip_alleles <- function(x) {
   x <- stri_replace_last_regex(x, ":[ACTG]*:[ACTG]*", "")

@@ -1,8 +1,11 @@
-library(pacman)
-p_load(data.table, magrittr, SNPRelate, GMMAT, GENESIS)
+#==============================================================
+# logistic GLMM using related nacc/adgc data set for top snps
+#==============================================================
+
+source("code/00_load_options_packages_functions.R")
 
 # load pheno data
-load("01_data/pheno.RData")
+load("data/nacc_adgc/mypcair.RData")
 pheno[, FID := NULL]
 pheno[, NACCARTE := ifelse(NACCARTE < 2, 0, 1)]
 
