@@ -12,10 +12,10 @@ options(digits = 15)
 #------------------------
 date <- "2021-03-30"
 cran_packages <- c("data.table", "magrittr", "ggplot2", "stringi", "readxl", "flextable", "devtools", "ggrepel", "knitr", "rentrez",
-                   "miceadds", "MASS", "dplyr", "GMMAT", "pacman", "remotes")
+                   "miceadds", "MASS", "dplyr", "GMMAT", "pacman", "remotes", "mediation")
 ignore_deps <- c("SeqArray")
 github_packages <- c("coloc")
-bioc_packages <- c("rtracklayer", "GEOquery", "SNPRelate", "GENESIS", "GWASTools", "qusage", "SeqArray")
+bioc_packages <- c("rtracklayer", "GEOquery", "GENESIS", "GWASTools", "qusage", "SeqArray") #"SNPRelate"
 
 # load arrow
 # if you're on linux and want to open parquet files from GTEx, you'll need to run the following when installing arrow
