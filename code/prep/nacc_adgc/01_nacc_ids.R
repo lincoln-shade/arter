@@ -65,6 +65,8 @@ sum(duplicated(np_adgc$IID))
 ##---------------
 
 write.table(np_adgc[, .(FID, IID)], file = "data/tmp/nacc_ids.tmp.txt", row.names = F, col.names = F, quote = F)
+write.table(np_adgc[, .(FID, IID)], file = "data/nacc_adgc/nacc_ids_pass_exclusion.txt", row.names = F, col.names = F, quote = F)
+
 
 rm(list = ls())
 p_unload(all)

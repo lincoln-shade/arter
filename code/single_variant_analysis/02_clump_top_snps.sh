@@ -14,6 +14,12 @@ bash code/single_variant_analysis/clump_top_snps.sh \
 
 # rosmap
 bash code/single_variant_analysis/clump_top_snps.sh \
+  data/rosmap/rosmap_unrelated \
+  output/rosmap/rosmap_unrelated.assoc.logistic \
+  "output/rosmap/rosmap"
+
+# macc/rosmap mega
+bash code/single_variant_analysis/clump_top_snps.sh \
   data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated \
   output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic \
   "output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated"

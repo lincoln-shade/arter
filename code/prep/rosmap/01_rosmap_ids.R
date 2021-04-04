@@ -11,7 +11,7 @@ rosmap <- as.data.table(readxl::read_xlsx("/data_global/ROSMAP/greg_20200109/dat
 rosmap <- rosmap[!(is.na(age_death))]
 setnames(rosmap, "projid", "IID")
 
-fam <- fread("/data_global/ROSMAP/rare_imputed_resilience/ROSMAP_rare_imputed_final.fam")
+fam <- fread("/data_global/ROSMAP/rare_imputed_resilience/converted/ROSMAP_rare_imputed_final_converted.fam")
 setnames(fam, c("V1", "V2"), c("FID", "IID"))
 fam[, IID := as.character(IID)]
 fam <- fam[, .(FID, IID)]
@@ -23,6 +23,5 @@ rosmap.fam <- rosmap.fam[
   ]
 
 write.table(rosmap.fam[, .(FID, IID)], "data/tmp/rosmap_ids.tmp.txt", row.names = F, quote = F, col.names = F)
+write.table(rosmap.fam, "data/rosmap/rosmap_ids_np.txt", row.names = F, quote = F, col.names = F)
 
-rm(list = ls())
-p_unload(all)

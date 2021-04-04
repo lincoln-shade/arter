@@ -10,10 +10,10 @@ options(digits = 15)
 #------------------------
 # install/load packages
 #------------------------
-date <- "2021-03-30"
+date <- "2021-04-01"
 cran_packages <- c("data.table", "magrittr", "ggplot2", "stringi", "readxl", "flextable", "devtools", "ggrepel", "knitr", "rentrez",
                    "miceadds", "MASS", "dplyr", "GMMAT", "pacman", "remotes", "mediation")
-ignore_deps <- c("SeqArray")
+ignore_deps <- c("SeqArray", "tinytex")
 github_packages <- c("coloc")
 bioc_packages <- c("rtracklayer", "GEOquery", "GENESIS", "GWASTools", "qusage", "SeqArray") #"SNPRelate"
 
