@@ -22,7 +22,10 @@ uds <-
   setnames(., "NACCID", "IID") 
 
 pheno <- merge(pheno, uds, by = "IID")
-
+pheno[DIABETES %in% c(9), DIABETES := NA]
+pheno[DIABET %in% c(9), DIABET := NA]
+pheno[HYPERTEN %in% c(9), HYPERTEN := NA]
+pheno[HYPERT %in% c(8), HYPERT := NA]
 #------------------------------
 # add diabetes indicator "dm"
 #------------------------------
@@ -31,6 +34,9 @@ pheno_dm <- pheno[
     !is.na(NACCDBMD) |
     !is.na(DIABET)  
   ]
+
+# exclude those with DM type I
+pheno_dm <- pheno_dm[(is.na(DIABET) | DIABET != 1)]
 
 pheno_dm[
   DIABETES == 0 |
@@ -46,7 +52,7 @@ pheno_dm[
 pheno_dm[
   DIABETES %in% c(1, 2) |
     NACCDBMD == 1 |
-    DIABET %in% c(1, 2, 3), 
+    DIABET %in% c(2, 3), 
   dm := 1
   ]
 

@@ -47,6 +47,11 @@ dm_s2_est <- rep(NA, snp_m)
 dm_s2_se <- rep(NA, snp_m)
 dm_s2_p <- rep(NA, snp_m)
 
+# step 4: snp + mediator and outcome
+dm_s4_est <- rep(NA, snp_m)
+dm_s4_se <- rep(NA, snp_m)
+dm_s4_p <- rep(NA, snp_m)
+
 for (i in 1:snp_m) {
   dm_s2 <- lm(paste0("dm ~ ", colnames(pheno_dm)[max_covar_coln + 1 + i], " + ", paste(colnames(pheno_dm)[4:max_covar_coln], collapse = " + ")),
               data = pheno_dm)
@@ -54,6 +59,15 @@ for (i in 1:snp_m) {
   dm_s2_est[i] <-  dm_s2_smry[2, 1]
   dm_s2_se[i] <- dm_s2_smry[2, 2]
   dm_s2_p[i] <- dm_s2_smry[2, 4]
+  
+  dm_s4 <- lm(paste0("NACCARTE ~ ", colnames(pheno_dm)[max_covar_coln + 1 + i], " + ", paste(colnames(pheno_dm)[4:max_covar_coln + 1], collapse = " + ")),
+              data = pheno_dm)
+  dm_s4_smry <- summary(dm_s4)[["coefficients"]]
+  dm_s4_est[i] <-  dm_s4_smry[2, 1]
+  dm_s4_se[i] <- dm_s4_smry[2, 2]
+  dm_s4_p[i] <- dm_s4_smry[2, 4]
+  
+  print(summary(mediate(dm_s2, dm_s4, treat = colnames(pheno_dm)[max_covar_coln + 1 + i], mediator = "dm")))
   
 }
 
@@ -72,12 +86,7 @@ dm_s4_se <- rep(NA, snp_m)
 dm_s4_p <- rep(NA, snp_m)
 
 for (i in 1:snp_m) {
-  dm_s4 <- lm(paste0("NACCARTE ~ ", colnames(pheno_dm)[max_covar_coln + 1 + i], " + ", paste(colnames(pheno_dm)[4:max_covar_coln + 1], collapse = " + ")),
-              data = pheno_dm)
-  dm_s4_smry <- summary(dm_s4)[["coefficients"]]
-  dm_s4_est[i] <-  dm_s4_smry[2, 1]
-  dm_s4_se[i] <- dm_s4_smry[2, 2]
-  dm_s4_p[i] <- dm_s4_smry[2, 4]
+  
   
 }
 
