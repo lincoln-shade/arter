@@ -3,7 +3,7 @@
 ##--------------------------------------------------------------
 
 source("code/00_load_options_packages_functions.R")
-
+groundhog.library("dplyr", day)
 # set age minimum to 80 years at death
 min_age <- 0
 
@@ -14,25 +14,27 @@ adgc <- fread("/data_global/ADGC_HRC/converted/full/adgc_hrc_merged_qced.fam", h
 
 Exclusion.Criteria <- function(nacc_dt) {
   nacc_dt %>% 
-  filter(is.na(NACCDOWN) | NACCDOWN != 1) %>%
-    filter(is.na(NPPDXA) | NPPDXA != 1) %>% filter(is.na(NPPDXB) | NPPDXB != 1) %>%
-    filter(is.na(NPPDXD) | NPPDXD != 1) %>% filter(is.na(NPPDXE) | NPPDXE != 1) %>%
-    filter(is.na(NPPDXF) | NPPDXF != 1) %>% filter(is.na(NPPDXG) | NPPDXG != 1) %>%
-    filter(is.na(NPPDXH) | NPPDXH != 1) %>% filter(is.na(NPPDXI) | NPPDXI != 1) %>%
-    filter(is.na(NPPDXJ) | NPPDXJ != 1) %>% filter(is.na(NPPDXK) | NPPDXK != 1) %>% 
-    filter(is.na(NPPDXL) | NPPDXL != 1) %>% filter(is.na(NPPDXM) | NPPDXM != 1) %>% 
-    filter(is.na(NPPDXN) | NPPDXN != 1) %>% filter(is.na(NACCPRIO) | NACCPRIO != 1) %>% 
-    filter(is.na(NPPATH10) | NPPATH10 != 1) %>% filter(is.na(NPALSMND) | NPALSMND != 1) %>% 
-    filter(is.na(NPFTDTAU) | NPFTDTAU != 1) %>% filter(is.na(NPOFTD) | NPOFTD != 1) %>% 
-    filter(is.na(NPFTDTDP) | NPFTDTDP != 1) %>% 
+  .[is.na(NACCDOWN) | NACCDOWN != 1] %>%
+    .[is.na(NPPDXA) | NPPDXA != 1] %>% .[is.na(NPPDXB) | NPPDXB != 1] %>%
+    .[is.na(NPPDXD) | NPPDXD != 1] %>% .[is.na(NPPDXE) | NPPDXE != 1] %>%
+    .[is.na(NPPDXF) | NPPDXF != 1] %>% .[is.na(NPPDXG) | NPPDXG != 1] %>%
+    .[is.na(NPPDXH) | NPPDXH != 1] %>% .[is.na(NPPDXI) | NPPDXI != 1] %>%
+    .[is.na(NPPDXJ) | NPPDXJ != 1] %>% .[is.na(NPPDXK) | NPPDXK != 1] %>% 
+    .[is.na(NPPDXL) | NPPDXL != 1] %>% .[is.na(NPPDXM) | NPPDXM != 1] %>% 
+    .[is.na(NPPDXN) | NPPDXN != 1] %>% .[is.na(NACCPRIO) | NACCPRIO != 1] %>% 
+    .[is.na(NPPATH10) | NPPATH10 != 1] %>% .[is.na(NPALSMND) | NPALSMND != 1] %>% 
+    .[is.na(NPFTDTAU) | NPFTDTAU != 1] %>% .[is.na(NPOFTD) | NPOFTD != 1] %>% 
+    .[is.na(NPFTDTDP) | NPFTDTDP != 1] %>% 
     as.data.table()
 }
 
 # UDS file
-nacc <- fread("/data_global/nacc/investigator_nacc52.csv", header = T, na.strings = c(-4, "999", "9999", "888")) %>%
-  Exclusion.Criteria() %>% 
+nacc <- fread("/data_global/nacc/investigator_nacc53.csv", header = T, na.strings = c(-4, "999", "9999", "888"))
+nacc <- nacc %>% 
   # remove duplicate rows for participant be choosing row from last visit
-  .[NACCVNUM == NACCAVST, c("NACCID", "NACCARTE", "NACCDAGE", "NPSEX")] %>%
+  .[NACCVNUM == NACCAVST] %>%
+  Exclusion.Criteria() %>% 
+  .[, c("NACCID", "NACCARTE", "NACCDAGE", "NPSEX")] %>% 
   setnames(., "NACCID", "IID") %>%
   # remove those with missing NACCARTE
   .[, NACCARTE := ifelse(NACCARTE == 8 | NACCARTE == 9, NA, NACCARTE)] %>% 
@@ -69,4 +71,3 @@ write.table(np_adgc[, .(FID, IID)], file = "data/nacc_adgc/nacc_ids_pass_exclusi
 
 
 rm(list = ls())
-p_unload(all)

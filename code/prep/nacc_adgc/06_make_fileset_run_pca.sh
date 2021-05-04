@@ -41,9 +41,8 @@ plink \
   --extract data/tmp/nacc_adgc_unrelated.tmp.prune.in \
   --out data/nacc_adgc/nacc_adgc_unrelated_pca
 
-# remove all of the tmp nacc_adgc tmp files in data/tmp
-rm data/tmp/nacc_adgc*.tmp*
-rm data/tmp/nacc_adgc*merged*
-rm data/tmp/1000g*.tmp*
-
+# # remove all of the tmp nacc_adgc tmp files in data/tmp
+# rm data/tmp/nacc_adgc*.tmp*
+# rm data/tmp/nacc_adgc*merged*
+# rm data/tmp/1000g*.tmp*
 

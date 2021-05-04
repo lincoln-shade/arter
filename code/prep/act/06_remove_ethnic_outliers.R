@@ -1,16 +1,15 @@
 ##----------------------------------------------
-## create PCA plot of 1KG and NACC NP subjects
+## create PCA plot of 1KG and ACT NP subjects
 ##----------------------------------------------
 
 source("code/00_load_options_packages_functions.R")
 groundhog.library("ggplot2", day)
-
 # 1000g (otg) data population data
 otg <- fread("/data_global/1000g/integrated_call_samples_v3.20130502.ALL.panel") %>% 
   .[, sample, super_pop]
 
 # PCA data
-merged <- fread("data/tmp/nacc_adgc_1000g_merged_pca.eigenvec", header = F) %>% 
+merged <- fread("data/tmp/act_1000g_merged_pca.eigenvec", header = F) %>% 
   .[, 2:4] %>% 
   setnames(., c("V2", "V3", "V4"), c("sample", "PC1", "PC2")) %>% 
   .[, PC1.norm := scale(PC1)] %>% 
@@ -22,22 +21,22 @@ otg.merged <- merge(merged, otg, by = c("sample"), all = T)
 # reverse PCs if needed to make European pop top right of plot & label samples
 if (otg.merged[super_pop == "EUR", mean(PC1.norm)] < 0) {otg.merged[, `:=`(PC1 = -PC1, PC1.norm = -PC1.norm)]}
 if (otg.merged[super_pop == "EUR", mean(PC2.norm)] < 0) {otg.merged[, `:=`(PC2 = -PC2, PC2.norm = -PC2.norm)]}
-#otg.merged[is.na(super_pop), super_pop := "nacc"]
+#otg.merged[is.na(super_pop), super_pop := "act"]
 
 #ggplot of first 2 normalized PCs
 pca.plot <- ggplot(otg.merged, aes(PC1.norm, PC2.norm, color = as.factor(super_pop))) +
   geom_point() +
-  ggtitle("PCA of 1000 Genomes and NACC participants") 
+  ggtitle("PCA of 1000 Genomes and ACT participants") 
 
 #scree plot
-eigenval <- fread("data/tmp/nacc_adgc_1000g_merged_pca.eigenval", header = F) %>% 
+eigenval <- fread("data/tmp/act_1000g_merged_pca.eigenval", header = F) %>% 
   setnames(., "V1", "eigenvalue") %>% 
   .[, var.expl := eigenvalue / sum(eigenvalue)] %>% 
   .[, PC := 1:2]
 
 scree <- ggplot(eigenval, aes(PC, var.expl)) +
   geom_point() +
-  ggtitle("Scree plot for 1000 Genomes and NACC subjects") +
+  ggtitle("Scree plot for 1000 Genomes and ACT subjects") +
   ylab("Proportion of variance explained")
 
 # create objects for mean values for EUR PC1 and PC2 and create selection criteria based off them
@@ -69,7 +68,7 @@ pca.plot2 <- ggplot(otg.merged, aes(PC1.norm, PC2.norm, color = as.factor(super_
     panel.grid.minor.x = element_blank()
   ) +
   geom_point() +
-  #ggtitle("PCA of 1000 Genomes and NACC Participants") +
+  #ggtitle("PCA of 1000 Genomes and act Participants") +
   xlab("PC1") +
   ylab("PC2") +
   geom_path(data = CircleFun(r=radius), aes(x, y), color = "red")
@@ -95,12 +94,12 @@ otg.merged <-
                    ) == T, TRUE, FALSE)
   ]
 
-nacc <- otg.merged[include == T, ]
-nacc.ids <- fread("data/tmp/nacc_ids.tmp.txt", header = F)
-nacc.ids <- nacc.ids[V2 %in% nacc$sample]
+act <- otg.merged[include == T, ]
+act.ids <- fread("data/tmp/act_ids.txt", header = F)
+act.ids <- act.ids[V2 %in% act$sample]
 
-ggsave(filename = "output/nacc_adgc/nacc_rosmap_1000g_pca.png", pca.plot2, units="in", width=7, height=7)
+ggsave(filename = "output/act/act_rosmap_1000g_pca.png", pca.plot2, units="in", width=7, height=7)
 
-write.table(nacc.ids, "data/nacc_adgc/nacc_adgc_unrelated_qced.txt", col.names = F, row.names = F, quote = F)
+write.table(act.ids, file = "data/act/act_qced.txt", col.names = F, row.names = F, quote = F)
 
 rm(list = ls())

@@ -3,7 +3,7 @@
 #===============================================
 
 source("code/00_load_options_packages_functions.R")
-
+groundhog.library("stringi", day)
 related <- fread("data/tmp/nacc_adgc_qc2_related.tmp.genome")
 related[, pair := 1:.N]
 related <- related[, .(IID1, IID2, pair, PI_HAT)]

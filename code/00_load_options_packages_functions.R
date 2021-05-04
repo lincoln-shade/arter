@@ -11,52 +11,54 @@ options(digits = 15)
 # install/load packages
 #------------------------
 
-load_packages <- function(cran_packages = NULL, 
-                          bioconductor_packages = NULL, 
-                          arrow = FALSE, 
-                          coloc = FALSE, 
-                          ignore_deps = c("SeqArray", "tinytex"),
-                          day = "2021-04-01") {
-  # groundhog for improved reproducibility
-  if (!require("groundhog")) {
-    install.packages("groundhog")
-    library("groundhog")
-  }
-  
-  # bioconductor packages
-  if (length(bioconductor_packages)) {
-    groundhog.library("BiocManager", day)
-    for(p in bioconductor_packages) {
-      if (p %in% installed.packages()[, "Package"] == FALSE) {
-        BiocManager::install(p)
-      }
-      library(p, character.only = TRUE)
-    }
-  }
-  
-  # cran packages
-  cran_packages <- c("data.table", "magrittr", cran_packages)
-    groundhog.library(cran_packages, day, ignore.deps = ignore_deps)
-  
-  # arrow
-  # if you're on linux and want to open parquet files from GTEx, you'll need to run the following when installing arrow
-  if (arrow == TRUE) {
-    if (!(require("arrow"))) {
-      Sys.setenv(ARROW_S3="ON")
-      Sys.setenv(NOT_CRAN="true")	
-      install.packages("arrow", repos = "https://arrow-r-nightly.s3.amazonaws.com")
-      library("arrow")
-    }
-  }
-  
-  # coloc
-  if (coloc == TRUE) {
-    if (!require("coloc")) {
-      remotes::install_github("chr1swallace/coloc",build_vignettes=TRUE)
-      library("coloc")
-    }
-  }
+cran_packages = c("data.table", "magrittr")
+# bioconductor_packages = NULL
+# arrow = FALSE
+# coloc = FALSE
+ignore_deps = c("SeqArray", "tinytex")
+day = "2021-04-01"
+# groundhog for improved reproducibility
+if (!require("groundhog")) {
+  install.packages("groundhog")
+  library("groundhog")
 }
+
+groundhog.library(cran_packages, day, ignore.deps = ignore_deps)
+
+# # bioconductor packages
+# if (length(bioconductor_packages)) {
+#   groundhog.library("BiocManager", day)
+#   for(p in bioconductor_packages) {
+#     if (p %in% installed.packages()[, "Package"] == FALSE) {
+#       BiocManager::install(p)
+#     }
+#     library(p, character.only = TRUE)
+#   }
+# } 
+  
+# cran packages
+# groundhog.library(cran_packages, day, ignore.deps = ignore_deps)
+
+# # arrow
+# # if you're on linux and want to open parquet files from GTEx, you'll need to run the following when installing arrow
+# if (arrow == TRUE) {
+#   if (!(require("arrow"))) {
+#     Sys.setenv(ARROW_S3="ON")
+#     Sys.setenv(NOT_CRAN="true")	
+#     install.packages("arrow", repos = "https://arrow-r-nightly.s3.amazonaws.com")
+#     library("arrow")
+#   }
+# }
+#   
+# # coloc
+# if (coloc == TRUE) {
+#   if (!require("coloc")) {
+#     remotes::install_github("chr1swallace/coloc",build_vignettes=TRUE)
+#     library("coloc")
+#   }
+# }
+
+# load_packages(c("data.table", "magrittr"))
 # date <- "2021-04-01"
 # cran_packages <- c("data.table", "magrittr", "ggplot2", "stringi", "readxl", "flextable", "devtools", "ggrepel", "knitr", "rentrez",
 #                    "miceadds", "MASS", "dplyr", "GMMAT", "pacman", "remotes", "mediation")
