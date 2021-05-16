@@ -6,13 +6,14 @@
 
 library(pacman)
 p_load(data.table, ACAT, magrittr)
+cargs <- commandArgs(trailingOnly = TRUE)
 
 ##-------------------------------
 ## data tables
 ##-------------------------------
 
 ## logistic regression results
-reg.results <- fread("02_analysis/logistic/regression.assoc.logistic")
+reg.results <- fread(cargs[1])
 
 ## table of gene names, chromosome, and start and end transciption sites from chromosome 3
 ## made  using https://genome.ucsc.edu/cgi-bin/hgTables
@@ -23,7 +24,7 @@ genes <- fread("/data_global/UCSC_genome_browser/genes/genes.chr1-22.txt")
 ##---------------------------
 
 ## flanking region for genes (subtract from start of gene and add to end of gene positions)
-flank <- 1e5
+flank <- 1e6
 
 CalcACAT <- function(chr, start, end, flank) {
   ACAT(
@@ -47,6 +48,6 @@ for (i in 1:nrow(genes)) {
 genes$ACAT.P <- ACAT.P
 setorder(genes, ACAT.P)
 
-write.table(genes, file = "02_analysis/ACAT/acat.results.logistic.txt", row.names = F, col.names = T, quote = T)
+write.table(genes, file = cargs[2], row.names = F, col.names = T, quote = T)
 
 

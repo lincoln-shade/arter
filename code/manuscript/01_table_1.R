@@ -4,19 +4,21 @@
 # written to be sourced from within .Rmd
 ##===========================================
 
-source("code/00_load_options_packages_functions.R")
+source("code/load_packages.R")
+groundhog.library(flextable, day, ignore.deps = c("knitr", "rlang"))
+source("code/functions/make_table_one.R")
 
-load("data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
-table_1_data <- copy(nacc_adgc_rosmap_adni_unrelated)
+table_1_data <- copy(act_mega)
 
 #----------------------------------------
 # Format B-ASC and covariates for table
 #----------------------------------------
 
 # Make Cohort group variable
-table_1_data[rosmap == 0 & adni == 0, Cohort := "NACC/ADGC"]
+table_1_data[rosmap == 0 & adni == 0 & act == 0, Cohort := "NACC"]
 table_1_data[rosmap == 1, Cohort := "ROSMAP"]
 table_1_data[adni == 1, Cohort := "ADNI"]
+table_1_data[act == 1, Cohort := "ACT"]
 table_1_data[, Cohort := factor(Cohort)]
 
 table_1_data[, `B-ASC` := ordered(arteriol_scler, labels = c("None", "Mild", "Moderate", "Severe"))]
@@ -62,10 +64,11 @@ table_1_data[, `Age of Death` := age_death]
 
 table_1_data <- make_table_one(table_1_data[, .(Cohort, `B-ASC`, Sex, `Age of Death`)], "Cohort") 
 
+# https://ardata-fr.github.io/flextable-book/design.html#table-parts
 table_1 <- table_1_data %>% 
   .[, -c("N Missing")] %>% 
   as_grouped_data(groups = c("Variable")) %>% 
-  flextable()
+  flextable(col_keys = c("Variable", "Labels", "NACC", "ROSMAP", "ADNI", "ACT"))
 
 # # kableExtra version (not good for knitting to Word)
 # table1[, Variable := NULL]

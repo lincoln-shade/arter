@@ -20,7 +20,7 @@ nacc <- rbind(uds[, ..vars], mds[, ..vars])
 setnames(nacc, "NACCID", "IID")
 
 # keep nacc european ids and add first 5 PCs
-nacc_pcs <- fread("data/nacc_adgc/nacc_adgc_unrelated_pca.eigenvec", header = F)
+nacc_pcs <- fread("data/nacc/nacc_pca.eigenvec", header = F)
 setnames(nacc_pcs, c("V1", "V2", "V3", "V4", "V5", "V6", "V7"), c("FID", "IID", "PC1", "PC2", "PC3", "PC4", "PC5"))
 
 nacc <- merge(nacc, nacc_pcs, "IID")
@@ -59,13 +59,13 @@ nacc <- nacc[, -"cohort"]
 ## write pheno files
 ##--------------------
 # ordinal
-nacc_adgc_unrelated <- nacc
-save(nacc_adgc_unrelated, file = "data/nacc_adgc/nacc_adgc_unrelated.RData")
+nacc <- nacc
+saveRDS(nacc, file = "data/nacc/nacc.Rds")
 
 # logistic 
 nacc[, NACCARTE := ifelse(NACCARTE < 2, 1, 2)]
-write.table(nacc, file = "data/nacc_adgc/nacc_adgc_unrelated_pheno.txt", row.names = F, col.names = T, quote = F)
-write.table(nacc[, -c("NACCARTE")], file = "data/nacc_adgc/nacc_adgc_unrelated_covar.txt", row.names = F, col.names = T, quote = F)
+write.table(nacc, file = "data/nacc/nacc_pheno.txt", row.names = F, col.names = T, quote = F)
+write.table(nacc[, -c("NACCARTE")], file = "data/nacc/nacc_covar.txt", row.names = F, col.names = T, quote = F)
 
 rm(list = ls())
 p_unload(all)

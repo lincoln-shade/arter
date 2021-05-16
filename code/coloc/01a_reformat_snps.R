@@ -4,6 +4,9 @@
 ##---------------------------------------------
 
 source("code/00_load_options_packages_functions.R")
+groundhog.library(stringi, day)
+bioc_packages <- c("rentrez") 
+bioc_load(bioc_packages, day)
 
 rsids <- fread(commandArgs(trailingOnly = T), header = F)$V1
 snps <- rsids

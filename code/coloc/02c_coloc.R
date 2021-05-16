@@ -4,17 +4,13 @@
 #===============================================================
 
 source("code/00_load_options_packages_functions.R")
-
+library(coloc)
 # new
 # cargs[1] = p12
 # cargs[2] = phenotype_id
 # cargs[3] = tissue
 # cargsp[4] = chr
 
-# cargs[1] = tissue
-# cargs[2] = directory prefix
-# cargs[3] = p12
-# cargs[4] = decision rule (e.g. "H4 > 0.50 & H4/H3 > 3")
 cargs <- commandArgs(trailingOnly = T)
 p12_cargs <- cargs[1]
 out_folder_cargs <- cargs[2]

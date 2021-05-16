@@ -3,7 +3,8 @@
 ##=======================================
 
 source("code/00_load_options_packages_functions.R")
-
+bioc_packages <- c("rtracklayer", "GEOquery", "GENESIS", "GWASTools", "qusage", "SeqArray", "SNPRelate") 
+bioc_load(bioc_packages, day)
 # commandline arguments
 # cargs 1 = phenotype file (remember phenotype needs to be binary  (1, 2) and third column)
 # cargs 2 = minor allele frequency file .frq

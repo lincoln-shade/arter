@@ -4,22 +4,17 @@
 
 source("code/00_load_options_packages_functions.R")
 
-# these objects may already be loaded in rmd environment
-if (!exists("nacc_rosmap_mega_results")) {
-  nacc_rosmap_mega_results <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.assoc.logistic")
+if (!exists("nacc_rosmap_top")) {
+  nacc_rosmap_top <- fread("output/nacc_rosmap/nacc_rosmap.clumped")
 }
 
-if (!exists("nacc_rosmap_mega_top")) {
-  nacc_rosmap_mega_top <- fread("output/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.clumped")
-}
-
-if (!exists("nacc_adgc_rosmap_snps")) {
-  nacc_adgc_rosmap_snps <- fread("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.bim", header = F)
-  setnames(nacc_adgc_rosmap_snps, c("V2", "V5", "V6"), c("SNP", "A1", "A2"))
+if (!exists("nacc_rosmap_snps")) {
+  nacc_rosmap_snps <- fread("data/nacc_rosmap/nacc_rosmap.bim", header = F)
+  setnames(nacc_rosmap_snps, c("V2", "V5", "V6"), c("SNP", "A1", "A2"))
 }
 
 table_3_data <- merge(nacc_rosmap_mega_top[, -c("P")], nacc_rosmap_mega_results, by = c("SNP", "CHR", "BP"))
-table_3_data <- merge(table_3_data, nacc_adgc_rosmap_snps[, .(SNP, A1, A2)], by = c("SNP", "A1"))
+table_3_data <- merge(table_3_data, nacc_rosmap_snps[, .(SNP, A1, A2)], by = c("SNP", "A1"))
 #---------------------------------------------------------------------------------
 # 1. convert all NACC odds ratios to be > 1 and switch effect allele if need be, 
 # 2. make table variables for OR [95% CI] and effect/non-effect allele

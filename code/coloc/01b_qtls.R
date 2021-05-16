@@ -2,6 +2,7 @@
 ## Tidy QTL files for input SNPs
 ##-----------------------------------
 source("code/00_load_options_packages_functions.R")
+groundhog.library(stringi, day)
 qtls <- fread(commandArgs(trailingOnly = T)[1], header = F)
 setnames(qtls, colnames(qtls), 
          c("phenotype_id", "variant_id",	"tss_distance",	"maf",	"ma_samples",

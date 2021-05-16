@@ -1,14 +1,11 @@
 #===========================================================
-# make pheno and covar files for nacc/adgc and rosmap mega
+# make pheno and covar files for nacc and rosmap mega
 #===========================================================
 
-source("code/00_load_packages.R")
+source("code/00_load_options_packages_functions.R")
 
-load("data/nacc_adgc/nacc_adgc_unrelated.RData")
-load("data/rosmap/rosmap_unrelated.RData")
-nacc <- nacc_adgc_unrelated
-rosmap <- rosmap_unrelated
-rm(nacc_adgc_unrelated, rosmap_unrelated)
+nacc <- readRDS("data/nacc/nacc.Rds")
+rosmap <- readRDS("data/rosmap/rosmap.Rds")
 
 #----------------------------------------
 # change nacc variables to match rosmap
@@ -42,7 +39,7 @@ for (i in 1:5) {
   nacc_rosmap[, paste0("PC", i) := NULL]
 }
 
-pca <- fread("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated_pca.eigenvec")
+pca <- fread("data/nacc_rosmap/nacc_rosmap_pca.eigenvec")
 setnames(pca, 
          c("V1", "V2", "V3", "V4", "V5", "V6", "V7"),
          c("FID", "IID", "PC1", "PC2", "PC3", "PC4", "PC5"))
@@ -53,17 +50,17 @@ nacc_rosmap <- merge(nacc_rosmap, pca, c("FID", "IID"))
 # write files
 #-------------
 
-nacc_adgc_rosmap_unrelated <- nacc_rosmap
-save(nacc_adgc_rosmap_unrelated, file = "data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.RData")
+nacc_rosmap <- nacc_rosmap
+saveRDS(nacc_rosmap, file = "data/nacc_rosmap/nacc_rosmap.Rds")
 
 nacc_rosmap[, arteriol_scler := ifelse(arteriol_scler < 2, 1, 2)]
 
 write.table(nacc_rosmap, 
-            file = "data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.pheno.txt",
+            file = "data/nacc_rosmap/nacc_rosmap.pheno.txt",
             quote = F, 
             row.names = F)
 write.table(nacc_rosmap[, -"arteriol_scler"], 
-            file = "data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.covar.txt",
+            file = "data/nacc_rosmap/nacc_rosmap.covar.txt",
             quote = F, 
             row.names = F)
 

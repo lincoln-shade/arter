@@ -4,10 +4,10 @@
 
 source("code/00_load_options_packages_functions.R")
 
-load("data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
+load("data/adni/nacc_rosmap_adni.RData")
 adni_mega <- nacc_adgc_rosmap_adni_unrelated
 
-load("data/act/act.RData")
+act <- readRDS("data/act/act.RData")
 
 pca <- fread("data/act/act_mega_pca.eigenvec")
 

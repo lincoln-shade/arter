@@ -1,6 +1,6 @@
 !#/bin/bash
 
-(seq 1 22) | xargs -n 1 -P 22 -I % plink \
+seq 1 22 | xargs -n 1 -P 22 -I % plink \
   --bfile data/act/act_mega \
   --chr % \
   --logistic hide-covar \

@@ -1,13 +1,11 @@
 
-source("code/00_load_packages.R")
+source("code/00_load_options_packages_functions.R")
 
-load("data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.RData")
-nacc_rosmap <- nacc_adgc_rosmap_unrelated
-rm(nacc_adgc_rosmap_unrelated)
+nacc_rosmap <- readRDS("data/nacc_rosmap/nacc_rosmap.Rds")
 
 adni <- fread("raw_data/ADNI_NPC/ADNI_NPC_wCovariate.csv")
 
-pca <- fread("data/adni_npc/nacc_adgc_rosmap_adni_unrelated_pca.eigenvec")
+pca <- fread("data/adni/nacc_rosmap_adni_pca.eigenvec")
 
 setnames(adni, 
          c("NPARTER", "NPSEX", "NPDAGE"),
@@ -47,18 +45,18 @@ nacc_rosmap_adni <- rbindlist(list(nacc_rosmap, adni), use.names = TRUE)
 
 nacc_rosmap_adni <- merge(nacc_rosmap_adni, pca, c("FID", "IID"))
 
-nacc_adgc_rosmap_adni_unrelated <- nacc_rosmap_adni
-save(nacc_adgc_rosmap_adni_unrelated, 
-     file = "data/adni_npc/nacc_adgc_rosmap_adni_unrelated.RData")
+nacc_rosmap_adni <- nacc_rosmap_adni
+saveRDS(nacc_rosmap_adni, 
+     file = "data/adni/nacc_rosmap_adni.Rds")
 
 nacc_rosmap_adni[, arteriol_scler := ifelse(arteriol_scler < 2, 1, 2)]
 
 write.table(nacc_rosmap_adni, 
-            file = "data/adni_npc/nacc_adgc_rosmap_adni_unrelated.pheno",
+            file = "data/adni/nacc_rosmap_adni.pheno",
             quote = F,
             row.names = F)
 
 write.table(nacc_rosmap_adni[, -"arteriol_scler"], 
-            file = "data/adni_npc/nacc_adgc_rosmap_adni_unrelated.covar",
+            file = "data/adni/nacc_rosmap_adni.covar",
             quote = F,
             row.names = F)

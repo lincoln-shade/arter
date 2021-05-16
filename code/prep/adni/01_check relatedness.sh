@@ -1,16 +1,16 @@
 #!/bin/bash
 
 #=============================================================
-# check relatedness between adni npc and nacc/adgc and rosmap
-# and merge the datasets
+# check relatedness between adni npc, nacc, and rosmap
+# and merge the data sets
 #=============================================================
 
 # harmonize variants
-awk '{print$2}' data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated.bim > data/tmp/nacc_adgc_rosmap_vars.tmp
+awk '{print$2}' data/nacc_rosmap/nacc_rosmap.bim > data/tmp/nacc_rosmap_vars.tmp
 
 plink \
   --bfile raw_data/ADNI_NPC/N60/ADNI_NPC_N60 \
-  --extract data/tmp/nacc_adgc_rosmap_vars.tmp \
+  --extract data/tmp/nacc_rosmap_vars.tmp \
   --make-bed \
   --biallelic-only strict \
   --out data/tmp/adni_1.tmp
@@ -28,7 +28,7 @@ plink \
 awk '{print$2}' data/tmp/adni_2.tmp.bim > data/tmp/adni_2_vars.tmp
 
 plink \
-  --bfile data/nacc_adgc_rosmap/nacc_adgc_rosmap_unrelated \
+  --bfile data/nacc_rosmap/nacc_rosmap \
   --extract data/tmp/adni_2_vars.tmp \
   --make-bed \
   --out data/tmp/nacc_rosmap_1.tmp
@@ -70,12 +70,12 @@ plink \
   --bfile data/tmp/nacc_rosmap_adni_merged.tmp \
   --remove data/adni_npc/adni_nacc_dup_ids.txt \
   --make-bed \
-  --out data/adni_npc/nacc_adgc_rosmap_adni_unrelated
+  --out data/adni_npc/nacc_rosmap_adni_unrelated
 
 #only 13 people removed, no need to redo ld pruning
 plink \
-  --bfile data/adni_npc/nacc_adgc_rosmap_adni_unrelated \
+  --bfile data/adni_npc/nacc_rosmap_adni_unrelated \
   --extract data/tmp/nacc_rosmap_adni_merged_prune.tmp.prune.in \
   --pca 5 \
-  --out data/adni_npc/nacc_adgc_rosmap_adni_unrelated_pca
+  --out data/adni_npc/nacc_rosmap_adni_unrelated_pca
   

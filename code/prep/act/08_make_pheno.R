@@ -27,11 +27,14 @@ act <- merge(act, act_pcs, "IID")
 setcolorder(act, "FID")
 act <- act[complete.cases(act)]
 
+# fix arteriolosclerosis variable
+act[, micro_arteriolosclerosis_id := micro_arteriolosclerosis_id - 1]
+
 ##--------------------
 ## write pheno files
 ##--------------------
 # ordinal
-save(act, file = "data/act/act.RData")
+saveRDS(act, file = "data/act/act.Rds")
 
 # logistic 
 act[, micro_arteriolosclerosis_id := ifelse(micro_arteriolosclerosis_id < 2, 1, 2)]
