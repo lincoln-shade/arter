@@ -8,21 +8,34 @@ top_snps <- c("rs2603462", "rs7902929")
 
 adni_replication_top <- adni_replication_top[SNP %in% top_snps]
 act_replication_top <- act_results[SNP %in% top_snps]
+nacc_rosmap_top <- nacc_rosmap_results[SNP %in% nacc_rosmap_clump$SNP]
 
-table_4_data <- merge(adni_replication_top, 
-                                  act_replication_top, 
-                                  by = c("CHR", "BP", "SNP", "A1"),
-                                  suffixes = c("_ADNI", "_ACT"))
+table_3_data <- merge(adni_replication_top, 
+                      act_replication_top, 
+                      by = c("CHR", "BP", "SNP", "A1"),
+                      suffixes = c("_ADNI", "_ACT"))
 
-table_4_data[, Gene := c("ELOVL4", "SORCS3")]
+table_3_data <- merge(nacc_rosmap_top, 
+                      table_3_data,
+                      by = c("CHR", "BP", "SNP", "A1"),
+                      all.x = TRUE)
 
-table_4_data[, adni_or_95ci := make_or_95_ci(OR_ADNI, L95_ADNI, U95_ADNI, OR_ADNI, flip_less_than_1 = FALSE)]
-table_4_data[, act_or_95ci := make_or_95_ci(OR_ACT, L95_ACT, U95_ACT, OR_ACT, flip_less_than_1 = FALSE)]
+table_3_data[, Gene := c("BC041441", 
+                         "FLJ30838",
+                         "ZNF385D",
+                         "")]
+# table_3_data[SNP %in% top_snps, Gene := c("ELOVL4", "SORCS3")]
+# table_3_data[is.na(Gene), Gene := "TBD"]
 
-table_4_data <- table_4_data[, .(CHR, BP, Gene, SNP, adni_or_95ci, P_ADNI, act_or_95ci, P_ACT)]
+table_3_data[, adni_or_95ci := make_or_95_ci(OR_ADNI, L95_ADNI, U95_ADNI, OR)]
+table_3_data[, act_or_95ci := make_or_95_ci(OR_ACT, L95_ACT, U95_ACT, OR)]
+table_3_data[, nacc_rosmap_or_95ci := make_or_95_ci(OR, L95, U95, OR)]
 
-table_4_data[, P_ADNI_m := format(signif(P_ADNI_m, 2), scipen=2)]
-table_4_data[, P := format(signif(P, 2), scipen=2)]
-table_4_data[, P_ADNI := signif(P_ADNI, 2)]
-table_4_data[, P_ACT := signif(P_ACT, 2)]
-table_4_data[, OR := round(OR, 2)]
+table_3_data <- table_3_data[, .(SNP, CHR, BP, Gene, nacc_rosmap_or_95ci, P, adni_or_95ci, P_ADNI, act_or_95ci, P_ACT)]
+
+table_3_data[, P := format(signif(P, 2), scipen=2)]
+table_3_data[, P_ADNI := as.character(signif(P_ADNI, 2))]
+table_3_data[, P_ACT := as.character(signif(P_ACT, 2))]
+table_3_data[is.na(P_ADNI), 
+             `:=`(P_ADNI = " - ",
+                  P_ACT = " - ")]

@@ -24,7 +24,7 @@ genes <- fread("/data_global/UCSC_genome_browser/genes/genes.chr1-22.txt")
 ##---------------------------
 
 ## flanking region for genes (subtract from start of gene and add to end of gene positions)
-flank <- 1e6
+flank <- 0
 
 CalcACAT <- function(chr, start, end, flank) {
   ACAT(

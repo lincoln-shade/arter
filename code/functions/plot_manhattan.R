@@ -4,7 +4,9 @@
 
 
 source("code/load_packages.R")
-groundhog.library(c("ggplot2", "ggrepel"))
+require(ggplot2)
+require(ggrepel)
+
 plot_manhattan <- function(results, signif_only=TRUE, annotate=FALSE) {
   results <- as.data.table(results)
   results[, BP := as.numeric(BP)]

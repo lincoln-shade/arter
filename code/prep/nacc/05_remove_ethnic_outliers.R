@@ -2,8 +2,8 @@
 ## create PCA plot of 1KG and NACC NP subjects
 ##----------------------------------------------
 
-source("code/00_load_options_packages_functions.R")
-groundhog.library("ggplot2", day)
+source("code/load_packages.R")
+# groundhog.library("ggplot2", day)
 
 # 1000g (otg) data population data
 otg <- fread("/data_global/1000g/integrated_call_samples_v3.20130502.ALL.panel") %>% 
@@ -45,7 +45,7 @@ scree <- ggplot(eigenval, aes(PC, var.expl)) +
 #######################
 ## set circle radius ##
 #######################
-radius <- 0.35  #######
+radius <- 0.30  #######
 #######################
 
 CircleFun <- function(center = c(otg.merged[super_pop == "EUR", mean(PC1.norm)],
