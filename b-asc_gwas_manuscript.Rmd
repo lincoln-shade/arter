@@ -1,23 +1,7 @@
 ---
-title: "Genome-Wide Association Study of Brain Arteriolosclerosis"
-author:
-  - Lincoln M.P. Shade^1^
-  - Yuriko Katsumata^1,2^
-  - Timothy J. Hohman^3^
-  - Julie A. Schneider^4^
-  - Kwangsik Nho^5^
-  - Andrew Saykin^5^
-  - Shubhabrata Mukherjee^6^
-  - Kevin L. Boehme^7^
-  - John Kauwe^8^
-  - Peter T. Nelson^2,9^
-  - David W. Fardo^1,2^
-  - Alzheimer’s Disease Genetics Consortium
-  - for the Alzheimer's Disease Neuroimaging Initiative*
-date: "`r Sys.Date()`"
 output: word_document
 bibliography: doc/references.bib
-csl: doc/springer_basic.csl
+csl: doc/sage_vancouver_brackets.csl
 link-citations: true
 ---
 
@@ -69,7 +53,15 @@ setnames(act_mega_coloc,
 act_mega_coloc[, PPH4 := round(PPH4 * 100, 1)]
 ```
 
-# Author Affiliations
+# Title
+
+"Genome-Wide Association Study of Brain Arteriolosclerosis"
+
+# Authors
+
+Lincoln M.P. Shade^1^, Yuriko Katsumata^1,2^, Timothy J. Hohman^3^, Julie A. Schneider^4^, Kwangsik Nho^5^, Andrew J. Saykin^5^, Shubhabrata Mukherjee^6^, Kevin L. Boehme^7^, John S.K. Kauwe^8^, Peter T. Nelson^2,9^, David W. Fardo^1,2^, Alzheimer's Disease Genetics Consortium, for the Alzheimer's Disease Neuroimaging Initiative^\*^
+
+## Author Affiliations
 
 ^1^Department of Biostatistics, College of Public Health, University of Kentucky, Lexington, KY
 
@@ -93,39 +85,43 @@ act_mega_coloc[, PPH4 := round(PPH4 * 100, 1)]
 
 ## Corresponding Author
 
-Lincoln Shade
+David Fardo
 
-Email: [lincoln.shade\@uky.edu](mailto:lincoln.shade@uky.edu)
+725 Rose Street, Room 201
 
-Phone: 859-893-5798
+Lexington, KY 40536-0082
+
+[david.fardo\@uky.edu](mailto:david.fardo@uky.edu)
+
+859-218-2070
 
 \newpage
 
 # Abstract
 
-Brain arteriolosclerosis (B-ASC) is a small-vessel cerebrovascular disease involving sclerotic thickening of arterioles in the brain. The genetics of other contributors of dementia have been studied extensively, but to date no in-depth study has been conducted on genetic risk of autopsy-proven B-ASC. We perform the first genome-wide association study (GWAS) on B-ASC using multiple aged neuropathologic cohorts. Initial Stage 1 GWAS (*n* = `r nacc[, .N]`) and Stage 2 mega-analysis (*n* = `r nacc_rosmap[, .N]`) were performed using data from the two largest cohorts. Replication of top variants and additional Stage 3 mega-analysis were performed incorporating two smaller cohorts: (*n* = `r adni[, .N]` and `r act_mega[act == 1, .N]`). Lead variants in the top two loci in the Stage 1 mega-analysis (rs7902929, *p* = `r nacc_rosmap_results[SNP == "rs7902929", nice_p(P)]` ; rs2603462, *p =* `r nacc_rosmap_results[SNP == "rs2603462", nice_p(P)]`) replicated in the first replication cohort (rs7902929, *p* = `r adni_replication_top[SNP == "rs7902929", P]`; rs2603462, *p =* `r adni_replication_top[SNP == "rs2603462", P]`). The rs2603462 lead variant colocalizes with *ELOVL4* expression in the cerebellum (posterior probability = 92.9%). Our study constitutes the most in-depth and comprehensive study of the genetic risk of brain arteriolosclerosis neuropathologic endophenotype to date.
+Brain arteriolosclerosis (B-ASC) is a small-vessel cerebrovascular disease characterized by pathologically altered arterioles associated with cognitive impairment. The genetics of other contributors of dementia have been studied extensively, but to date no in-depth study has been conducted on genetic risk of autopsy-proven B-ASC. We performed a genome-wide association study (GWAS) on B-ASC using multiple aged neuropathologic cohorts. Included in the study were participants with autopsy B-ASC endophenotype and genotype data available from NACC, ROSMAP, ADNI, and ACT data sets. Initial Stage 1 GWAS (*n* = `r nacc[, .N]`) and Stage 2 mega-analysis (*n* = `r nacc_rosmap[, .N]`) were performed using data from the two largest cohorts (NACC and ROSMAP). Replication of top variants and additional Stage 3 mega-analysis were performed incorporating two smaller cohorts: (ADNI and ACT). Lead variants in the top two loci in the Stage 1 mega-analysis (rs7902929, *p* = `r nacc_rosmap_results[SNP == "rs7902929", nice_p(P)]` ; rs2603462, *p =* `r nacc_rosmap_results[SNP == "rs2603462", nice_p(P)]`) replicated in the first replication cohort (rs7902929, *p* = `r adni_replication_top[SNP == "rs7902929", signif(P, 2)]`; rs2603462, *p =* `r adni_replication_top[SNP == "rs2603462", signif(P, 2)]`). The rs2603462 lead variant colocalizes with *ELOVL4* expression in the cerebellum (posterior probability = 92.9%). Suggestive results were also found for putative B-ASC risk associated variants in *SORCS1* and *SORCS3*. We thus identified putative loci associated with B-ASC risk but additional replication is required
 
 # Keywords
 
-> Please provide 4 to 6 keywords which can be used for indexing purposes.
+VCID, SVD, arteriosclerosis, neuropathology, dementia, aging
 
 \newpage
 
 # Introduction
 
-Brain arteriolosclerosis (B-ASC) is a subtype of cerebral small vessel neuropathologic change characterized by thickening of arteriole walls in the brain. These changes can include hypertrophy or atrophy of vascular smooth muscle and luminal extracellular deposition of elastin and collagen [@ighodaro2017; @grinberg2010; @buchman2013]. B-ASC is commonly found in autopsied elderly individuals, with more than 50% of participants showing some B-ASC pathology in large autopsy studies [@ighodaro2017; @buchman2013; @chou2013 ]. B-ASC is associated with multiple neuropathologies including Alzheimer's disease (AD), limbic-predominant age-related TDP-43 encephalopathy (LATE), micro-infarcts, and large-vessel infarcts [@ighodaro2017; @arvanitakis2016; @neltner2014 ]. B-ASC is also associated with cognitive decline after adjusting for age and the presence of other neuropathologies [@ighodaro2017; @arvanitakis2016]. Despite the clinical importance of B-ASC, its risk factors, other than age and sex @ighodaro2017, remain largely uncharacterized. Hypertension (HTN) and diabetesmellitus (DM) are established clinical risk factors for arteriolosclerosis in the kidneys, but their association with B-ASC is inconsistent; in an autopsy based cohort stratified by age at death (\<80 years vs. ≥80 years), hypertension was significantly associated with B-ASC in the younger group only, and diabetes was not associated with B-ASC in either group [@ighodaro2017; @wu2005; @ikee2010; @cameron2006].
+Brain arteriolosclerosis (B-ASC) is a subtype of cerebral small vessel neuropathologic change characterized by thickening of arteriole walls in the brain. These changes can include hypertrophy or atrophy of vascular smooth muscle and luminal extracellular deposition of elastin and collagen [@ighodaro2017; @grinberg2010; @buchman2013; @blevins2021]. B-ASC is commonly found in autopsied elderly individuals, with more than 50% of participants showing some B-ASC pathology in large autopsy studies [@ighodaro2017; @buchman2013; @chou2013 ]. B-ASC is associated with multiple neuropathologies including limbic-predominant age-related TDP-43 encephalopathy (LATE), Alzheimer's disease (AD), hippocampal sclerosis (HS), micro-infarcts, and large-vessel infarcts [@ighodaro2017; @arvanitakis2016; @neltner2014 ]. B-ASC is also associated with cognitive decline after adjusting for age and the presence of other neuropathologies [@ighodaro2017; @arvanitakis2016]. Despite the clinical importance of B-ASC, its risk factors, other than age and sex @ighodaro2017, remain largely uncharacterized. Hypertension (HTN) and diabetesmellitus (DM) are established clinical risk factors for arteriolosclerosis in the kidneys, but their association with B-ASC is inconsistent; in an autopsy based cohort stratified by age at death (\<80 years vs. ≥80 years), hypertension was significantly associated with B-ASC in the younger group only, and diabetes was not associated with B-ASC in either group [@ighodaro2017; @wu2005; @ikee2010; @cameron2006].
 
-Genome-wide association studies (GWAS) have provided a powerful resource for investigating genomic risk of complex diseases through analysis of millions of genetic variants with diseases of interest, and have to date identified tens-of-thousands of variants associated with disease [@buniello2019]. GWAS have successfully been used to identify genetic risk loci for stroke and for imaging-based phenotypes of cerebrovascular disease such as white matter hyperintensities (WMH) and brain infarcts; however, we found no published GWAS for autopsy-proven B-ASC to date [@traylor2016; @malik2018; @chauhan2019]. Given the unique and complex structures of brain arterioles and their associated structures, including astrocytes and other components of the blood-brain barrier, there is reason to suspect that the genomic risk for B-ASC may not be wholly shared with other cerebrovascular phenotypes. In one study of Religious Orders Study/Memory and Aging Project (ROSMAP) participants, 167 independent genetic variants previously meeting genome-wide significance threshold (P \< 5×10\^-8\^) in GWAS of stroke or stroke risk factorswere tested for association with B-ASC pathology [@chou2013]. The authors found six variants nominally associated with B-ASC at the 0.01 \< *p* \< 0.05 significance level, none of which remained significant after correction for multiple tests [@chou2013]. Investigating genomic risk factors of B-ASC at the genome-wide level may provide important insights into its pathophysiological development as well as its relationship to neuroimaging and other neuropathological phenotypes.
+Genome-wide association studies (GWAS) have provided a powerful resource for investigating genomic risk of complex diseases through analysis of millions of genetic variants with diseases of interest, and have to date identified tens-of-thousands of variants associated with disease [@buniello2019]. GWAS have idenfied genetic risk loci for stroke and for imaging-based phenotypes of cerebrovascular disease such as white matter hyperintensities (WMH) and brain infarcts [@chou2013; @beecham2014] have identified multiple disease-associated loci. Studies of monogenic cerebrovascular disorders have identified genes associated with collagen and basement membrane formation, vascular smooth muscle, inflammation, and potassium ion channels [@blevins2021]. GWAS of HS have identified multiple ion channel-associated genes [@beecham2014] that have since been validated in gene-based studies [@katsumata2017].
 
-In the present study, we conduct a GWAS using B-ASC pathology as the endophenotype analyzing neuropathology and genotype data across four aged autopsy cohorts. In Stage 1, we analyzed data from the National Alzheimer's Coordinating Center (NACC) Neuropathology data set linked to genotype data from the Alzheimer's Disease Genetics Consortium (ADGC). In Stage 2, we attempted to replicate top variants from the NACC GWAS in ROSMAP and then mega-analyzed both data sets together. In Stage 3, we attempted to replicate the top variants from Stage 2 in two smaller autopsy cohorts consisting of Alzheimer's Disease Neuroimaging Inititative (ADNI) and Adult Changes in Thought (ACT) participants. To investigate potential biologically functional correlates to disease risk, we then perform colocalization analysis on B-ASC associated variants identified as quantitative trait loci (QTL) using data from the Genetic Tissue Expression (GTEx) Project and gene-based association analyses [@thegeno2013]. To investigate the possibility of hypertension and diabetes acting as mediators for B-ASC risk variants, we also performed mediation analyses on a subset of NACC participants with clinical data available. An outline of our study design is shown below in **Figure 1**.
+There has been published GWAS for autopsy-proven B-ASC to date [@traylor2016; @malik2018; @chauhan2019]. Given the unique and complex structures of brain arterioles and their associated structures, including astrocytes and other components of the blood-brain barrier, there is reason to suspect that the genomic risk for B-ASC may not be wholly shared with other cerebrovascular phenotypes @blevins2021. In one study of Religious Orders Study/Memory and Aging Project (ROSMAP) participants, 167 independent genetic variants previously meeting genome-wide significance threshold (P \< 5×10\^-8\^) in GWAS of stroke or stroke risk factorswere tested for association with B-ASC pathology [@chou2013]. The authors found six variants nominally associated with B-ASC at the 0.01 \< *p* \< 0.05 significance level, none of which remained significant after correction for multiple tests [@chou2013]. Another studied found that a variant mapped to *ABCC9* associated with HS was nominally associated with B-ASC [@ighodaro2017]. Investigating genomic risk factors of B-ASC at the genome-wide level may provide important insights into its pathophysiological development as well as its relationship to neuroimaging and other neuropathological phenotypes.
 
-```{r figure-1, include=TRUE, results=TRUE, out.height=750, out.width=600, fig.cap ="Figure 1: Study Design Outline"}
+In the present study, we conducted a GWAS using B-ASC pathology as the endophenotype analyzing neuropathology and genotype data across four autopsy cohorts with genotype data available.
 
-knitr::include_graphics(path="doc/fig1_study_design.png")
-
-```
+[insert **Figure 1**]
 
 # Methods
+
+An outline of our study design is shown in **Figure 1**. In Stage 1, we analyzed data from the National Alzheimer's Coordinating Center (NACC) Neuropathology data set linked to genotype data from the Alzheimer's Disease Genetics Consortium (ADGC). In Stage 2, we attempted to replicate top variants from the NACC GWAS in ROSMAP and then mega-analyzed both data sets together. In Stage 3, we attempted to replicate the top variants from Stage 2 in two smaller autopsy cohorts consisting of Alzheimer's Disease Neuroimaging Inititative (ADNI) and Adult Changes in Thought (ACT) participants. To investigate potential biologically functional correlates to disease risk, we then perform colocalization analysis on B-ASC associated variants identified as quantitative trait loci (QTL) using data from the Genetic Tissue Expression (GTEx) Project and gene-based association analyses [@thegeno2013]. To investigate the possibility of hypertension and diabetes acting as mediators for B-ASC risk variants, we also performed mediation analyses on a subset of NACC participants with clinical data available.
 
 ## Study Participants
 
@@ -219,15 +215,6 @@ act_none <- table_1_data[Labels == "None", "ACT"]
 
 Of the `r nacc[, .N]` NACC participants that met inclusion criteria for analysis, `r nacc_none` had no B-ASC, `r nacc_mild` had mild B-ASC, `r nacc_moderate` had moderate B-ASC, and `r nacc_severe` had severe B-ASC (see **Table 1**). ROSMAP participants that met inclusion for analysis had comparatively less B-ASC pathology (*p* = 0.002): `r rosmap_none` had no B-ASC, `r rosmap_mild` had mild B-ASC, `r rosmap_moderate` had moderate B-ASC, and `r rosmap_severe` had severe B-ASC. NACC participants were also significantly more likely to be male (`r nacc_male`% vs.`r rosmap_male`%, *p* \< 0.001) and had younger ages at death on average (mean age at death `r nacc_age` vs. `r rosmap_age`, *p* \< 0.001) compared to ROSMAP participants. ADNI had the highest proportion of male participants of any cohort at `r round(adni[NPSEX == 1, .N] / adni[, .N] * 100, 1)` %, while ACT had the lowest percentage at participant with no B-ASC with `r act_none` participants.
 
-```{r table-1, include=TRUE}
-# make table_1 object
-table_1 <- autofit(table_1) %>% 
-  padding(padding = 2, part = "all") %>% 
-  add_header_lines("Table 1: Cohorts Used in Study")
-
-print(table_1)
-```
-
 ## Single-variant analyses
 
 ```{r single-variant-inline}
@@ -255,36 +242,15 @@ nacc_rosmap_clump <- fread("output/nacc_rosmap/nacc_rosmap.clumped")
 
 ```{r table-2-data}
 source("code/manuscript/02_table_2_data.R")
-nacc_80_clump <- fread("output/nacc/nacc_80.clumped")
-```
-
-In the Stage 1 analyses, `r nacc_n_case` (`r nacc_percent_case`%) and `r rosmap_n_case` (`r rosmap_percent_case`%) of participants had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the Stage 1 NACC GWAS (*n* = `r nacc[, .N]`), one locus on Chromosome 6q14.1 with sentinal variant rs2603462 was genome-wide significantly associated with B-ASC (odds ratio [OR] = `r nacc_elovl4_or`, *p* = `r nacc_elovl4_p`). We identified 13 other loci that met our suggestive association threshold of *p* \< 1×10^-5^, described in **Table 2**. Of the 14 NACC loci that met our suggestive threshold, rs7902929 on Chromosome 10q25.1 was validated at *p* \< 0.05 level in ROSMAP (NACC OR = `r nacc_sorcs3_or`, *p* = `r nacc_sorcs3_p`; ROSMAP OR = `r rosmap_sorcs3_or`, *p* = `r rosmap_sorcs3_p`). For the other 13 loci, two variants did not pass QC in ROSMAP, two had non-significant ROSMAP ORs \<1.00, and 9 had non-significant effect sizes in the same direction as in NACC. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top 14 loci in the NACC primary logistic regression, five also met our suggestive threshold in the ordinal regression, and ten had *p*-values \< 1x10^-4^. Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013), no variants were validated at the *p* \< 0.05 significance level in the NACC cohort. In the secondary analysis using only participants with an age at death of 80 years or older, no variants achieved genome-wide significance (*p* \< 5x10^-8^). In the NACC analysis, we identified `r nrow(nacc_80_clump)` independent loci that met the suggestive threshold. No suggestive variants from the NACC analyses were validated in the ROSMAP analyses at the *p* \< 0.05 significance threshold (Supplementary Tables S2 and S3).
-
-```{r table-2, include=TRUE}
 # make table_2 object
 table_2_data$`NACC P` <- format(table_2_data$`NACC P`, scipen=2)
 table_2_data$`ROSMAP P` <- format(table_2_data$`ROSMAP P`, drop0trailing = TRUE)
 table_2 <- flextable(table_2_data)
 
-table_2 %>% 
-  autofit() %>% 
-  padding(padding = 2, part = "all") %>% 
-  add_header_lines("Table 2: Stage 1 GWAS Results")
-
+nacc_80_clump <- fread("output/nacc/nacc_80.clumped")
 ```
 
-```{r figure-2, include=TRUE, results=TRUE, out.height=550, out.width=600, fig.cap ="Figure 2: Manhattan Plot of NACC GWAS"}
-source("code/functions/plot_manhattan.R")
-figure_1 <- plot_manhattan(nacc_results, annotate = "rs2603462")
-  ggsave(figure_1,
-         filename = "doc/plots/figure_1.png",
-         device = "png",
-         units = "in",
-         width = 12,
-         height = 6)
-
-knitr::include_graphics(path="doc/plots/figure_1.png")
-```
+In the Stage 1 analyses, `r nacc_n_case` (`r nacc_percent_case`%) and `r rosmap_n_case` (`r rosmap_percent_case`%) of participants had either moderate or severe B-ASC and were counted as cases in NACC and ROSMAP, respectively. In the Stage 1 NACC GWAS (*n* = `r nacc[, .N]`), one locus on Chromosome 6q14.1 with sentinal variant rs2603462 was genome-wide significantly associated with B-ASC (odds ratio [OR] = `r nacc_elovl4_or`, *p* = `r nacc_elovl4_p`). We identified 13 other loci that met our suggestive association threshold of *p* \< 1×10^-5^, described in **Table 2**. Of the 14 NACC loci that met our suggestive threshold, rs7902929 on Chromosome 10q25.1 was validated at *p* \< 0.05 level in ROSMAP (NACC OR = `r nacc_sorcs3_or`, *p* = `r nacc_sorcs3_p`; ROSMAP OR = `r rosmap_sorcs3_or`, *p* = `r rosmap_sorcs3_p`). For the other 13 loci, two variants did not pass QC in ROSMAP, two had non-significant ROSMAP ORs \< 1.00, and 9 had non-significant effect sizes in the same direction as in NACC. Results in the ordinal regressions were broadly similar to the logistic analyses in both cohorts. Of the top 14 loci in the NACC logistic regression analysis, five also met our suggestive threshold in the ordinal regression analysis, and ten had *p* \< 1x10^-4^ (Supplementary **Table S2**) Of the six variants found to be nominally associated with B-ASC by Chou et al. (2013) [@chou2013], no variants were validated at the *p* \< 0.05 significance level in the NACC cohort.
 
 ```{r table-3-data}
 source("code/manuscript/03_table_3_data.R")
@@ -298,62 +264,25 @@ mega_elovl4_or <- nacc_rosmap_results[SNP == "rs2603462", round(OR, 2)]
 mega_elovl4_p <- nacc_rosmap_results[SNP == "rs2603462", nice_p(P)]
 ```
 
-In the Stage 2 NACC and ROSMAP mega-analysis (*n* = `r nacc_rosmap[, .N]`), `r nacc_rosmap_clump[, .N]` loci met the suggestive significance threshold, with rs7902929 (OR = `r mega_sorcs3_or`, *p* = `r mega_sorcs3_p`) and rs2603462 (OR = `r mega_elovl4_or`, *p* = `r mega_elovl4_p`) producing the smallest *p*-values. Because the ADNI (*n* = `r adni[, .N]`) and ACT (*n* = `r act[, .N]`) sample sizes were much smaller than those NACC and ROSMAP, we limited the replication attempts in these cohorts to variants meeting a more stringent threshold of *p* \< 1x10^-6^, which two variants, rs2603462 and rs7902929, met. In the ADNI neuropathology cohort, effects of both rs2603462 (OR [95% confidence interval (CI)] =`r adni_elovl4_or_95ci`, P =`r adni_elovl4_p`) and rs7902929 (OR [95% CI] =`r adni_sorcs3_or_95ci`, P =`r adni_sorcs3_p` ) were replicated at the *P* \< 0.05 significance level (**Table 3**). In the ACT neuropathology cohort, neither variant was replicated, and both variants had non-signifant effects in the opposite direction than in the other cohorts.
+In the Stage 2 NACC and ROSMAP mega-analysis (*n* = `r nacc_rosmap[, .N]`), `r nacc_rosmap_clump[, .N]` loci met the suggestive significance threshold, with rs7902929 (OR = `r mega_sorcs3_or`, *p* = `r mega_sorcs3_p`) and rs2603462 (OR = `r mega_elovl4_or`, *p* = `r mega_elovl4_p`) producing the smallest *p*-values. Findings from the Stage 2 mega-analysis are illustrated in **Figure 2**. Because the ADNI (*n* = `r adni[, .N]`) and ACT (*n* = `r act[, .N]`) sample sizes were much smaller than those NACC and ROSMAP, we limited the replication attempts in these cohorts to variants meeting a more stringent threshold of *p* \< 1x10^-6^, which two variants, rs2603462 and rs7902929, met. In the ADNI neuropathology cohort, effects of both rs2603462 (OR [95% confidence interval (CI)] =`r adni_elovl4_or_95ci`, P =`r adni_elovl4_p`) and rs7902929 (OR [95% CI] =`r adni_sorcs3_or_95ci`, P =`r adni_sorcs3_p` ) were replicated at the *P* \< 0.05 significance level (**Table 3**). In the ACT neuropathology cohort, neither variant was replicated, and both variants had non-signifant effects in the opposite direction than in the other cohorts.
 
-```{r table-3, include = TRUE}
-source("code/manuscript/03_table_3_data.R")
-table_3_ncol <- ncol(table_3_data)
-
-table_3 <- flextable(table_3_data)
-
-table_3 %>%
-  autofit() %>%
-  padding(padding = 2, part = "all") %>%
-  set_header_labels(nacc_rosmap_or_95ci = "OR [95% CI]", 
-                    adni_or_95ci = "OR [95% CI]",
-                    act_or_95ci = "OR [95% CI]",
-                    P_ADNI = "P", 
-                    P_ACT = "P") %>% 
-  add_header_row(values = c(" ", "Stage 2 Mega-Analysis", "ADNI", "ACT"),
-                 colwidths = c(4, 2, 2, 2)) %>% 
-  add_header_lines(values = c("Table 3: Stage 2 Mega-Analysis and Replication Results"))
-
-```
+[insert **Figure 2**]
 
 In the Stage 3 mega-analysis combining the NACC, ROSMAP, ADNI, and ACT cohorts, no variants met the genome-wide significance threshold. A total of nine loci met the threshold for suggestive significance (**Table 4**), of which five were identified in Stage 2, while four were novel loci. Both rs2603462 and rs7902929 met the suggestive threshold (**Figure 3**).
 
-```{r table-4, include=TRUE}
+```{r table-4-data, include=TRUE}
 source("code/manuscript/04_table_4_data.R")
-table_4 <- flextable(table_4_data)
-
-table_4 %>% 
-  autofit() %>% 
-  padding(padding = 2, part = "all") %>% 
-  add_header_lines(values = c("Table 4: Stage 3 Mega-Analysis Results"))
-```
-
-```{r include=TRUE, results=TRUE, out.height=550, out.width=600 }
-knitr::include_graphics("doc/act_mega_lz_elovl4_210520_rs2603462/chr6_80418667-82418667.pdf")
-```
-
-```{r include=TRUE, results=TRUE, out.height=550, out.width=600, fig.cap="Figure 3: Regional plots of rs2603462 (top) and rs7902929 (bottom)"}
-knitr::include_graphics("doc/act_mega_lz_sorcs3_210520_rs7902929/chr10_106237532-108237532.pdf")
 ```
 
 ## Gene-based analyses
 
-```{r}
+```{r magma-results}
 gene_labels <- fread("raw_data/magma/NCBI37.3.gene.loc", header = FALSE) %>% 
   .[, .(V1, V6)] %>% 
   setnames(colnames(.), c("GENE", "Gene"))
 
 magma_genes <- merge(magma, gene_labels, "GENE") %>% 
   setorder(P)
-magma_genes[P < 0.001, .(CHR, Gene, signif(P, 2))] %>% 
-  setnames("V3", "P") %>%
-  flextable() %>% 
-  add_header_row(values = c("Table 5: Gene-Based Analysis Results"),
-                 colwidths = 3)
 magma_sorcs1 <- magma_genes[Gene == "SORCS1", format(signif(P, 2), 
                                                      scientific = TRUE)]
 magma_sorcs3 <- magma_genes[Gene == "SORCS3", format(signif(P, 2), 
@@ -376,18 +305,6 @@ coloc_nsd1 <- act_mega_coloc[SNP == "rs4608937"][1, PPH4]
 
 In the mega-analyses, five suggestive variants were significant QTLs across nine phenotypes and 12 tissues in GTEx, leading us to perform colocalization analyses for a total of 18 phenotype-tissue combinations. Of these, nine met our evidential threshold of PPH4 \> 50% for colocalization. The strongest evidence of colocalization was found in *FFAR3* expression in visceral adipose tissue with PPH4 = `r coloc_ffar3`%, followed by expression of the long intergenic non-coding RNA (lincRNA) AC058791.1 in the cerebellum and hypothalamus with PPH4 of `r coloc_lincrna_cereb`% and `r coloc_lincrna_hypot`%, respectively. *ELOVL4* expression in the cerebellar hemisphere colocalizes with B-ASC risk with a PPH4 of `r coloc_elovl4`%. *WASF3* expression colocalizes with B-ASC risk across three brain regions, including the basal ganglia with PPH4 = `r coloc_wasf3_caud`%, and preferential splicing of *WASF3* in fibroblasts colocalizes with `r coloc_wasf3_fibr`% (**Table 5**).
 
-```{r}
-setorder(act_mega_coloc, CHR, -PPH4)
-act_mega_coloc[, Tissue := stri_replace_first_fixed(Tissue, "_", ": ")]
-act_mega_coloc[, Tissue := stri_replace_all_fixed(Tissue, "_", " ")]
-table_5 <- act_mega_coloc[PPH4 > 50, .(SNP, CHR, Gene, Tissue, PPH4)] %>% 
-  .[, Gene := c("NSD1", "ELOVL4", "AC058791.1", "AC058791.1", rep("WASF3", 3), "WASF3 splicing", "FFAR3")] %>% 
-  flextable() %>%
-  add_header_lines("Table 5: Loci Colocalizing with B-ASC Risk")
-
-print(table_5)  
-```
-
 ## Mediation analyses
 
 ```{r}
@@ -399,50 +316,57 @@ Finally, in the subset of our NACC participants who had clinical data for DM (N 
 
 ## Sensitivity analyses
 
-Performing fixed-effects meta-analysis on the NACC ADGC genotyping cohorts produced nearly identical effect sizes and *p*-values compared to including indicator variables for the non-reference cohorts in our primary analysis. Similarly, including the participants originally excluded due to relatedness did not produce notably different effect sizes or *p*-values for any of the suggestive variants.
+In the analysis using only participants with an age at death of 80 years or older, no variants achieved genome-wide significance. In the NACC analysis, we identified `r nrow(nacc_80_clump)` independent loci that met the suggestive threshold. No suggestive variants from the NACC analyses were validated in the ROSMAP analyses at the *p* \< 0.05 significance threshold (Supplementary **Table S2**). Performing fixed-effects meta-analysis on the NACC ADGC genotyping cohorts produced nearly identical effect sizes and *p*-values compared to including indicator variables for the non-reference cohorts in our primary analysis. Similarly, including the participants originally excluded due to relatedness did not produce notably different effect sizes or *p*-values for any of the suggestive variants.
 
-```{=html}
-<!--
-
-## WMH Volume Analyses
-
-Neither rs2603462 nor rs7902929 had their association with B-ASC risk replicate with WMH volume in ADNI. While rs2503462 was significantly associated with WMH volume (*p* = 0.038), the B-ASC risk allele was associated with lower WMH volume, the opposite of what would be expected given the known positive association between B-ASC and WMH. The rs7902929 risk allele was not associated with WMH volume (*p* =0.65).
-
--->
-```
 # Discussion
 
-We performed the first GWAS of autopsy-proven B-ASC using neuropathology and genotype data from four neuropathology cohorts derived from multiple research centers. We found a significant association between one locus on Chromosome 6 and B-ASC in the Stage 1 NACC GWAS (*p* = `r nacc_elovl4_p`). In the Stage 3 mega-analysis of all four cohorts, this locus colocalizes with *ELOVL4* gene expression in GTEx (PPH4 = `r coloc_elovl4`%), providing evidence that this locus may affect B-ASC risk through mediating *ELOVL4* expression (see **Figure X**). Another locus on Chromosome 10 near *SORCS3* suggestively associated with B-ASC was validated in the ROSMAP cohort. These variants' effects were successfully replicated in the ADNI cohort, but failed to replicate in the ACT cohort. We also found suggestive evidence for association between other loci and B-ASC risk in both cohorts and that some of these loci colocalize with gene eQTL and sQTL in GTEx.
+We performed the first GWAS of autopsy-proven B-ASC using neuropathology and genotype data from four large cohorts derived from multiple research centers. We found a significant association between one locus on Chromosome 6 and B-ASC in the Stage 1 NACC GWAS (*p* = `r nacc_elovl4_p`). In the Stage 3 mega-analysis of all four cohorts, this locus colocalizes with *ELOVL4* gene expression in GTEx (PPH4 = `r coloc_elovl4`%), providing evidence that this locus may affect B-ASC risk through mediating *ELOVL4* expression (see **Figure X**). Another locus on Chromosome 10 near *SORCS3* suggestively associated with B-ASC was validated in the ROSMAP cohort. These variants' effects were replicated in the ADNI cohort, but failed to replicate in the ACT cohort. We also found suggestive evidence for association between other loci and B-ASC risk in both cohorts and that some of these loci colocalize with gene eQTL and sQTL in the GTEx data set.
 
-*ELOVL4* codes for the elongation of very long chain fatty acids-4 protein, an elongase that synthesizes very long chain saturated and unsaturated fatty acids. Much of the research on *ELOVL4* has focused on its association with mendelian diseases affecting the visual and nervous systems, such as Stargardt-like macular dystrophy and spinocerebellar ataxia [@hopiavuori2019]. In GTEx, *ELOVL4* is more highly expressed in the brain (median transcripts per kilobase million [TPM] 5.5-43.9) relative to most other tissues. We searched the GWAS Catalog and found two recent studies that found genome-wide significant associations between variants mapped to *ELOVL4* and multiple body weight-related phenotypes, including waist circumference adjusted for body mass index (BMI) (rs76567515, (*p* = 2x10^-12^), waist-to-hip ratio (rs76567515, *p* = 3x^10-10^), and waist-to-hip ratio adjusted for BMI (rs1849275, *p* = 1x10^-9^) [@buniello2019; @zhu2020; @kichaev2019]. These variants are significant eQTLs for *ELOVL4* in GTEx, but are each located \>200 kb from the locus identified in our study and are not in LD with the lead variant (*r^2^* \< 0.05). Additionally, another suggestive variant in NACC, rs387083, is located between the free fatty acid receptor genes *FFAR1* and *FFAR3* on Chromosome nineteen. This locus acts as an eQTL of *FFAR3* in the visceral omentum adipose. These results suggest that fatty acid metabolism and signaling may play a role in B-ASC risk, and that *ELOVL4* and *FFAR3* may potentially be related to B-ASC risk through effects on BMI-related phenotypes.
+*ELOVL4* codes for the elongation of very long chain fatty acids-4 protein, an elongase that synthesizes very long chain saturated and unsaturated fatty acids. Much of the research on *ELOVL4* has focused on its association with mendelian diseases affecting the visual and nervous systems, such as Stargardt-like macular dystrophy and spinocerebellar ataxia [@hopiavuori2019]. In GTEx, *ELOVL4* is more highly expressed in the brain (median transcripts per kilobase million [TPM] 5.5-43.9) relative to most other tissues. We searched the GWAS Catalog and found two recent studies that found genome-wide significant associations between variants mapped to *ELOVL4* and multiple body weight-related phenotypes, including waist circumference adjusted for body mass index (BMI) (rs76567515, (*p* = 2x10^-12^), waist-to-hip ratio (rs76567515, *p* = 3x^10-10^), and waist-to-hip ratio adjusted for BMI (rs1849275, *p* = 1x10^-9^) [@buniello2019; @zhu2020; @kichaev2019]. These variants are significant eQTLs for *ELOVL4* in GTEx, but are each located \>200 kb from the locus identified in our study and are not in LD with the lead variant (*r^2^* \< 0.05). Interestly, another gene, *BCKDHB*, is actually located closer to the sentinal variant than *ELOVL4*. *BCKDHB* is one of three genes responsible for the monogenic metabolism disease Maple Syrup Urine Disease [@strauss1993]. Additionally, another suggestive variant in NACC, rs387083, is located between the free fatty acid receptor genes *FFAR1* and *FFAR3* on Chromosome nineteen. This locus acts as an eQTL of *FFAR3* in the visceral omentum adipose. These results suggest that fatty acid metabolism and signaling may play a role in B-ASC risk, and that *ELOVL4* and *FFAR3* may potentially be related to B-ASC risk through effects on BMI-related phenotypes.
 
 The variant suggestively associated with B-ASC in the NACC primary analyses subsequently validated in ROSMAP, rs7902929, is located approximately 212 kb from the 3' end of the gene *SORCS3*. While the genes on which intergenic variants exert their effects are not necessarily the closest genes, *SORCS3* is the only protein-coding gene within a 1 megabase window from rs7902929, increasing the likelihood that the locus is functionally tied to it. *SORCS3* codes for the sortilin-related VPS10 domain-containing receptor 3, a vacuolar protein expressed in the brain [@reitz2013; @wang2020]. Previous studies using candidate gene designs have provided tentative evidence that genetic variation in *SORCS3* may be associated with AD [@reitz2013; @wang2020]. In the GWAS Catalog, *SORCS3*-mapped variants are significantly associated with multiple phenotypes, including depressive symptoms (rs1021363, *p* = 1x10^-13^), self-reported educational attainment (rs11599236, *p* = 1x^10-13^), and systolic blood pressure (rs191784289, P = 3x10^-13^) [@kichaev2019; @baselmans2019; @lee2018].
 
-Additionally, a member of the VPS10 family, *SORCS1*, acheived the smallest *p*-value in the gene-based analysis. We performed a *post-hoc* analysis of this region and identified two independent loci with lead *p*-values just above our suggestive threshold driving this effect: one locus in LD with rs7902929 and one not (*p* = 1.2x10^-5^). We examined the lead variant in the second locus and identified a consistent effect across all four cohorts that was nominally significant in NACC (*p* = 1x10^-4^) and ACT (*p* = 0.001), though not in ROSMAP (*p* = 0.25) or ADNI (*p* = 0.07). Previous studies have identified *SORCS1* as a potential risk variant for AD [@reitz2013; @wang2020]. Therefore, it is possible that the VPS10 family influences B-ASC risk through AD risk, or vice versa, though further work should be done to clarify the possible role of the VPS10 family on both phenotypes.
+Additionally, a member of the VPS10 family, *SORCS1*, achieved the smallest *p*-value in the gene-based analysis. We performed a *post-hoc* analysis of this region and identified two independent loci with lead *p*-values just above our suggestive threshold driving this effect: one locus in LD with rs7902929 and one not (*p* = 1.2x10^-5^). We examined the lead variant in the second locus and identified a consistent effect across all four cohorts that was nominally significant in NACC (*p* = 1x10^-4^) and ACT (*p* = 0.001), though not in ROSMAP (*p* = 0.25) or ADNI (*p* = 0.07). Previous studies have identified *SORCS1* as a potential risk variant for AD [@reitz2013; @wang2020]. Therefore, it is possible that the VPS10 family influences B-ASC risk through AD risk, or vice versa, though further work should be done to clarify the possible role of the VPS10 family on both phenotypes.
 
-None of the effects of top loci in the NACC GWAS were mediated by HTN or DM status in NACC. This finding fails to help clarify the somewhat inconsistent evidence of association between these clinical risk factors and B-ASC pathology. However, this analysis was limited by a substantially smaller sample size (n = `r nrow(nacc_htn)`) than our other analysis and the definitions of the HTN and DM used, as the diagnostic variables in NACC used consisted of a mixture of patient self-reports, physician reporting, and use of HTN or DM medications. Future studies employing causal inference methods such as two-sample Mendelian randomization may be able to provide clearer evidence for or against the mediation of B-ASC genetic risk by clinical risk factors.
+Statistical modeling indicated that none of the effects of top loci in the NACC GWAS appeared to be mediated by HTN or DM status in NACC. This finding has some caveats, including the inconsistent evidence of association between these clinical risk factors and B-ASC pathology [@ighodaro2017; @blevins2021]. However, this analysis was limited by the substantially smaller sample size (*n* = `r nrow(nacc_htn)`) than that of the NACC GWAS. Additionally, the diagnostic variables in NACC consisted of a mixture of patient self-reports, physician reporting, and use of HTN or DM medications. Future studies employing causal inference methods such as two-sample Mendelian randomization may be able to provide clearer evidence for or against the roles of HTN and DM in B-ASC and the mediation of B-ASC genetic risk by clinical risk factors.
 
-The most obvious limitation of our study is the relatively low sample size for a GWAS. NACC, the largest cohort used, had only `r nacc[, .N]` participants available for GWAS, and the total sample size of the Stage 3 mega-analysis with all four cohorts was `r act_mega[, .N]`. In contrast, a recent GWAS meta-analysis of AD exceed 90,000 participants @kunkle2019, and GWAS of other phenotypes have exceeded 1 million participants @lee2018. Nevertheless, smaller GWAS of other neuropathologic endophenotypes have identified risk loci [@katsumata2017], demonstrating that smaller sample sizes do not necessarily prevent discovery. Despite sample size limitations, one suggestive locus on Chromosome 10 near *SORCS3* identified in NACC was validated in ROSMAP, and both this locus and a locus near *ELOVL4* were replicated in ADNI. Furthermore, 11 of 13 B-ASC-associated loci in NACC had affect sizes in the same direction in ROSMAP, which suggests that these loci may be associated with B-ASC but suffer from the "winner's curse" in the NACC analyses. Furthermore, the use of downstream functional analyses can provide additional evidence for risk loci that do not meet the conservative Bonferroni-corrected significance thresholds.
+The most obvious limitation of our study is the relatively low sample size for a GWAS. NACC, the largest cohort used, had only `r nacc[, .N]` participants available for GWAS, and the total sample size of the Stage 3 mega-analysis with all four cohorts was `r act_mega[, .N]`. In contrast, a recent GWAS meta-analysis of AD exceed 90,000 participants @kunkle2019, and GWAS of other phenotypes have exceeded 1 million participants @lee2018. Nevertheless, smaller GWAS of other neuropathologic endophenotypes have identified risk loci [@katsumata2017], demonstrating that smaller sample sizes do not necessarily prevent discovery.
 
-Most genetic loci identified as being associated with B-ASC in NACC were not validated in ROSMAP. This could be potentially explained via the significantly different demographic attributes and study designs between the two cohorts, as ROSMAP participants were simultaneously older at death and had lower risk of B-ASC pathology (**Table 1**), indicating that there may be unaccounted-for genetic confounding and differential selection bias between cohorts. For instance, ROS recruits from Catholic sisters and brothers, who are on average more highly educated than the general population. In contrast, the NACC participants are recruited primarily from clinic-based populations across the ADRCs. Differences in study design are also seen in the ADNI cohort, whose recruitment practices primarily follow those of ADRCs, and in ACT, whose participants are recruited from the aged dementia-free community in the Seattle, WA area.
+Despite sample size limitations, one suggestive locus on Chromosome 10 near *SORCS3* identified in NACC was validated in ROSMAP, and both this locus and a locus near *ELOVL4* were replicated in ADNI. Furthermore, 11 of 13 B-ASC-associated loci in NACC had affect sizes in the same direction in ROSMAP, which suggests that these loci may be associated with B-ASC but suffer from the "winner's curse" in the NACC analyses. Furthermore, the use of downstream analyses can provide additional functional evidence for risk loci that do not meet the conservative Bonferroni-corrected significance thresholds.
 
-Heterogeneity in neuropathological grading of B-ASC in each cohort may also contribute to impairing study power and limiting reproducibility between studies. In one study investigating the inter-rater reliability of cerebrovascular neuropathological endophenotypes, B-ASC had the second-lowest reliability (after microinfarcts), with reliability below 0.8 in five of twelve brain regions graded [@skrobot2016]. This relatively low inter-rater reliability indicates there may be substantial measurement variance in B-ASC between Neuropathologists both within and between study centers. Furthermore, B-ASC is likely graded in different brain regions in different centers and studies. B-ASC is graded globally in NACC, with no particular brain region specified, but is graded in the basal ganglia in ROSMAP @chou2013. Documentation on the brain regions graded for B-ASC in ADNI and ACT is limited.
+Most genetic loci identified preliminarily as being associated with B-ASC in NACC were not validated in ROSMAP. This could be potentially explained via the significantly different demographic attributes and study designs between the two cohorts, as ROSMAP participants were older at death and had lower levels of diagnosed B-ASC pathology (**Table 1**). Thus, there may be unaccounted-for confounding and differential selection bias between cohorts. For instance, ROS recruits from Catholic sisters and brothers, who are on average more highly educated than the general population. In contrast, the NACC participants are recruited from diverse (primarily clinic-based) populations across the ADRCs. Differences in study design are also seen in the ADNI cohort, whose recruitment practices resemble those of ADRCs, and in ACT, whose participants are recruited from the aged dementia-free community in the Seattle, WA area.
+
+Heterogeneity in neuropathological grading of B-ASC in each cohort may also contribute to impairing study power and limiting reproducibility between studies. In one study investigating the inter-rater reliability of cerebrovascular neuropathological endophenotypes, B-ASC had the second-lowest reliability (after microinfarcts), with reliability below 0.8 in five of twelve brain regions graded [@skrobot2016]. This relatively low inter-rater diagnostic reliability under near-ideal circumstances (*i.e.* looking at the exact same stained slides) indicates there may be substantial measurement variance in B-ASC between neuropathologists both within and between study centers. Furthermore, B-ASC is likely graded in different brain regions in different centers and studies. B-ASC is graded globally in NACC, with no particular brain region specified, but is graded based on findings in the basal ganglia in ROSMAP @chou2013. Documentation on the brain regions graded for B-ASC in ADNI and ACT is limited.
 
 In closing, we used autopsy-derived endophenotypes linked to genetic data in multiple cohorts to identify genetic loci associated with B-ASC pathology. We found one locus significantly associated with B-ASC that colocalizes with ELOVL4 gene expression in GTEx. This study provides first GWAS of autopsy-verified B-ASC pathology.
 
 \newpage
 
-# Acknowledgements
+# Funding Acknowledgements
 
-This work was supported by the University of Kentucky Center for Clinical and Translational Science TL-1 Fellowship (TLITR001997), the National Center for Advancing Translational Sciences, UL1TR001998, and the Dean of the College of Medicine, University of Kentucky. The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH or the University of Kentucky.
+**The author(s) disclosed receipt of the following financial support for the research, authorship, and/or publication of this article:** the University of Kentucky Center for Clinical and Translational Science TL-1 Fellowship [grant number TLITR001997]; the National Center for Advancing Translational Sciences [grant number UL1TR001998]; and the Dean of the College of Medicine, University of Kentucky. The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH or the University of Kentucky.
 
-Genotyping was performed by Alzheimer's Disease Genetics Consortium (ADGC), U01 AG032984, RC2AG036528.
+Genotyping was performed by Alzheimer's Disease Genetics Consortium (ADGC) [grant numbers U01 AG032984, RC2AG036528].
 
 We thank the study participants and staff of the Rush Alzheimer's Disease Center. The ROSMAP studies are supported by NIA grants **xxxx**.
 
 Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904) and DOD ADNI (Department of Defense award number W81XWH-12-2-0012). ADNI is funded by the National Institute on Aging, the National Institute of Biomedical Imaging and Bioengineering, and through generous contributions from the following: AbbVie, Alzheimer's Association; Alzheimer's Drug Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research & Development, LLC.; Johnson & Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck; Merck & Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics. The Canadian Institutes of Health Research is providing funds to support ADNI clinical sites in Canada. Private sector contributions are facilitated by the Foundation for the National Institutes of Health ([www.fnih.org](https://fnih.org/)). The grantee organization is the Northern California Institute for Research and Education, and the study is coordinated by the Alzheimer's Therapeutic Research Institute at the University of Southern California. ADNI data are disseminated by the Laboratory for Neuro Imaging at the University of Southern California.
 
 The NACC database is funded by NIA/NIH Grant U01 AG016976. NACC data are contributed by the NIA-funded ADRCs: P30 AG019610 (PI Eric Reiman, MD), P30 AG013846 (PI Neil Kowall, MD), P50 AG008702 (PI Scott Small, MD), P50 AG025688 (PI Allan Levey, MD, PhD), P50 AG047266 (PI Todd Golde, MD, PhD), P30 AG010133 (PI Andrew Saykin, PsyD), P50 AG005146 (PI Marilyn Albert, PhD), P50 AG005134 (PI Bradley Hyman, MD, PhD), P50 AG016574 (PI Ronald Petersen, MD, PhD), P50 AG005138 (PI Mary Sano, PhD), P30 AG008051 (PI Thomas Wisniewski, MD), P30 AG013854 (PI Robert Vassar, PhD), P30 AG008017 (PI Jeffrey Kaye, MD), P30 AG010161 (PI David Bennett, MD), P50 AG047366 (PI Victor Henderson, MD, MS), P30 AG010129 (PI Charles DeCarli, MD), P50 AG016573 (PI Frank LaFerla, PhD), P50 AG005131 (PI James Brewer, MD, PhD), P50 AG023501 (PI Bruce Miller, MD), P30 AG035982 (PI Russell Swerdlow, MD), P30 AG028383 (PI Linda Van Eldik, PhD), P30 AG053760 (PI Henry Paulson, MD, PhD), P30 AG010124 (PI John Trojanowski, MD, PhD), P50 AG005133 (PI Oscar Lopez, MD), P50 AG005142 (PI Helena Chui, MD), P30 AG012300 (PI Roger Rosenberg, MD), P30 AG049638 (PI Suzanne Craft, PhD), P50 AG005136 (PI Thomas Grabowski, MD), P50 AG033514 (PI Sanjay Asthana, MD, FRCP), P50 AG005681 (PI John Morris, MD), P50 AG047270 (PI Stephen Strittmatter, MD, PhD).
+
+# Author Contributions
+
+Lincoln M.P. Shade, Yuriko Katsumata, Peter T. Nelson, and David W. Fardo conceived of and carried out the research and drafted the manuscript. Timothy J. Hohman, Julie A. Schneider, Andrew J. Saykin, Shubabrata Mukherjee, Kevin L. Boehme, and John S.K. Kauwe provided data. Shubhabrata Mukherjee assisted with and provided consultation for ACT analyses. Kwangsik Nho and Andrew J. Saykin assisted with and provided consultation for ADNI analyses.
+
+# Disclosures
+
+Each author will need to add their financial discloscures and conflicts of interest before submission. If there are none, we will state: "The Authors declare that there is no conflict of interest." If there are some, those authors will indicate them, and then we will state: "All other authors declare that they have no conflict of interest."
+
+# Supplementary Information
+
+Supplementary materials are available online.
+
+All code used for this study are available at <https://github.com/lincoln-shade/arter>.
 
 \newpage
 
@@ -453,4 +377,82 @@ The NACC database is funded by NIA/NIH Grant U01 AG016976. NACC data are contrib
 
 \newpage
 
-# Supplementary Material
+# Figure Legends
+
+**Figure 1.** Overall study design. First, quality control (QC) was performed on all neuropathological and genotype data sets used (see Methods). GWAS were performed across three stages. In Stage 1, GWAS was performed on NACC participants (n = 3382). In Stage 2, all variants with p \< 1x10^-5^ (k = 14) were analyzed separately in ROS-MAP (n = 1187), and then NACC and ROS-MAP participant data were merged for mega-analysis (n = 4569). In Stage 3, top variants from Stage 2 mega-analysis with p \< 1x10^-6^ (k = 2) were analyzed in two replication cohorts, ADNI (n = 47) and ACT (n = 512), and then NACC, ROS-MAP, ADNI, and ACT data were merged for mega-analysis. Downstream functional analyses, consisting of colocalization and gene-based analyses, were then performed on Stage 3 mega-analysis results. Mediation analyses for HTN and DM were also performed using a subset of NACC participants with clinical data available (n = 1726).
+
+**Figure 2.** Stage 2 mega-analysis results. **A)** Manhattan plot of Stage 2 GWAS mega-analysis of NACC and ROSMAP. The horizontal dashed line in each plot is the suggestive threshold (p \< 1x10^-5^) while the solid line is the threshold for genome-wide significance (p \< 5x10^-8^). **B & C)** Regional plots of rs2603462 and rs7902929 +/- 1000 kb, respectively. 
+
+# Tables
+
+```{r table-1, include=TRUE}
+# make table_1 object
+table_1 <- autofit(table_1) %>% 
+  padding(padding = 2, part = "all") %>% 
+  add_header_lines("Table 1: Cohorts Used in Study") %>% 
+  add_footer_lines("Key: SD, standard deviation; Min, minimum; Max, maximum. Age of Death variable is integer for NACC, ADNI, and ACT but continuous in ROSMAP.")
+
+table_1
+```
+
+fdafdfasd
+
+```{r table-2, include=TRUE}
+table_2 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all") %>% 
+  add_header_lines("Table 2: Stage 1 GWAS Results") %>% 
+  add_footer_lines("Key: SNP, single nucleotide polymorphism; CHR, Chromosome; BP, base pair; Gene, closest protein-coding gene; A1/A2, effect/non-effect allele; OR, odds ratio; 95% CI, 95% confidence interval. A1 set so that NACC OR >= 1.")
+
+```
+
+fdafdfasdf
+
+```{r table-3, include = TRUE}
+table_3_ncol <- ncol(table_3_data)
+
+table_3 <- flextable(table_3_data)
+
+table_3 %>%
+  autofit() %>%
+  padding(padding = 2, part = "all") %>%
+  set_header_labels(nacc_rosmap_or_95ci = "OR [95% CI]", 
+                    adni_or_95ci = "OR [95% CI]",
+                    act_or_95ci = "OR [95% CI]",
+                    P_ADNI = "P", 
+                    P_ACT = "P") %>% 
+  add_header_row(values = c(" ", "Stage 2 Mega-Analysis", "ADNI", "ACT"),
+                 colwidths = c(4, 2, 2, 2)) %>% 
+  add_header_lines(values = c("Table 3: Stage 2 Mega-Analysis and Replication Results")) %>% 
+  add_footer_lines("Key: SNP, single nucleotide polymorphism; CHR, Chromosome; BP, base pair; Gene, closest protein-coding gene; A1/A2, effect/non-effect allele; OR, odds ratio; 95% CI, 95% confidence interval. A1 set so that Stage 2 mega-analysis OR >= 1.")
+
+```
+
+fdsafdsaf
+
+```{r table-4, include=TRUE}
+table_4 <- flextable(table_4_data)
+
+table_4 %>% 
+  autofit() %>% 
+  padding(padding = 2, part = "all") %>% 
+  add_header_lines(values = c("Table 4: Stage 3 Mega-Analysis Results")) %>% 
+  add_footer_lines("Key: SNP, single nucleotide polymorphism; CHR, Chromosome; BP, base pair; Gene, closest protein-coding gene; A1/A2, effect/non-effect allele; OR, odds ratio; 95% CI, 95% confidence interval. A1 set so that OR >= 1.")
+```
+
+fdsafadsfdsa
+
+```{r table-5, include=TRUE}
+setorder(act_mega_coloc, CHR, -PPH4)
+act_mega_coloc[, Tissue := stri_replace_first_fixed(Tissue, "_", ": ")]
+act_mega_coloc[, Tissue := stri_replace_all_fixed(Tissue, "_", " ")]
+table_5 <- act_mega_coloc[PPH4 > 50, .(SNP, CHR, Gene, Tissue, PPH4)] %>% 
+  .[, Gene := c("NSD1", "ELOVL4", "AC058791.1", "AC058791.1", rep("WASF3", 3), "WASF3*", "FFAR3")] %>% 
+  setnames("Gene", "Phenotype") %>% 
+  flextable() %>%
+  add_header_lines("Table 5: Loci Colocalizing with B-ASC Risk") %>% 
+  add_footer_lines("Key: SNP, single-nucleotide polymorphism; CHR, Chromosome; PPH$, posterior probability of colocalization") %>% 
+  add_footer_lines("*Denotes sQTL phenotype")
+
+table_5
+```

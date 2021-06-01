@@ -19,11 +19,18 @@ table_3_data <- merge(nacc_rosmap_top,
                       table_3_data,
                       by = c("CHR", "BP", "SNP", "A1"),
                       all.x = TRUE)
-
+setorder(table_3_data, CHR, BP)
 table_3_data[, Gene := c("BC041441", 
                          "FLJ30838",
                          "ZNF385D",
-                         "")]
+                         "PPARGC1A",
+                         "FSTL5", 
+                         "SPOCK3", 
+                         "PDE4D", 
+                         "N4BP3", 
+                         "BCKDHB",
+                         "SORCS3",
+                         "WASF3")]
 # table_3_data[SNP %in% top_snps, Gene := c("ELOVL4", "SORCS3")]
 # table_3_data[is.na(Gene), Gene := "TBD"]
 

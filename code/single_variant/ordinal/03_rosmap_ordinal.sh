@@ -8,4 +8,4 @@
 
 # bash code/single_variant_analysis/ordinal/02_regression.sh data/rosmap/rosmap_unrelated.RData "arteriol_scler" data/rosmap/rosmap_unrelated
 
-Rscript code/single_variant_analysis/ordinal/04_results.R "output/rosmap/rosmap_unrelated.assoc.logistic" "output/rosmap/"
+Rscript code/single_variant_analysis/ordinal/04_results.R "output/rosmap/rosmap.assoc.logistic" "output/rosmap/"

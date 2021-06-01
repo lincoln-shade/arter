@@ -34,7 +34,7 @@ plot_manhattan <- function(results, signif_only=TRUE, annotate=FALSE) {
     geom_point(aes(color=as.factor(CHR)), alpha=0.8, size=1.3) +
     scale_color_manual(values = rep(c("#606060", "#000066"), 22)) +
     geom_hline(yintercept = 7.3, color = "black") + #genome-wide significance threshold
-    geom_hline(yintercept = 5, color = "black") + #suggestibility threshold
+    geom_hline(yintercept = 5, color = "black", linetype="dashed") + #suggestibility threshold
     
     scale_x_continuous(label = x_axis$CHR, breaks= x_axis$V1) +
     # remove space between y-axis and baseline

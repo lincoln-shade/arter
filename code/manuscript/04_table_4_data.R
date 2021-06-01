@@ -10,7 +10,6 @@ act_mega_snps <- fread("data/act/act_mega.bim", header = F)
 setnames(act_mega_snps, c("V2", "V5", "V6"), c("SNP", "A1", "A2"))
 
 act_mega_top <- act_mega_results[SNP %in% act_mega_clump$SNP]
-setorder(act_mega_top, CHR, BP)
 table_4_data <- merge(act_mega_top, act_mega_snps[, .(SNP, A1, A2)], by = c("SNP", "A1"))
 #---------------------------------------------------------------------------------
 # 1. convert all NACC odds ratios to be > 1 and switch effect allele if need be, 
@@ -27,9 +26,17 @@ table_4_data[OR < 1, `A1/A2` := paste0(A2, "/", A1)]
 # using UCSC genome browser
 # (or QTL gene is variant is QTL)
 #----------------------------------
-
-# table_4_data[, Gene := c("SORCS3", "ELOVL4", "WASF3", "CTH", "SLC24A3", "COPG2", "SPOCK3", "N4BP3", "ZDHHC21", "CD83")]
-table_4_data[, Gene := "TBD"]
+setorder(table_4_data, CHR, BP)
+table_4_data[, Gene := c("BC041441", 
+                         "N4BP3", 
+                         "BCKDHB",
+                         "ZDHHC21",
+                         "SORCS3",
+                         "FGD4",
+                         "WASF3",
+                         "ZNF221",
+                         "SLC24A3")]
+# table_4_data[, Gene := "TBD"]
 #-------------------
 # make table
 #-------------------

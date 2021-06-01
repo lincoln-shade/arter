@@ -1,0 +1,48 @@
+---
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+source("code/load_packages.R")
+library(flextable)
+```
+
+National Alzheimer's Coordinating Center (NACC) participants were excluded if they had any of the following conditions noted in the NACC Neuropathology Data Set. Variable names and descriptions are taken from <https://files.alz.washington.edu/documentation/rdd-np.pdf>. Variable descriptions may be lightly edited. Participants were not excluding for missing data in any of these fields.
+
+```{r}
+table_s2 <- fread("data/table_s2_nacc_exclusion.csv", sep = "|") %>% 
+  flextable() %>% 
+  add_header_lines("Table S1: NACC Exclusion Criteria")
+
+table_s2
+```
+
+Ordinal results
+
+```{r}
+source("code/manuscript/07_table_s2_data.R")
+table_s2 <- table_s2_data %>% 
+  flextable() %>% 
+  add_header_lines("Supplementary Table S2: Stage 1 Ordinal Regression Results") %>% 
+   add_footer_lines("Key: SNP, single nucleotide polymorphism; CHR, Chromosome; BP, base pair; Gene, closest protein-coding gene; A1/A2, effect/non-effect allele; OR, odds ratio; 95% CI, 95% confidence interval. A1 set so that NACC OR >= 1.")
+
+table_s2
+```
+
+Gene-based analysis results
+
+```{r}
+source("code/manuscript/08_table_s3_data.R")
+
+table_s3 <- table_s3_data %>% 
+  flextable() %>% 
+  add_header_lines("Supplementary Table S3: Stage 3 Gene-Based Analysis Results") %>% 
+  add_footer_lines("Key: CHR, Chromosome; Start-Stop, start and end positions of region mapped to gene.") %>% 
+  add_footer_lines("All genes with P < 0.001 included.")
+
+table_s3
+```

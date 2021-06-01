@@ -29,7 +29,6 @@ table_2_data <- merge(
 )
 
 table_2_data <- merge(table_2_data, nacc_snps, c("SNP"))
-setorder(table_2_data, P_NACC)
 
 # check to make sure NACC and ROSMAP have same effect alleles
 # 0 snps discordant effect alleles
@@ -51,8 +50,22 @@ table_2_data[, `ROSMAP OR [95% CI]` := make_or_95_ci(OR_ROSMAP, L95_ROSMAP, U95_
 # (or QTL gene is variant is QTL)
 #----------------------------------
 
-# table_2_data[, Gene := c("ELOVL4", "PPARGC1A", "FANCL", "WASF3 ", "SLC24A3", "FFAR1/FFAR3", "N4BP3", "SORCS3")]
-table_2_data[, Gene := "TBD"]
+setorder(table_2_data, CHR, BP)
+table_2_data[, Gene := c("FANCL", 
+                         "PPARGC1A", 
+                         "N4BP3", 
+                         "BCKDHB", 
+                         "PACSIN1", 
+                         "HCG27", 
+                         "IGF2BP3", 
+                         "SORCS3", 
+                         "OR8A1/PANX3",
+                         "WASF3", 
+                         "NOVA1", 
+                         "CA10", 
+                         "FFAR1/FFAR3", 
+                         "SLC24A3")]
+# table_2_data[, Gene := "TBD"]
 #-------------------
 # make table
 #-------------------
@@ -60,7 +73,8 @@ table_2_data[, Gene := "TBD"]
 # rename and round p-values to 2 significant figures
 setnames(table_2_data, c("P_NACC", "P_ROSMAP"), c("NACC P", "ROSMAP P"))
 table_2_data[, `NACC P` := signif(`NACC P`, 2)]
-table_2_data[, `ROSMAP P` := signif(`ROSMAP P`, 2)]
+table_2_data[, `ROSMAP P` := as.character(signif(`ROSMAP P`, 2))]
+table_2_data[is.na(`ROSMAP P`), `ROSMAP P` := " - "]
 
 
 table_2_data <- table_2_data[, .(SNP, CHR, BP, Gene, `A1/A2`, `NACC OR [95% CI]`, `NACC P`, `ROSMAP OR [95% CI]`, `ROSMAP P`)]
