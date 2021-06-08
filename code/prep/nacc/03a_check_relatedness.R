@@ -2,9 +2,9 @@
 # Create list of related individuals to remove
 #===============================================
 
-source("code/00_load_options_packages_functions.R")
-groundhog.library("stringi", day)
-related <- fread("data/tmp/nacc_adgc_qc2_related.tmp.genome")
+library(pacman)
+p_load(data.table, magrittr, stringi)
+related <- fread("data/tmp/nacc_qc2_related.tmp.genome")
 related[, pair := 1:.N]
 related <- related[, .(IID1, IID2, pair, PI_HAT)]
 related.long <- melt.data.table(related, measure.vars = c("IID1", "IID2"), value.name = "IID")
@@ -37,9 +37,9 @@ related.one.dup.dups <- intersect(dup.iids, c(related.one.dup$IID1, related.one.
 # add missingness and demographics info for visual inspection
 #-------------------------------------------------------------
 
-missingness <- fread("data/tmp/nacc_adgc_qc2_related_miss.tmp.imiss")
+missingness <- fread("data/tmp/nacc_qc2_related_miss.tmp.imiss")
 
-uds <- fread("/data_global/nacc/investigator_nacc49.csv", header = T, na.strings = c(-4, "999", "9999", "888")) %>% 
+uds <- fread("/data_global/nacc/investigator_nacc53.csv", header = T, na.strings = c(-4, "999", "9999", "888")) %>% 
   .[NACCVNUM == NACCAVST] %>% 
   setnames(., "NACCID", "IID") %>% 
   merge(related.long, ., "IID") %>% 
@@ -73,7 +73,11 @@ nacc.simple.pairs <- nacc[!(pair %in% related.one.dup$pair | pair %in% nacc.mz$p
 #-------------------------------
 
 # individual in each pair with higher missingness is in even row
-nacc.related.remove.simple <- ifelse(nrow(nacc.simple.pairs) > 0, nacc.simple.pairs[seq(2, .N, 2), IID], NA)
+nacc.related.remove.simple <- if (nrow(nacc.simple.pairs) > 1) {
+  nacc.simple.pairs[seq(2, .N, 2), IID]
+} else {
+ NULL
+}
 nacc.related.remove <- c(nacc.related.remove.simple,
                          nacc.mz$IID,
                          related.one.dup.dups
@@ -82,7 +86,7 @@ nacc.related.remove <- nacc.related.remove[!(is.na(nacc.related.remove))]
 sum(duplicated(nacc.related.remove))
 
 nacc.related.rm <- data.table(FID="ADC", IID=nacc.related.remove)
-write.table(nacc.related.rm, file = "data/tmp/nacc_adgc_related_remove.tmp.txt", quote = F, row.names = F, col.names = F)
+write.table(nacc.related.rm, file = "data/tmp/nacc_related_remove.tmp.txt", quote = F, row.names = F, col.names = F)
 
 rm(list = ls())
 p_unload(all)

@@ -2,7 +2,6 @@
 # make Table 4: NACC + ROSMAP + ADNI + ACT mega results
 #========================================================
 
-source("code/load_packages.R")
 source("code/functions/make_or_95_ci.R")
 
 act_mega_clump <- fread("output/act/act_mega.clumped")

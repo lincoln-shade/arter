@@ -2,7 +2,8 @@
 # Writes a vector of 95% CIs for odds ratios
 #============================================
 
-source("code/load_packages.R")
+library(pacman)
+p_load(data.table, magrittr)
 make_or_95_ci <- function(or, l95, u95, or_ref, round_digits=2, flip_less_than_1=TRUE) {
   if (is.na(or)) {
     output <- paste0(" - ")

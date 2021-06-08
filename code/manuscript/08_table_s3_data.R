@@ -2,8 +2,6 @@
 # Create Table 5: Gene-Set Analysis Results
 #===========================================
 
-source("code/load_packages.R")
-
 magma <- fread("output/magma/act_mega.genes.out")
 gene_labels <- fread("raw_data/magma/NCBI37.3.gene.loc", header = FALSE) %>% 
   .[, .(V1, V6)] %>% 

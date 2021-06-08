@@ -105,7 +105,7 @@ rosmap.ids <- rosmap.ids[V2 %in% rosmap$sample]
 ggsave(filename = "output/rosmap/rosmap_1000g_pca.png", pca.plot2, units="in", width=7, height=7)
 
 # tmp file bc still need to check for relatedness to nacc_adgc
-write.table(rosmap.ids, "data/tmp/rosmap_unrelated.tmp.txt", col.names = F, row.names = F, quote = F)
+write.table(rosmap.ids, "data/tmp/rosmap.tmp.txt", col.names = F, row.names = F, quote = F)
 
 rm(list = ls())
 p_unload(all)

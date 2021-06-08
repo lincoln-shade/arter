@@ -37,5 +37,5 @@ plink \
   --bfile data/tmp/rosmap_2.tmp \
   --remove data/tmp/rosmap_related_remove.tmp.txt \
   --make-bed \
-  --out data/tmp/rosmap_unrelated.tmp
+  --out data/tmp/rosmap_3.tmp
 

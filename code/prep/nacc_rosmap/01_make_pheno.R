@@ -2,8 +2,8 @@
 # make pheno and covar files for nacc and rosmap mega
 #===========================================================
 
-source("code/00_load_options_packages_functions.R")
-
+library(pacman)
+p_load(data.table, magrittr)
 nacc <- readRDS("data/nacc/nacc.Rds")
 rosmap <- readRDS("data/rosmap/rosmap.Rds")
 
@@ -49,18 +49,17 @@ nacc_rosmap <- merge(nacc_rosmap, pca, c("FID", "IID"))
 #-------------
 # write files
 #-------------
-
-nacc_rosmap <- nacc_rosmap
 saveRDS(nacc_rosmap, file = "data/nacc_rosmap/nacc_rosmap.Rds")
-
-nacc_rosmap[, arteriol_scler := ifelse(arteriol_scler < 2, 1, 2)]
+nacc_rosmap[arteriol_scler %in% 1:3, arteriol_scler := arteriol_scler - 1]
+saveRDS(nacc_rosmap, file = "data/nacc_rosmap/nacc_rosmap_ord.Rds")
+nacc_rosmap[, arteriol_scler := ifelse(arteriol_scler == 0, 1, 2)]
 
 write.table(nacc_rosmap, 
-            file = "data/nacc_rosmap/nacc_rosmap.pheno.txt",
+            file = "data/nacc_rosmap/nacc_rosmap_pheno.txt",
             quote = F, 
             row.names = F)
 write.table(nacc_rosmap[, -"arteriol_scler"], 
-            file = "data/nacc_rosmap/nacc_rosmap.covar.txt",
+            file = "data/nacc_rosmap/nacc_rosmap_covar.txt",
             quote = F, 
             row.names = F)
 

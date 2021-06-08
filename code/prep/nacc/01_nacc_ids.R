@@ -2,8 +2,8 @@
 ## Create list if NACC IDs that meet includion criteria
 ##--------------------------------------------------------------
 
-source("code/00_load_options_packages_functions.R")
-groundhog.library("dplyr", day)
+library(pacman)
+p_load(data.table, magrittr, dplyr)
 # set age minimum to 80 years at death
 min_age <- 0
 
@@ -28,32 +28,29 @@ Exclusion.Criteria <- function(nacc_dt) {
     as.data.table()
 }
 
+np_vars <- c("NACCID", "NACCARTE", "NACCDAGE", "NPSEX")
 # UDS file
-nacc <- fread("/data_global/nacc/investigator_nacc53.csv", header = T, na.strings = c(-4, "999", "9999", "888"))
+nacc <- fread("/data_global/nacc/investigator_nacc52.csv", header = T, na.strings = c(-4, "999", "9999", "888"))
 nacc <- nacc %>% 
   # remove duplicate rows for participant be choosing row from last visit
   .[NACCVNUM == NACCAVST] %>%
   Exclusion.Criteria() %>% 
-  .[, c("NACCID", "NACCARTE", "NACCDAGE", "NPSEX")] %>% 
+  .[, ..np_vars] %>% 
   setnames(., "NACCID", "IID") %>%
   # remove those with missing NACCARTE
   .[, NACCARTE := ifelse(NACCARTE == 8 | NACCARTE == 9, NA, NACCARTE)] %>% 
-  na.omit(., c("NACCARTE")) %>% 
-  # remove those who died younger than minimum age of death
-  .[NACCDAGE >= min_age]
+  na.omit(., c("NACCARTE"))
 
 nacc_adgc <- merge(nacc, adgc, by = "IID")
 
 # MDS file
 mds <- fread("/data_global/nacc/fardo09062019.csv") %>% 
   Exclusion.Criteria() %>% 
-  .[, c("NACCID", "NACCARTE", "NACCDAGE", "NPSEX")] %>%
+  .[, ..np_vars] %>%
   setnames(., "NACCID", "IID") %>% 
   # remove those with missing NACCARTE
   .[, NACCARTE := ifelse(NACCARTE == 8 | NACCARTE == 9, NA, NACCARTE)] %>%
-  .[!is.na(NACCARTE)] %>% 
-  # remove those who died younger than minimum age of death
-  .[NACCDAGE >= min_age]
+  .[!is.na(NACCARTE)]
 
 mds_adgc <- merge(mds, adgc, by = "IID")
 
@@ -67,7 +64,7 @@ sum(duplicated(np_adgc$IID))
 ##---------------
 
 write.table(np_adgc[, .(FID, IID)], file = "data/tmp/nacc_ids.tmp.txt", row.names = F, col.names = F, quote = F)
-write.table(np_adgc[, .(FID, IID)], file = "data/nacc_adgc/nacc_ids_pass_exclusion.txt", row.names = F, col.names = F, quote = F)
+write.table(np_adgc[, .(FID, IID)], file = "data/nacc/nacc_ids_pass_exclusion.txt", row.names = F, col.names = F, quote = F)
 
 
 rm(list = ls())

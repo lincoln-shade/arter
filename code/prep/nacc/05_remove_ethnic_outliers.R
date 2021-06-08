@@ -2,7 +2,8 @@
 ## create PCA plot of 1KG and NACC NP subjects
 ##----------------------------------------------
 
-source("code/load_packages.R")
+library(pacman)
+p_load(data.table, magrittr, ggplot2)
 # groundhog.library("ggplot2", day)
 
 # 1000g (otg) data population data
@@ -10,7 +11,7 @@ otg <- fread("/data_global/1000g/integrated_call_samples_v3.20130502.ALL.panel")
   .[, sample, super_pop]
 
 # PCA data
-merged <- fread("data/tmp/nacc_adgc_1000g_merged_pca.eigenvec", header = F) %>% 
+merged <- fread("data/tmp/nacc_1000g_merged_pca.eigenvec", header = F) %>% 
   .[, 2:4] %>% 
   setnames(., c("V2", "V3", "V4"), c("sample", "PC1", "PC2")) %>% 
   .[, PC1.norm := scale(PC1)] %>% 
@@ -30,7 +31,7 @@ pca.plot <- ggplot(otg.merged, aes(PC1.norm, PC2.norm, color = as.factor(super_p
   ggtitle("PCA of 1000 Genomes and NACC participants") 
 
 #scree plot
-eigenval <- fread("data/tmp/nacc_adgc_1000g_merged_pca.eigenval", header = F) %>% 
+eigenval <- fread("data/tmp/nacc_1000g_merged_pca.eigenval", header = F) %>% 
   setnames(., "V1", "eigenvalue") %>% 
   .[, var.expl := eigenvalue / sum(eigenvalue)] %>% 
   .[, PC := 1:2]
@@ -45,7 +46,7 @@ scree <- ggplot(eigenval, aes(PC, var.expl)) +
 #######################
 ## set circle radius ##
 #######################
-radius <- 0.30  #######
+radius <- 0.35  #######
 #######################
 
 CircleFun <- function(center = c(otg.merged[super_pop == "EUR", mean(PC1.norm)],
@@ -99,8 +100,8 @@ nacc <- otg.merged[include == T, ]
 nacc.ids <- fread("data/tmp/nacc_ids.tmp.txt", header = F)
 nacc.ids <- nacc.ids[V2 %in% nacc$sample]
 
-ggsave(filename = "output/nacc_adgc/nacc_rosmap_1000g_pca.png", pca.plot2, units="in", width=7, height=7)
+ggsave(filename = "output/nacc/nacc_rosmap_1000g_pca.png", pca.plot2, units="in", width=7, height=7)
 
-write.table(nacc.ids, "data/nacc_adgc/nacc_adgc_unrelated_qced.txt", col.names = F, row.names = F, quote = F)
+write.table(nacc.ids, "data/nacc/nacc_qced.txt", col.names = F, row.names = F, quote = F)
 
-rm(list = ls())
+# rm(list = ls())

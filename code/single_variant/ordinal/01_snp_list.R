@@ -2,11 +2,10 @@
 ## make lists of snps of length 30K for analysis blocks 
 ##---------------------------------------------------------------------
 
-
-source("code/00_load_options_packages_functions.R")
-
+library(pacman)
+p_load(data.table, magrittr)
 cargs <- commandArgs(trailingOnly = TRUE)
-bim_file <- cargs[1]
+bim_file <- "data/nacc/nacc.bim" # cargs[1]
 # load snps from .bim file
 bim <- fread(bim_file, header = F) %>% 
   .[, .(V1, V2)] %>% 
@@ -17,7 +16,7 @@ raw_length <- 30000 # desired approximate number of variants for each .raw file
 n_lists <- nrow(bim) %/% raw_length
 bim[, list_n := rep(1:n_lists, length.out=nrow(bim))]
 
-for (i in 1:n_lists) {
+for (i in seq_along(n_lists)) {# for (i in 1:n_lists) {
   fwrite(bim[list_n == i, .(snp)], file = paste0("data/tmp/ordinal_snp_list_", i), 
               row.names = F, col.names = F, quote = F, sep = " ")
 }

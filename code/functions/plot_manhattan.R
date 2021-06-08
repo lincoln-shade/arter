@@ -2,10 +2,8 @@
 # create manhattan plot
 #=============================
 
-
-source("code/load_packages.R")
-require(ggplot2)
-require(ggrepel)
+library(pacman)
+p_load(data.table, magrittr, ggplot2, ggrepel)
 
 plot_manhattan <- function(results, signif_only=TRUE, annotate=FALSE) {
   results <- as.data.table(results)

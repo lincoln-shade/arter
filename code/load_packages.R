@@ -10,31 +10,6 @@ options(digits = 15)
 #------------------------
 # install/load packages
 #------------------------
-
-day = "2021-05-01"
-# groundhog for improved reproducibility
-if (!require("groundhog")) {
-  install.packages("groundhog")
-  library("groundhog")
-}
-
-groundhog.library(c("data.table", "magrittr"), day)
-
-bioc_load <- function(bioc_packages, day) {
-  require(groundhog)
-  groundhog.library("BiocManager", day)
-  for(p in bioc_packages) {
-    if (p %in% installed.packages()[, "Package"] == FALSE) {
-      BiocManager::install(p)
-    }
-    library(p, character.only = TRUE)
-  }
-}
-
-  
-# cran packages
-# groundhog.library(cran_packages, day, ignore.deps = ignore_deps)
-
 # # arrow
 # # if you're on linux and want to open parquet files from GTEx, you'll need to run the following when installing arrow
 # if (arrow == TRUE) {

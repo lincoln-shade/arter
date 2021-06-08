@@ -2,7 +2,8 @@
 # create pheno files for nacc+rosmap+adni+act mega-analysis
 #==========================================================
 
-source("code/00_load_options_packages_functions.R")
+library(pacman)
+p_load(data.table, magrittr)
 
 load("data/adni/nacc_rosmap_adni.RData")
 adni_mega <- nacc_adgc_rosmap_adni_unrelated

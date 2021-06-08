@@ -26,11 +26,12 @@ setcolorder(rosmap, "FID")
 ## write pheno files
 ##--------------------
 # ordinal
-rosmap <- rosmap
 saveRDS(rosmap, file = "data/rosmap/rosmap.Rds")
+rosmap[arteriol_scler %in% 1:3, arteriol_scler := arteriol_scler - 1]
+saveRDS(rosmap, file = "data/rosmap/rosmap_ord.Rds")
 
 # logistic 
-rosmap[, arteriol_scler := ifelse(arteriol_scler < 2, 1, 2)]
+rosmap[, arteriol_scler := ifelse(arteriol_scler == 0, 1, 2)]
 write.table(rosmap, file = "data/rosmap/rosmap_pheno.txt", row.names = F, col.names = T, quote = F)
 write.table(rosmap[, -c("arteriol_scler")], file = "data/rosmap/rosmap_covar.txt", row.names = F, col.names = T, quote = F)
 

@@ -12,7 +12,6 @@ plink \
   --bfile raw_data/ADNI_NPC/N60/ADNI_NPC_N60 \
   --extract data/tmp/nacc_rosmap_vars.tmp \
   --make-bed \
-  --biallelic-only strict \
   --out data/tmp/adni_1.tmp
 
 awk '{print$2}' data/tmp/adni_1.tmp.bim > data/tmp/adni_1_vars.tmp

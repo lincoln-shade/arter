@@ -3,7 +3,6 @@
 # NACC and ROSMAP ordinal OR and P
 #===================================
 
-source("code/load_packages.R")
 source("code/functions/strip_alleles.R")
 source("code/functions/make_or_95_ci.R")
 

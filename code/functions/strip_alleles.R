@@ -3,7 +3,7 @@
 #==========================================
 
 source("code/load_packages.R")
-groundhog.library(stringi, day)
+library(stringi)
 strip_alleles <- function(x) {
   x <- stringi::stri_replace_last_regex(x, ":[ACTG]*:[ACTG]*", "")
 }

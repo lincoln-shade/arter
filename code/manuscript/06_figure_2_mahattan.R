@@ -2,7 +2,8 @@
 # Create manhattan plot to use for Figure 2
 #===========================================
 
-source("code/load_packages.R")
+library(pacman)
+p_load(data.table, magrittr)
 source("code/functions/plot_manhattan.R")
 library(latex2exp)
 

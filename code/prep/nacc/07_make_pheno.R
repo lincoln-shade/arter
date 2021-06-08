@@ -39,7 +39,7 @@ adgc_covar <- fread("/data_global/ADGC_HRC/converted/full/adgc_hrc_merged_qced.c
 nacc <- merge(nacc, adgc_covar, by = c("FID", "IID")) # merge data
 
 adgc_adc <- table(nacc$cohort, useNA = "a")
-adgc_adc #check to see no NA
+# adgc_adc #check to see no NA
 adgc_adc <- adgc_adc[-length(adgc_adc)] # remove NA index
 adgc_adc <- adgc_adc[-(which(adgc_adc == max(adgc_adc)))] # remove the largest adgc_adc group so that is is the "control" group without an indicator
 
@@ -58,14 +58,18 @@ nacc <- nacc[, -"cohort"]
 ##--------------------
 ## write pheno files
 ##--------------------
-# ordinal
-nacc <- nacc
+# ordinal 4 levels
 saveRDS(nacc, file = "data/nacc/nacc.Rds")
 
-# logistic 
-nacc[, NACCARTE := ifelse(NACCARTE < 2, 1, 2)]
+# ordinal 3 levels (combine none and mild) 
+# levels labeled as 0, 1, 2
+nacc[NACCARTE %in% 1:3, NACCARTE := NACCARTE - 1]
+saveRDS(nacc, file = "data/nacc/nacc_ord.Rds")
+
+# logistic for PLINK
+nacc[, NACCARTE := ifelse(NACCARTE == 0, 1, 2)]
 write.table(nacc, file = "data/nacc/nacc_pheno.txt", row.names = F, col.names = T, quote = F)
 write.table(nacc[, -c("NACCARTE")], file = "data/nacc/nacc_covar.txt", row.names = F, col.names = T, quote = F)
 
-rm(list = ls())
-p_unload(all)
+# rm(list = ls())
+# p_unload(all)

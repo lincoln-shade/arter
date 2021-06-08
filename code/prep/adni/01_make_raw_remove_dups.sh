@@ -10,4 +10,4 @@ plink \
   --remove data/ADNI_NPC/ADNI_duplicate_IDs.txt \
   --extract data/ADNI_NPC/snps_test_replication.txt \
   --recode A \
-  --out data/ADNI_NPC/ADNI_NPC_N47_top 
+  --out data/adni/ADNI_NPC_N47_top 

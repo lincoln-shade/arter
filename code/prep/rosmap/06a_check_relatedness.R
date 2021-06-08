@@ -5,7 +5,7 @@
 library(pacman)
 p_load(data.table, magrittr, stringi, readxl)
 
-related <- fread("data/tmp/rosmap_nacc_adgc_merged_related.tmp.genome")
+related <- fread("data/tmp/rosmap_nacc_merged_related.tmp.genome")
 related[, `:=`(IID1 = as.character(IID1),
                IID2 = as.character(IID2))]
 related[, pair := 1:.N]
@@ -21,7 +21,7 @@ rosmap_ids <- related.long[!nacc_id_rows, IID]
 rosmap_ids <- data.table(FID = "0", 
                          IID = rosmap_ids)
 
-write.table(rosmap_ids, file = "data/tmp/rosmap_nacc_adgc_related_remove.tmp.txt", 
+write.table(rosmap_ids, file = "data/tmp/rosmap_nacc_related_remove.tmp.txt", 
             quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 rm(list = ls())

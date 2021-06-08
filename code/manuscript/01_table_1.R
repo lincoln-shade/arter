@@ -4,8 +4,6 @@
 # written to be sourced from within .Rmd
 ##===========================================
 
-source("code/load_packages.R")
-groundhog.library(flextable, day, ignore.deps = c("knitr", "rlang"))
 source("code/functions/make_table_one.R")
 
 table_1_data <- copy(act_mega)

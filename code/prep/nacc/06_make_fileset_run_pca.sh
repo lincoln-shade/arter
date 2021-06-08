@@ -9,40 +9,40 @@
 
 # keep only european subjects
 plink \
-  --bfile data/tmp/nacc_adgc_unrelated_qc3.tmp \
-  --keep data/nacc_adgc/nacc_adgc_unrelated_qced.txt \
+  --bfile data/tmp/nacc_qc3.tmp \
+  --keep data/nacc/nacc_qced.txt \
   --make-bed \
-  --out data/tmp/nacc_adgc_unrelated_qc4.tmp
+  --out data/tmp/nacc_qc4.tmp
 
 # one final pass at variant QC
 plink \
-  --bfile data/tmp/nacc_adgc_unrelated_qc4.tmp \
+  --bfile data/tmp/nacc_qc4.tmp \
   --maf 0.05 \
   --geno 0.05 \
   --hwe 1e-6 midp include-nonctrl \
   --make-bed \
-  --out data/nacc_adgc/nacc_adgc_unrelated
+  --out data/nacc/nacc
 
 # 2 perform pca
 
 # create list of pruned.in snps
 plink \
-  --bfile data/nacc_adgc/nacc_adgc_unrelated \
+  --bfile data/nacc/nacc \
   --no-pheno \
   --indep-pairwise 15000 1500 0.2 \
-  --out data/tmp/nacc_adgc_unrelated.tmp
+  --out data/tmp/nacc.tmp
   
 
 plink \
-  --bfile data/nacc_adgc/nacc_adgc_unrelated \
+  --bfile data/nacc/nacc \
   --allow-no-sex \
   --no-pheno \
   --pca 5 \
-  --extract data/tmp/nacc_adgc_unrelated.tmp.prune.in \
-  --out data/nacc_adgc/nacc_adgc_unrelated_pca
+  --extract data/tmp/nacc.tmp.prune.in \
+  --out data/nacc/nacc_pca
 
-# # remove all of the tmp nacc_adgc tmp files in data/tmp
-# rm data/tmp/nacc_adgc*.tmp*
-# rm data/tmp/nacc_adgc*merged*
+# # remove all of the tmp nacc tmp files in data/tmp
+# rm data/tmp/nacc*.tmp*
+# rm data/tmp/nacc*merged*
 # rm data/tmp/1000g*.tmp*
 

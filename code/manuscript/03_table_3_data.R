@@ -2,7 +2,6 @@
 # Make Table 4: ADNI and ACT Replication and 
 # Mega-Analysis Results
 #===================================================
-source("code/load_packages.R")
 
 top_snps <- c("rs2603462", "rs7902929")
 
