@@ -3,10 +3,9 @@
 ## [chr]_[bp_hg38]_[ref]_[alt]_b38 format
 ##---------------------------------------------
 
-source("code/00_load_options_packages_functions.R")
-groundhog.library(stringi, day)
-bioc_packages <- c("rentrez") 
-bioc_load(bioc_packages, day)
+library(pacman)
+p_load(data.table, magrittr, rentrez)
+source("code/functions/strip_alleles.R")
 
 rsids <- fread(commandArgs(trailingOnly = T), header = F)$V1
 snps <- rsids

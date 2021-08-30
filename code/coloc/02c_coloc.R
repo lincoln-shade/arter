@@ -3,8 +3,8 @@
 # arg1 should be the GTEx tissue (as it appears in files names)
 #===============================================================
 
-source("code/00_load_options_packages_functions.R")
-library(coloc)
+library(pacman)
+p_load(data.table, magrittr, coloc)
 # new
 # cargs[1] = p12
 # cargs[2] = phenotype_id

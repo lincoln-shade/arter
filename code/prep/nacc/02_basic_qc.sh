@@ -1,8 +1,7 @@
 #!/bin/bash
 
 #==========================================
-# check relatedness in NACC/ADGC dataset
-# and perform other QC measures
+# perform basic QC
 #==========================================
 
 

@@ -2,9 +2,10 @@
 ## prepare b-asc data for coloc analysis
 ##=======================================
 
-source("code/00_load_options_packages_functions.R")
-bioc_packages <- c("rtracklayer", "GEOquery", "GENESIS", "GWASTools", "qusage", "SeqArray", "SNPRelate") 
-bioc_load(bioc_packages, day)
+library(pacman)
+p_load(data.table, magrittr, rtracklayer, GEOquery, GENESIS, GWASTools, qusage, SeqArray, SNPRelate)
+source("code/functions/strip_alleles.R")
+
 # commandline arguments
 # cargs 1 = phenotype file (remember phenotype needs to be binary  (1, 2) and third column)
 # cargs 2 = minor allele frequency file .frq

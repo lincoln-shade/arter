@@ -42,6 +42,4 @@ table_3_data <- table_3_data[, .(SNP, CHR, BP, Gene, nacc_rosmap_or_95ci, P, adn
 table_3_data[, P := format(signif(P, 2), scipen=2)]
 table_3_data[, P_ADNI := as.character(signif(P_ADNI, 2))]
 table_3_data[, P_ACT := as.character(signif(P_ACT, 2))]
-table_3_data[is.na(P_ADNI), 
-             `:=`(P_ADNI = " - ",
-                  P_ACT = " - ")]
+table_3_data[is.na(P_ADNI), `:=`(P_ADNI = " - ", P_ACT = " - ")]

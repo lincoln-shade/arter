@@ -2,11 +2,8 @@
 # Prep data for coloc analysis
 #==============================================================================
 
-source("code/00_load_options_packages_functions.R")
-groundhog.library(stringi, day)
-bioc_packages <- c("rtracklayer", "GEOquery", "GENESIS", "GWASTools", "qusage", "SeqArray", "SNPRelate") 
-bioc_load(bioc_packages, day)
-library(arrow)
+library(pacman)
+p_load(data.table, magrittr, stringi, rtracklayer, GEOquery, GENESIS, GWASTools, qusage, SeqArray, SNPRelate, arrow)
 
 # cargs[1] = phenotype_id
 # cargs[2] = tissue
