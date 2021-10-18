@@ -13,3 +13,12 @@ plink \
   --clump-r2 0.05 \
   --clump-p1 1e-5 \
   --out output/nacc/ordinal
+
+cat output/nacc/ordinal.clumped | awk 'NR>1{print $3}' > output/nacc/ordinal_top_snps.txt
+
+plink \
+  --bfile data/nacc/nacc \
+  --recode A \
+  --extract output/nacc/ordinal_top_snps.txt \
+  --out data/nacc/ordinal_top_snps
+

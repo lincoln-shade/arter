@@ -7,10 +7,10 @@ p_load(data.table, magrittr, MASS, brant)
 
 
 #.raw file from regression.sh output with variant minor allele values for each participant
-raw <- fread("02_analysis/ordinal/top.snps.raw") 
+raw <- fread("data/nacc/ordinal_top_snps.raw", na.strings = c("-9", "NA")) 
 
 # file with other variables for each participant
-load("01_data/data/nacc.ordinal.RData")
+nacc.ordinal <- readRDS("data/nacc/nacc_ord.Rds")
 
 # merge to create model matrix file
 regression.data <- merge(nacc.ordinal, raw, by = c("FID", "IID"))
@@ -49,7 +49,7 @@ brant.p <- numeric(length = (n.cols - skip.col))
 for (i in (skip.col + 1):n.cols) {
   f = as.formula(paste("NACCARTE ~", colnames(regression.data)[i],
                        " + NPSEX + NACCDAGE + PC1 + PC2 + PC3 + PC4 + PC5 + ",
-                       "ADGC.ADC2 + ADGC.ADC3 + ADGC.ADC4 + ADGC.ADC5 + ADGC.ADC6 + ADGC.ADC7", sep = ""))
+                       "adgc_ADC2 + adgc_ADC3 + adgc_ADC4 + adgc_ADC5 + adgc_ADC6 + adgc_ADC7", sep = ""))
   m <- polr(f, data = regression.data, Hess = T)
   b <- brant(m)
   snp[(i - skip.col)] <- colnames(regression.data)[i]
@@ -58,7 +58,7 @@ for (i in (skip.col + 1):n.cols) {
 
 # write outputs to file
 brant.test <- data.table(snp, brant.p)
-fwrite(brant.test, file = paste0("02_analysis/ordinal/brant.txt"), 
+fwrite(brant.test, file = paste0("output/nacc/brant.txt"), 
        row.names = F, col.names = T, quote = F, sep = " ")
 
 rm(list = ls())

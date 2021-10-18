@@ -60,7 +60,7 @@ act_mega_coloc[, PPH4 := round(PPH4 * 100, 1)]
 
 # Authors
 
-Lincoln M.P. Shade^1^, Yuriko Katsumata^1,2^, Timothy J. Hohman^3^, Kwangsik Nho^5^, Andrew J. Saykin^5^, Shubhabrata Mukherjee^6^, Kevin L. Boehme^7^, John S.K. Kauwe^8^, Julie A. Schneider^4^, Peter T. Nelson^2,9^, and David W. Fardo^1,2^
+Lincoln M.P. Shade^1^, Yuriko Katsumata^1,2^, Timothy J. Hohman^3^, Kwangsik Nho^4^, Andrew J. Saykin^4^, Shubhabrata Mukherjee^5^, Kevin L. Boehme^6^, John S.K. Kauwe^7^, Lindsay A. Farrer^8^, Gerard D. Schellenberg^9^, Jonathan L. Haines^10^, Margaret A. Pericak-Vance^11^, Richard P. Mayeux^12^, Julie A. Schneider^13^, Peter T. Nelson^2,14^, and David W. Fardo^1,2^
 
 ## Author Affiliations
 
@@ -70,17 +70,27 @@ Lincoln M.P. Shade^1^, Yuriko Katsumata^1,2^, Timothy J. Hohman^3^, Kwangsik Nho
 
 ^3^Vanderbilt Memory & Alzheimer's Center, Department of Neurology, Vanderbilt University Medical Center, Nashville, Tennessee
 
-^5^Department of Radiology & Imaging Sciences, Indiana University School of Medicine, Indianapolis, IN
+^4^Department of Radiology & Imaging Sciences, Indiana University School of Medicine, Indianapolis, IN
 
-^6^Department of Medicine, University of Washington, Seattle, WA
+^5^Department of Medicine, University of Washington, Seattle, WA
 
-^7^ARUP Laboratories, Salt Lake City, UT
+^6^ARUP Laboratories, Salt Lake City, UT
 
-^8^Office of the President, Brigham Young University--Hawaii, Laie, HI
+^7^Office of the President, Brigham Young University--Hawaii, Laie, HI
 
-^4^Departments of Neurology and Pathology, Rush University Medical Center, Chicago, IL
+^8^Department of Medicine, Boston University, Boston, MA
 
-^9^Pathology and Laboratory Medicine, University of Kentucky, Lexington, KY
+^9^Penn Neurodegeneration Genomics Center, University of Pennsylvania Perelman School of Medicine, Philadelphia, PA
+
+^10^Institute for Computational Biology, Case Western Reserve University, Cleveland, OH
+
+^11^John P. Hussman Institute for Human Genomics, University of Miami Miller School of Medicine, Miami, FL
+
+^12^Department of Neurology, Columbia University, New York, NY
+
+^13^Departments of Neurology and Pathology, Rush University Medical Center, Chicago, IL
+
+^14^Pathology and Laboratory Medicine, University of Kentucky, Lexington, KY
 
 ## Corresponding Author
 
