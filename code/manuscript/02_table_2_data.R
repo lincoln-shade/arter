@@ -39,8 +39,8 @@ table_2_data[!is.na(A1_ROSMAP), .N - sum(A1_NACC == A1_ROSMAP)]
 #---------------------------------------------------------------------------------
 
 table_2_data[, `NACC OR [95% CI]` := make_or_95_ci(OR_NACC, L95_NACC, U95_NACC, OR_NACC)]
-table_2_data[, `A1/A2` := paste0(A1, "/", A2)]
-table_2_data[, `A1/A2` := paste0(A2, "/", A1)]
+table_2_data[OR_NACC >= 1, `A1/A2` := paste0(A1, "/", A2)]
+table_2_data[OR_NACC < 1, `A1/A2` := paste0(A2, "/", A1)]
 table_2_data[, `ROSMAP OR [95% CI]` := make_or_95_ci(OR_ROSMAP, L95_ROSMAP, U95_ROSMAP, OR_NACC)]
 
 #----------------------------------
