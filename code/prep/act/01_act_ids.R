@@ -2,10 +2,8 @@
 # Create list if ACT IDs that meet includion criteria
 #=======================================================
 
-library(groundhog)
-groundhog_day <- "2021-04-01"
-pkgs <- c("data.table", "magrittr", "readxl")
-groundhog.library(pkgs, groundhog_day)
+library(pacman)
+pload("data.table", "magrittr", "readxl")
 
 act_np <- as.data.table(read_xlsx("/data_global/ACT/DataForE235_20210421.xlsx", sheet = 2))
 table(act_np$micro_arteriolosclerosis_id, useNA = "a")
